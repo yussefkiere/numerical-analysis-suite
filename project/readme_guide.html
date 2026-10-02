@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>دليل مناقشة مشروع التحليل العددي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap');
+
+@page {
+    size: A4;
+    margin: 14mm 12mm 16mm 12mm;
+    @bottom-center {
+        content: "صفحة " counter(page);
+        font-family: 'Cairo', sans-serif;
+        font-size: 8.5pt;
+        color: #64748b;
+    }
+    @top-right {
+        content: "مشروع مقرر التحليل العددي - دليل المناقشة الشفهية والبرمجية";
+        font-family: 'Cairo', sans-serif;
+        font-size: 8pt;
+        color: #94a3b8;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    direction: rtl;
+    text-align: right;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 9.5pt;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.page-break {
+    page-break-before: always;
+}
+.avoid-break {
+    page-break-inside: avoid;
+}
+
+/* Header & Cover Banner */
+.cover-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+    color: #ffffff;
+    padding: 24px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.cover-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 20pt;
+    font-weight: 900;
+}
+.cover-header .subtitle {
+    font-size: 11pt;
+    color: #cbd5e1;
+    margin-bottom: 12px;
+}
+.meta-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.badge {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 8.5pt;
+    color: #e0f2fe;
+}
+
+/* Section Headings */
+h2.section-title {
+    color: #0f172a;
+    font-size: 14pt;
+    font-weight: 800;
+    border-right: 5px solid #0284c7;
+    padding-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background: #f8fafc;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 0 4px 4px 0;
+}
+
+h3.sub-title {
+    color: #1e3a8a;
+    font-size: 11pt;
+    font-weight: 700;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 3px;
+}
+
+/* Callouts */
+.box {
+    padding: 10px 14px;
+    margin: 10px 0;
+    border-radius: 6px;
+    font-size: 9pt;
+}
+.box-tip { background-color: #f0fdf4; border-right: 4px solid #16a34a; color: #14532d; }
+.box-note { background-color: #eff6ff; border-right: 4px solid #2563eb; color: #1e3a8a; }
+.box-warning { background-color: #fef2f2; border-right: 4px solid #dc2626; color: #7f1d1d; }
+.box-qa { background-color: #faf5ff; border-right: 4px solid #9333ea; color: #4c1d95; }
+
+/* Tables */
+table.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 8.5pt;
+}
+table.academic-table th {
+    background-color: #1e3a8a;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 6px 8px;
+    border: 1px solid #1e3a8a;
+    text-align: center;
+}
+table.academic-table td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+}
+table.academic-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+/* Code Comparison Table */
+table.code-compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+    font-size: 8pt;
+    font-family: 'Fira Code', Consolas, monospace;
+    direction: ltr;
+    text-align: left;
+}
+table.code-compare th {
+    background-color: #0f172a;
+    color: #38bdf8;
+    padding: 5px 8px;
+    font-family: 'Cairo', sans-serif;
+    text-align: center;
+    direction: rtl;
+}
+table.code-compare td {
+    padding: 4px 6px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+    white-space: pre-wrap;
+    line-height: 1.35;
+}
+table.code-compare td.matlab {
+    background-color: #f8fafc;
+    color: #0369a1;
+    width: 48%;
+}
+table.code-compare td.python {
+    background-color: #ffffff;
+    color: #0f172a;
+    width: 48%;
+}
+table.code-compare td.line-num {
+    background-color: #f1f5f9;
+    color: #64748b;
+    text-align: center;
+    width: 4%;
+    font-size: 7.5pt;
+}
+
+/* Diagrams and Flow */
+.flow-diagram {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 10px 0;
+    text-align: center;
+}
+.flow-step {
+    flex: 1;
+    background: #ffffff;
+    border: 1.5px solid #2563eb;
+    border-radius: 6px;
+    padding: 8px 6px;
+    margin: 0 4px;
+}
+.flow-step .step-num {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #2563eb;
+}
+.flow-step .step-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f172a;
+}
+.flow-step .step-desc {
+    font-size: 7.5pt;
+    color: #64748b;
+    margin-top: 2px;
+}
+.flow-arrow {
+    font-size: 14pt;
+    color: #0284c7;
+    font-weight: bold;
+}
+
+/* Math block */
+.math-block {
+    background: #f1f5f9;
+    border-right: 3px solid #0284c7;
+    padding: 6px 12px;
+    margin: 6px 0;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 11pt;
+    color: #0f172a;
+    direction: ltr;
+    text-align: center;
+}
+
+/* Q&A Item */
+.qa-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-right: 4px solid #2563eb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+}
+.qa-question {
+    font-weight: 700;
+    color: #1e3a8a;
+    font-size: 9.5pt;
+    margin-bottom: 4px;
+}
+.qa-answer {
+    color: #334155;
+    font-size: 9pt;
+    line-height: 1.5;
+}
+.qa-tag {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    font-size: 7.5pt;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- غلاف وترويسة الدليل -->
+<div class="cover-header">
+    <h1>دليل مناقشة مشروع التحليل العددي</h1>
+    <div class="subtitle">مرجع شامل للاستعداد للمناقشة الشفهية والبرمجية مع الدكتور (شرح الكود، الماتلاب، والواجهات)</div>
+    <div class="meta-badges">
+        <span class="badge">اللغة: Python 3 + Tkinter</span>
+        <span class="badge">المرجع الحسابي: MATLAB Codes</span>
+        <span class="badge">التصميم: Google Material Design 3</span>
+        <span class="badge">المقرر: التحليل العددي للأنظمة غير الخطية</span>
+    </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- 1. هيكل المشروع وتدفق البيانات -->
+<!-- ========================================================= -->
+<h2 class="section-title">1. هيكل المشروع وهندسة تدفق البيانات بين الواجهات الثلاث</h2>
+
+<p>تم تصميم المشروع وفق مبدأ <strong>فصل الاهتمامات (Separation of Concerns)</strong>؛ حيث تم عزل المنطق الحسابي والرياضي في مجلد <code>methods/</code> تماماً عن عناصر واجهات المستخدم الرسومية في مجلد <code>gui/</code> ومساعدات التحليل في <code>utils/</code>.</p>
+
+<div class="avoid-break">
+<h3 class="sub-title">أ. الهيكل التنظيمي للملفات في المجلد <code>project/</code></h3>
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">الملف / المجلد</th>
+            <th style="width: 25%;">المسؤولية البرمجية</th>
+            <th style="width: 50%;">تفاصيل المحتوى والدور في المشروع</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>main.py</strong></td>
+            <td>نقطة الدخول (Entry Point)</td>
+            <td>تهيئة مسارات النظام وتشغيل النافذة الرئيسية الأولى <code>MainWindow</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>gui/main_window.py</strong></td>
+            <td>الواجهة الأولى (قائمة الطرق)</td>
+            <td>عرض قائمة الطرق الخمس مرقمة ببطاقات M3، وإدارة قاموس <code>METHODS</code> المركزي.</td>
+        </tr>
+        <tr>
+            <td><strong>gui/input_window.py</strong></td>
+            <td>الواجهة الثانية (إدخال البيانات)</td>
+            <td>بناء حقول المدخلات ديناميكياً بحسب الطريقة، فحص المدخلات، واستدعاء الخوارزميات.</td>
+        </tr>
+        <tr>
+            <td><strong>gui/result_window.py</strong></td>
+            <td>الواجهة الثالثة (عرض النتائج)</td>
+            <td>عرض جدول التكرارات كجدول السبورة بدقة 6 خانات، وإبراز قيمة الجذر وعدد التكرارات.</td>
+        </tr>
+        <tr>
+            <td><strong>gui/theme.py</strong></td>
+            <td>نظام المظهر (M3 Design)</td>
+            <td>لوحة الألوان الدلالية، أوزان الخطوط، وأنماط الأزرار والجداول في <code>ttk.Style</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>methods/</strong></td>
+            <td>الخوارزميات الحسابية (5 طرق)</td>
+            <td>ملفات بايثون نقية منفصلة عن الواجهة تحاكي دوال الماتلاب المعتمدة لدى الدكتور.</td>
+        </tr>
+        <tr>
+            <td><strong>utils/parser.py</strong></td>
+            <td>المحلل الرياضي الرمزي</td>
+            <td>تحويل نص الدالة بالضرب الضمني والأسس إلى دوال عددية واشتقاق $f'(x)$ عبر <code>sympy</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>matlab_reference/</strong></td>
+            <td>التوثيق المرجعي للماتلاب</td>
+            <td>ملف <code>README.md</code> يضم الأكواد الأصلية في ماتلاب للمطابقة أثناء المناقشة.</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="avoid-break">
+<h3 class="sub-title">ب. مخطط تدفق البيانات والتنقل بين الواجهات (Data Flow & Window Lifecycle)</h3>
+<div class="flow-diagram">
+    <div class="flow-step">
+        <div class="step-num">الواجهة 1 (MainWindow)</div>
+        <div class="step-title">اختيار الطريقة</div>
+        <div class="step-desc">اختيار إحدى الطرق (1-5) من قاموس METHODS ثم إخفاء الواجهة</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">
+        <div class="step-num">الواجهة 2 (InputWindow)</div>
+        <div class="step-title">إدخال الدالة والمعاملات</div>
+        <div class="step-desc">إدخال f(x) والمعاملات (a, b أو x0)، وتوليد الحقول ديناميكياً</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">
+        <div class="step-num">المعالجة (Parser & Methods)</div>
+        <div class="step-title">التحويل والحساب</div>
+        <div class="step-desc">تحويل النص الرياضي واشتقاقه وحساب التكرارات (table, root)</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">
+        <div class="step-num">الواجهة 3 (ResultWindow)</div>
+        <div class="step-title">عرض النتيجة والجدول</div>
+        <div class="step-desc">جدول السبورة 6 خانات، إبراز "الجذر هو"، وأزرار الرجوع المرنة</div>
+    </div>
+</div>
+<div class="box box-note">
+    <strong>دورة حياة النوافذ:</strong> عند الانتقال للأمام، تُخفى النافذة السابقة بـ <code>withdraw()</code> للتركيز. عند النقر على "رجوع للمدخلات" في الواجهة الثالثة، تُغلق نافذة النتائج وتُعاد نافذة الإدخال بـ <code>deiconify()</code> محتفظة بالبيانات. والضغط على "القائمة الرئيسية" يُغلق النوافذ الفرعية ويُعيدك نظيفاً للنافذة الأولى دون ترك أي نوافذ معلقة في الذاكرة.
+</div>
+</div>
+
+<!-- ========================================================= -->
+<!-- 2. شرح الخوارزميات ومقارنة أسطر ماتلاب مع بايثون -->
+<!-- ========================================================= -->
+<div class="page-break"></div>
+<h2 class="section-title">2. الخوارزميات الخمس ومقارنة أسطر كود الماتلاب بالبايثون</h2>
+
+<!-- 1. التنصيف -->
+<div class="avoid-break">
+<h3 class="sub-title">1. طريقة التنصيف (Bisection Method) - الملف <code>methods/bisection.py</code></h3>
+<p><strong>فكرة الطريقة:</strong> حصر الجذر داخل فترة مغلقة $[a, b]$ يتغير فيها إشارة الدالة ($f(a) \cdot f(b) < 0$)، ثم تنصيف الفترة في كل تكرار ($p = \frac{a+b}{2}$) واستبدال أحد الطرفين للحفاظ على إحاطة الجذر وتقليص طول الفترة إلى النصف في كل خطوة.</p>
+<div class="math-block">
+p = \frac{a + b}{2}, \quad \text{Condition: } f(a) \cdot f(b) < 0, \quad \text{Error: } \frac{|b - a|}{2} \le \varepsilon
+</div>
+
+<table class="code-compare">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>كود الماتلاب الأصلي للدكتور: bisc(f, a, b, n, e)</th>
+            <th>كود البايثون المقابل في methods/bisection.py</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="line-num">1</td>
+            <td class="matlab">function bisc(f, a, b, n, e)<br>i = 1;</td>
+            <td class="python">def bisection_method(f, a, b, tol=1e-4, max_iter=50):<br>    table, i, p_prev = [], 1, None</td>
+        </tr>
+        <tr>
+            <td class="line-num">2</td>
+            <td class="matlab">while (abs(a - b) > e && i <= n)</td>
+            <td class="python">while i <= max_iter:</td>
+        </tr>
+        <tr>
+            <td class="line-num">3</td>
+            <td class="matlab">    p = (a + b) / 2;<br>    if f(p) == 0, break; end</td>
+            <td class="python">    p = (a + b) / 2.0; fp = f(p)<br>    if abs(fp) < 1e-14 or error <= tol: break</td>
+        </tr>
+        <tr>
+            <td class="line-num">4</td>
+            <td class="matlab">    if f(a) * f(p) < 0<br>        b = p;<br>    else<br>        a = p;<br>    end<br>    i = i + 1;</td>
+            <td class="python">    if fa * fp < 0:<br>        b = p<br>    else:<br>        a = p<br>    p_prev, i = p, i + 1</td>
+        </tr>
+        <tr>
+            <td class="line-num">5</td>
+            <td class="matlab">disp(['الجذر التقريبي: ', num2str(p)]);</td>
+            <td class="python">return table, p</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 2. الموضع الخاطئ -->
+<div class="avoid-break" style="margin-top: 15px;">
+<h3 class="sub-title">2. طريقة الموضع الخاطئ (False Position / Regula Falsi) - الملف <code>methods/false_position.py</code></h3>
+<p><strong>فكرة الطريقة:</strong> طريقة حصر تشبه التنصيف، لكن بدلاً من تنصيف الفترة حسابياً بالمنتصف، نصل بين النقطتين $(a, f(a))$ و $(b, f(b))$ بوتر مستقيم، ونأخذ نقطة تقاطعه مع محور السينات كتقدير جديد للجذر، مما يعطي تقارباً أسرع نحو الجذر من التنصيف العادي.</p>
+<div class="math-block">
+p = b - \frac{f(b)(b - a)}{f(b) - f(a)} = \frac{a f(b) - b f(a)}{f(b) - f(a)}, \quad \text{Error: } |p_k - p_{k-1}| \le \varepsilon
+</div>
+
+<table class="code-compare">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>كود الماتلاب الأصلي للدكتور: false_position</th>
+            <th>كود البايثون المقابل في methods/false_position.py</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="line-num">1</td>
+            <td class="matlab">p = b - (f(b)*(b - a)) / (f(b) - f(a));<br>while (abs(f(p)) > e && i <= n)</td>
+            <td class="python">denom = fb - fa<br>p = b - (fb * (b - a)) / denom</td>
+        </tr>
+        <tr>
+            <td class="line-num">2</td>
+            <td class="matlab">    if f(a) * f(p) < 0<br>        b = p;<br>    else<br>        a = p;<br>    end</td>
+            <td class="python">    if fa * fp < 0:<br>        b = p<br>    else:<br>        a = p</td>
+        </tr>
+        <tr>
+            <td class="line-num">3</td>
+            <td class="matlab">    p = b - (f(b)*(b - a)) / (f(b) - f(a));<br>    i = i + 1;</td>
+            <td class="python">    error = abs(p - p_prev)<br>    p_prev, i = p, i + 1</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 3. القاطع -->
+<div class="avoid-break" style="margin-top: 15px;">
+<h3 class="sub-title">3. طريقة القاطع (Secant Method) - الملف <code>methods/secant.py</code></h3>
+<p><strong>فكرة الطريقة:</strong> طريقة مفتوحة تشبه نيوتن رافسون، لكنها لا تتطلب حساب المشتقة تحليلياً؛ حيث تستبدل مشتقة المنحنى بميل القاطع المار بآخر نقطتين تقريبيتين $x_{k-1}$ و $x_k$، ولا تشترط حصر الجذر بين إشارتين مختلفتين.</p>
+<div class="math-block">
+x_{k+1} = x_k - \frac{f(x_k)(x_k - x_{k-1})}{f(x_k) - f(x_{k-1})}, \quad \text{Error: } |x_{k+1} - x_k| \le \varepsilon
+</div>
+
+<table class="code-compare">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>كود الماتلاب الأصلي: secant(f, x0, x1, n, e)</th>
+            <th>كود البايثون المقابل في methods/secant.py</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="line-num">1</td>
+            <td class="matlab">p = x1 - (f(x1)*(x1 - x0)) / (f(x1) - f(x0));<br>while (abs(p - x1) > e && i < n)</td>
+            <td class="python">denom = f1 - f0<br>p = curr_x1 - (f1 * (curr_x1 - curr_x0)) / denom</td>
+        </tr>
+        <tr>
+            <td class="line-num">2</td>
+            <td class="matlab">    x0 = x1;<br>    x1 = p;</td>
+            <td class="python">    curr_x0 = curr_x1<br>    curr_x1 = p</td>
+        </tr>
+        <tr>
+            <td class="line-num">3</td>
+            <td class="matlab">    p = x1 - (f(x1)*(x1 - x0)) / (f(x1) - f(x0));<br>    i = i + 1;</td>
+            <td class="python">    error = abs(p - curr_x1)<br>    i += 1</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 4. نيوتن رافسون -->
+<div class="page-break"></div>
+<div class="avoid-break">
+<h3 class="sub-title">4. طريقة نيوتن - رافسون (Newton-Raphson Method) - الملف <code>methods/newton.py</code></h3>
+<p><strong>فكرة الطريقة:</strong> أسرع الطرق العددية وأعلاها رتبة تقارب (تقارب تربيعي $O(h^2)$)؛ تعتمد على رسم مماس المنحنى عند النقطة الابتدائية $x_k$ واستخدام نقطة تقاطع المماس مع محور السينات كنقطة تالية، بالاعتماد على المشتقة الأولى $f'(x)$.</p>
+<div class="math-block">
+x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}, \quad \text{Condition: } f'(x_k) \ne 0, \quad \text{Error: } |x_{k+1} - x_k| \le \varepsilon
+</div>
+
+<table class="code-compare">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>كود الماتلاب: newton(f, df, x0, n, e)</th>
+            <th>كود البايثون المقابل في methods/newton.py</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="line-num">1</td>
+            <td class="matlab">while (i <= n)<br>    if df(x0) == 0, error('Derivative is 0'); end</td>
+            <td class="python">while i <= max_iter:<br>    if abs(dfx) < 1e-15: raise ValueError("المشتقة تساوي صفراً")</td>
+        </tr>
+        <tr>
+            <td class="line-num">2</td>
+            <td class="matlab">    x1 = x0 - f(x0) / df(x0);<br>    if abs(x1 - x0) <= e, break; end</td>
+            <td class="python">    next_x = curr_x - (fx / dfx)<br>    if abs(fx) < 1e-14 or error <= tol: return table, next_x</td>
+        </tr>
+        <tr>
+            <td class="line-num">3</td>
+            <td class="matlab">    x0 = x1;<br>    i = i + 1;</td>
+            <td class="python">    curr_x = next_x<br>    i += 1</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 5. النقطة الثابتة -->
+<div class="avoid-break" style="margin-top: 15px;">
+<h3 class="sub-title">5. طريقة النقطة الثابتة (Fixed Point Iteration) - الملف <code>methods/fixed_point.py</code></h3>
+<p><strong>فكرة الطريقة:</strong> إعادة صياغة المعادلة $f(x) = 0$ جبرياً بالشكل $x = g(x)$، ثم البدء بنقطة ابتدائية $x_0$ والتعويض المتسلسل $x_{k+1} = g(x_k)$ حتى تثبت القيمة، ويشترط لتقاربها أن تكون القيمة المطلقة للمشتقة أقل من الواحد $|g'(x)| < 1$.</p>
+<div class="math-block">
+x_{k+1} = g(x_k), \quad \text{Condition for Convergence: } |g'(x)| < 1, \quad \text{Error: } |x_{k+1} - x_k| \le \varepsilon
+</div>
+
+<table class="code-compare">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>كود الماتلاب: fixed_point(g, x0, n, e)</th>
+            <th>كود البايثون المقابل في methods/fixed_point.py</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="line-num">1</td>
+            <td class="matlab">while (i <= n)<br>    x1 = g(x0);</td>
+            <td class="python">while i <= max_iter:<br>    next_x = g(curr_x)<br>    if abs(next_x) > 1e12: raise ValueError("الدالة تتباعد")</td>
+        </tr>
+        <tr>
+            <td class="line-num">2</td>
+            <td class="matlab">    if abs(x1 - x0) <= e, break; end</td>
+            <td class="python">    error = abs(next_x - curr_x)<br>    if error <= tol: return table, next_x</td>
+        </tr>
+        <tr>
+            <td class="line-num">3</td>
+            <td class="matlab">    x0 = x1;<br>    i = i + 1;</td>
+            <td class="python">    curr_x = next_x<br>    i += 1</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- ========================================================= -->
+<!-- 3. شرح ملفات مجلد gui/ -->
+<!-- ========================================================= -->
+<div class="page-break"></div>
+<h2 class="section-title">3. شرح ملفات واجهات المستخدم في مجلد <code>gui/</code> ووظائفها الأساسية</h2>
+
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">الملف</th>
+            <th style="width: 35%;">الدوال والفئات الرئيسية</th>
+            <th style="width: 40%;">الوظيفة والمهمة التقنية</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>gui/main_window.py</strong><br>(الواجهة 1)</td>
+            <td>
+                • <code>class MainWindow(tk.Tk)</code><br>
+                • <code>METHODS: Dict</code><br>
+                • <code>_create_method_card()</code><br>
+                • <code>open_input_window()</code>
+            </td>
+            <td>
+                - تمثل النافذة الأولى للتطبيق وتعرّف قاموس <code>METHODS</code> الموحد.<br>
+                - توليد بطاقات الطرق الخمس التفاعلية مرقمة بأسلوب M3 مع تأثيرات المرور.<br>
+                - فتح شاشة الإدخال وإخفاء النافذة الرئيسية لتنظيم التركيز.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>gui/input_window.py</strong><br>(الواجهة 2)</td>
+            <td>
+                • <code>class InputWindow(tk.Toplevel)</code><br>
+                • <code>_build_dynamic_inputs()</code><br>
+                • <code>on_calculate()</code><br>
+                • <code>open_results_window()</code><br>
+                • <code>on_back_to_main()</code>
+            </td>
+            <td>
+                - بناء حقول الإدخال تلقائياً (a, b أو x0, x1 أو x0 مع المشتقة التلقائية).<br>
+                - فحص صحة المدخلات ومنع القيم الفارغة أو غير العددية.<br>
+                - تحويل نص الدالة بالـ Parser واستدعاء الخوارزمية وعرض الأخطاء بنافذة تنبيه دون انهيار.<br>
+                - إخفاء نافذة الإدخال وفتح نافذة النتائج.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>gui/result_window.py</strong><br>(الواجهة 3)</td>
+            <td>
+                • <code>class ResultWindow(tk.Toplevel)</code><br>
+                • <code>_build_treeview()</code><br>
+                • <code>on_back_to_inputs()</code><br>
+                • <code>on_back_to_main()</code>
+            </td>
+            <td>
+                - عرض جدول التكرارات في <code>ttk.Treeview</code> بأعمدة السبورة وأشرطة تمرير.<br>
+                - تنسيق الأرقام بدقة 6 خانات عشرية وتلوين متبادل للصفوف.<br>
+                - إبراز السطر المطلوب: <strong>"الجذر هو x = ....."</strong> مع عدد التكرارات.<br>
+                - أزرار مرنة للعودة للمدخلات أو للرئيسية مع دعم تمدد الجدول مع حجم النافذة.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>gui/theme.py</strong><br>(نظام التصميم)</td>
+            <td>
+                • <code>setup_theme(root)</code><br>
+                • <code>COLOR_PRIMARY, COLOR_BG...</code><br>
+                • <code>FONT_HEADER, FONT_BUTTON...</code>
+            </td>
+            <td>
+                - تطبيق معايير Material Design 3 الرسمية للألوان والأبعاد.<br>
+                - ضبط أنماط ttk (Clam theme) للأزرار والحقول والجداول.<br>
+                - توحيد الخط العربي <code>Segoe UI</code> لضمان مظهر احترافي عالي الجودة.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ========================================================= -->
+<!-- 4. بنك الأسئلة المتوقعة في المناقشة مع إجاباتها النموذجية -->
+<!-- ========================================================= -->
+<div class="avoid-break" style="margin-top: 15px;">
+<h2 class="section-title">4. الأسئلة المحتملة من الدكتور في المناقشة الشفهية وإجاباتها النموذجية</h2>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">هندسة البرمجيات</span> س1: لماذا قمت بفصل الخوارزميات في مجلد methods/ عن واجهات gui/؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong> تطبيقاً لمبدأ <em>فصل الاهتمامات (Separation of Concerns)</em> وبنية <em>MVC (Model-View-Controller)</em>؛ الخوارزميات في <code>methods/</code> تمثل المنطق الرياضي الصرف (Pure Math Logic) دون أي اعتماد على الواجهة، مما يجعلها مطابقة لكود الماتلاب، قابلة للاختبار الآلي، وقابلة لإعادة الاستخدام في أي بيئة أخرى دون تعديل، بينما يقتصر دور <code>gui/</code> على العرض وتلقي المدخلات.</div>
+</div>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">التحليل العددي</span> س2: كيف يُحسب مقدار الخطأ (Error) في كل طريقة وما معناه؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong>
+    <ul>
+        <li><strong>التنصيف:</strong> يُحسب الخطأ بنصف طول الفترة $\frac{|b - a|}{2}$ أو $|p_k - p_{k-1}|$؛ لأن الجذر الفعلي محصور حتماً داخل الفترة فيكون أقصى بعد بين التقدير والجذر هو نصف طول الفترة.</li>
+        <li><strong>الموضع الخاطئ والقاطع ونيوتن والنقطة الثابتة:</strong> يُحسب بالفرق المطلق بين تقريبين متتاليين $|x_{k+1} - x_k|$ (الخطأ المطلق للتكرار)، أو بقيمة الدالة عند النقطة $|f(x)| \approx 0$.</li>
+    </ul>
+    </div>
+</div>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">شروط الخوارزمية</span> س3: متى تتوقف الخوارزمية عن التكرار (Stopping Criteria)؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong> تتوقف الخوارزمية عند تحقق أحد ثلاثة شروط:
+    <ol>
+        <li><strong>الوصول للجذر التام:</strong> عندما تكون قيمة الدالة مساوية تماماً للصفر $f(p) = 0$ (أو أقل من $10^{-14}$).</li>
+        <li><strong>تحقق الدقة المطلوبة:</strong> عندما يصبح الخطأ المحسوب أقل من أو يساوي الدقة المدخلة ($Error \le \varepsilon$).</li>
+        <li><strong>بلوغ الحد الأقصى للتكرارات:</strong> عندما يصل العداد $i > N$ لحماية البرنامج من الدخول في حلقة لانهائية (Infinite Loop) في حال تباعدت الطريقة.</li>
+    </ol>
+    </div>
+</div>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">مقارنة</span> س4: ما هو الفرق الجوهري بين طريقة نيوتن رافسون وطريقة القاطع؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong>
+    طريقة <strong>نيوتن رافسون</strong> تحتاج نقطة بداية واحدة $x_0$ لكنها <em>تشترط وجود المشتقة التحليلية $f'(x)$</em> وتقاربها تربيعي وسريع جداً ($O(h^2)$)، بينما طريقة <strong>القاطع</strong> تحتاج نقطتين ابتدائيتين $x_0, x_1$ وتستبدل المشتقة بميل القاطع المار بالنقطتين $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ للتغلب على صعوبة اشتقاق بعض الدوال المعقدة، ورتبة تقاربها $\approx 1.618$ (أبطأ قليلاً من نيوتن لكن أسرع من التنصيف).
+    </div>
+</div>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">شروط الفشل</span> س5: متى تفشل طريقة نيوتن - رافسون؟ وكيف عالجنا ذلك؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong> تفشل إذا كانت المشتقة عند أي تكرار مساوية للصفر ($f'(x_k) = 0$)؛ لأن القانون يقسم على المشتقة، وهندسياً يعني ذلك أن مماس المنحنى أفقي موازٍ لمحور السينات فلا يتقاطع معه. عالجنا ذلك في <code>methods/newton.py</code> بفحص <code>abs(dfx) &lt; 1e-15</code> ورفع استثناء <code>ValueError</code> عربي صريح ينبه المستخدم دون انهيار التطبيق.</div>
+</div>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">شروط التقارب</span> س6: ما هو شرط تقارب طريقة النقطة الثابتة $x = g(x)$؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong> شرط نظرية النقطة الثابتة هو أن تكون المشتقة الأولى لدالة التكرار في جوار الجذر بالقيمة المطلقة أقل من الواحد تماماً: $|g'(x)| < 1$. إذا كان $|g'(x)| > 1$ فإن القيم تتباعد (Diverge) نحو اللانهاية، وقد وضعنا فحصاً يحمي من تباعد القيم عند تجاوز $10^{12}$.</div>
+</div>
+
+<div class="qa-card">
+    <div class="qa-question"><span class="qa-tag">الأمان البرمجي</span> س7: كيف قمنا بقراءة وتحليل صيغة الدالة التي يكتبها المستخدم بأمان؟</div>
+    <div class="qa-answer"><strong>الإجابة:</strong> تجنبنا تماماً استخدام دالة <code>eval()</code> المضمنة لما فيها من ثغرات أمنية خطيرة، واستخدمنا مكتبة <code>sympy.parse_expr</code> مع <code>standard_transformations</code> و <code>convert_xor</code> و <code>implicit_multiplication_application</code>، مما أتاح دعم كتابة الأس بـ <code>^</code> والضرب الضمني (مثل <code>3x</code>) بأمان وتحويلها إلى دالة عددية سريعة بـ <code>lambdify</code> واشتقاقها آلياً.</div>
+</div>
+
+</div>
+
+</body>
+</html>

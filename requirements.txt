@@ -1,0 +1,7 @@
+# Modern Numerical Analysis Suite Requirements
+customtkinter>=6.0.0
+sympy>=1.13.0
+arabic-reshaper>=3.0.0
+python-bidi>=0.6.0
+pymupdf>=1.23.0
+pyinstaller>=6.0.0

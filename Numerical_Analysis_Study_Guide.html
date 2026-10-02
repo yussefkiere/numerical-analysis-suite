@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>المذكرة الشاملة في التحليل العددي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap');
+
+@page {
+    size: A4;
+    margin: 14mm 12mm 16mm 12mm;
+    @bottom-center {
+        content: counter(page);
+        font-family: 'Cairo', sans-serif;
+        font-size: 9pt;
+        color: #64748b;
+    }
+    @top-right {
+        content: "المذكرة الشاملة في التحليل العددي - النظري والعملي";
+        font-family: 'Cairo', sans-serif;
+        font-size: 8pt;
+        color: #94a3b8;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    direction: rtl;
+    text-align: right;
+    color: #1e293b;
+    line-height: 1.65;
+    font-size: 10pt;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Break Controls */
+.page-break {
+    page-break-before: always;
+}
+.avoid-break {
+    page-break-inside: avoid;
+}
+
+/* Cover Page Styling */
+.cover-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+    color: #ffffff;
+    border-radius: 8px;
+    page-break-after: always;
+}
+.cover-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cover-title-box {
+    margin: auto 0;
+    text-align: center;
+}
+.cover-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #38bdf8;
+    margin-bottom: 15px;
+}
+.cover-main-title {
+    font-size: 26pt;
+    font-weight: 900;
+    line-height: 1.25;
+    margin: 10px 0;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.cover-subtitle {
+    font-size: 13pt;
+    color: #cbd5e1;
+    max-width: 650px;
+    margin: 0 auto;
+    font-weight: 400;
+}
+.cover-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 30px 0;
+}
+.feature-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+.feature-card h4 {
+    margin: 0 0 5px 0;
+    color: #38bdf8;
+    font-size: 11pt;
+}
+.feature-card p {
+    margin: 0;
+    font-size: 8.5pt;
+    color: #e2e8f0;
+}
+.cover-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    color: #94a3b8;
+}
+
+/* Headings */
+h1.section-title {
+    color: #0f172a;
+    font-size: 17pt;
+    font-weight: 800;
+    border-right: 5px solid #2563eb;
+    padding-right: 12px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    background: #f8fafc;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 0 6px 6px 0;
+}
+
+h2.topic-title {
+    color: #1e3a8a;
+    font-size: 13pt;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h3.subtopic-title {
+    color: #0369a1;
+    font-size: 11pt;
+    font-weight: 600;
+    margin-top: 14px;
+    margin-bottom: 6px;
+}
+
+/* Badges */
+.tag {
+    display: inline-block;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+.tag-confirmed { background-color: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.tag-frequent { background-color: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+.tag-deduced { background-color: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+.tag-study { background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+/* Callouts & Special Boxes */
+.box {
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 6px;
+    font-size: 9.5pt;
+    position: relative;
+}
+.box-tip { background-color: #f0fdf4; border-right: 4px solid #16a34a; color: #14532d; }
+.box-warning { background-color: #fef2f2; border-right: 4px solid #dc2626; color: #7f1d1d; }
+.box-rule { background-color: #fefce8; border-right: 4px solid #ca8a04; color: #713f12; }
+.box-note { background-color: #eff6ff; border-right: 4px solid #2563eb; color: #1e3a8a; }
+.box-question { background-color: #faf5ff; border-right: 4px solid #9333ea; color: #581c87; }
+.box-title { font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+
+
+/* Math Formatting */
+.frac {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 4px;
+    font-size: 0.95em;
+}
+.frac .num {
+    border-bottom: 1.5px solid #1e293b;
+    padding-bottom: 1px;
+}
+.frac .denom {
+    padding-top: 1px;
+}
+.matrix-bracket {
+    display: inline-table;
+    border-left: 2px solid #1e3a8a;
+    border-right: 2px solid #1e3a8a;
+    border-collapse: collapse;
+    margin: 6px auto;
+    font-family: 'Amiri', serif;
+    font-size: 11pt;
+}
+.matrix-bracket td {
+    padding: 3px 10px;
+    text-align: center;
+    border: none;
+}
+.matrix-bracket td.sep {
+    border-right: 2px dashed #94a3b8;
+}
+
+/* Mathematical Equations */
+.math-block {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    text-align: center;
+    direction: ltr;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 11pt;
+    color: #0f172a;
+    overflow-x: auto;
+}
+.math-inline {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1e3a8a;
+    padding: 0 3px;
+}
+
+/* Tables */
+table.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 9pt;
+}
+table.academic-table th {
+    background-color: #1e3a8a;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 7px 10px;
+    border: 1px solid #1e3a8a;
+    text-align: center;
+}
+table.academic-table td {
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+}
+table.academic-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+table.academic-table tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Code Blocks */
+pre.matlab-code {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    border: 1px solid #334155;
+    margin: 10px 0;
+}
+.code-keyword { color: #38bdf8; font-weight: bold; }
+.code-comment { color: #94a3b8; font-style: italic; }
+.code-string { color: #4ade80; }
+.code-num { color: #f43f5e; }
+
+/* Grid for Two Columns */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Checklist items */
+.checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 9.5pt;
+}
+.checkbox {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #2563eb;
+    border-radius: 3px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- 1. الغلاف (Cover Page) -->
+<div class="cover-container">
+    <div class="cover-header">
+        <div>
+            <div style="font-size: 13pt; font-weight: 800; letter-spacing: 0.5px;">جامعة الملك سعود / كليات الهندسة والحاسوب</div>
+            <div style="font-size: 9.5pt; color: #93c5fd;">قسم علوم الحاسوب وتقنية المعلومات - المستوى الجامعي</div>
+        </div>
+        <div style="text-align: left; font-size: 9pt; color: #cbd5e1;">
+            <div>المقرر: التحليل العددي</div>
+            <div>المسار: بكالوريوس هندسة وحاسوب</div>
+        </div>
+    </div>
+
+    <div class="cover-title-box">
+        <div class="cover-badge">المذكرة الأكاديمية الشاملة للاستعداد للاختبار</div>
+        <div class="cover-main-title">التحليل العددي الشامل<br><span style="font-size: 18pt; font-weight: 700; color: #38bdf8;">(Numerical Analysis: Theory & MATLAB Applications)</span></div>
+        <div class="cover-subtitle">دليل مذاكرة متكامل يجمع بين الشرح الرياضي النظري، الإثباتات الهندسية، تفكيك خطوات الحل اليدوي بالأرقام، والأكواد البرمجية المعتمدة في بيئة MATLAB</div>
+    </div>
+
+    <div class="cover-features">
+        <div class="feature-card">
+            <h4>تحليل أسلوب الدكتور</h4>
+            <p>دراسة عميقة لبصمة الدكتور في التدريس ووضع الأسئلة وتجنب الفخاخ</p>
+        </div>
+        <div class="feature-card">
+            <h4>أمثلة السبورة المحلولة</h4>
+            <p>حلول تفصيلية خطوة بخطوة لجميع مسائل المحاضرات والدفتر بالأرقام</p>
+        </div>
+        <div class="feature-card">
+            <h4>محاكاة الاختبار ونموذج الحل</h4>
+            <p>امتحان كامل مطابق لنمط الدكتور مع توزيع الدرجات والحل النموذجي</p>
+        </div>
+    </div>
+
+    <div class="cover-footer">
+        <div><strong>إعداد وتنسيق:</strong> الوكيل الأكاديمي المتخصص في التحليل الجامعي</div>
+        <div><strong>المرجع الأساسي:</strong> محاضرات ودفتر وسليدات الدكتور الفعلية للمقرر</div>
+        <div><strong>الإصدار:</strong> النسخة الذهبية التفاعلية (2026)</div>
+    </div>
+</div>
+
+<!-- 2. طريقة استخدام هذه المذكرة -->
+<div class="page-break"></div>
+<h1 class="section-title">طريقة استخدام هذه المذكرة الأكاديمية</h1>
+<div class="box box-note">
+    <div class="box-title">🎯 الهدف الأساسي من المذكرة</div>
+    هذه المذكرة ليست مجرد تلخيص سطحي للنصوص، بل هي <strong>مرجع تدريبي هندسي وحسابي متكامل</strong>. صُممت خصيصاً لتنقلك من مرحلة التشتت بين الدفتر وصور السبورة إلى مرحلة الإتقان والجاهزية التامة لدخول قاعة الاختبار والحصول على أعلى الدرجات بإذن الله.
+</div>
+
+<div class="grid-2">
+    <div class="box box-rule">
+        <div class="box-title">📌 نظام الأوسمة المعتمد في المذكرة:</div>
+        <ul style="margin: 5px 0; padding-right: 20px; font-size: 9pt;">
+            <li><span class="tag tag-confirmed">🟢 مؤكد من الملف</span>: قانون، مثال، أو ملاحظة وردت نصاً وحرفاً في الشرح.</li>
+            <li><span class="tag tag-frequent">🟡 مكرر ومهم</span>: موضوع تكرر شرحه على السبورة وفي المعمل وأخذ مساحة كبرى.</li>
+            <li><span class="tag tag-deduced">🟠 استنتاج من أسلوب الدكتور</span>: استقراء لطبيعة الأسئلة وفخاخ الاختبار المتوقعة.</li>
+            <li><span class="tag tag-study">🔵 اقتراح للمذاكرة</span>: تكتيك عملي لتسريع الحل وتثبيت الخطوات.</li>
+        </ul>
+    </div>
+    <div class="box box-tip">
+        <div class="box-title">💡 المسار الذهبي للمذاكرة:</div>
+        <ol style="margin: 5px 0; padding-right: 20px; font-size: 9pt;">
+            <li><strong>افهم الفكرة الهندسية</strong> (لماذا نستخدم الطريقة؟).</li>
+            <li><strong>احفظ القانون وصيغة التوقف</strong> بدقة متناهية.</li>
+            <li><strong>امسك الورقة والقلم والآلة الحاسبة</strong> وحل المثال خطوة بخطوة.</li>
+            <li><strong>راجع الأخطاء الشائعة والقاعدة الذهبية</strong> لتجنب فقدان الدرجات.</li>
+            <li><strong>اختبر نفسك</strong> في بنك الأسئلة واختبار المحاكاة الشامل.</li>
+        </ol>
+    </div>
+</div>
+
+<!-- 3. فهرس المحتويات الشامل -->
+<h2 class="topic-title">فهرس المحتويات الشامل (Table of Contents)</h2>
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th style="width: 10%;">الرقم</th>
+            <th style="width: 65%;">الموضوع / القسم الأكاديمي</th>
+            <th style="width: 25%;">التصنيف المنهجي</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>01</td><td>تحليل أسلوب الدكتور وبصمته في التدريس والاختبارات</td><td>تحليل أكاديمي ونفسي</td></tr>
+        <tr><td>02</td><td>الخريطة المنهجية الشاملة لمقرر التحليل العددي</td><td>هيكلية المقرر</td></tr>
+        <tr><td>03</td><td>الفصل الأول: أساسيات بيئة MATLAB والبرمجة الحسابية</td><td>المحاضرة 1 & 2 (عملي)</td></tr>
+        <tr><td>04</td><td>الفصل الثاني: حل المعادلات غير الخطية (التنصيف، القاطع، نيوتن-رافسون)</td><td>المحاضرة 3 & 4 (نظري + كود)</td></tr>
+        <tr><td>05</td><td>الفصل الثالث: حل أنظمة المعادلات الخطية (المعكوس، كرامر، حذف جاوس)</td><td>المحاضرة 4 & 5 (نظري + كود)</td></tr>
+        <tr><td>06</td><td>الفصل الرابع: الطرائق التكرارية للأنظمة الخطية (طريقة جاكوبي والشرط الحاسم)</td><td>المحاضرة 5 (نظري + كود)</td></tr>
+        <tr><td>07</td><td>الفصل الخامس: الاستيفاء الرياضي وتوفيق المنحنيات (كثيرات حدود لاجرانج)</td><td>المحاضرة 6 (نظري + كود)</td></tr>
+        <tr><td>08</td><td>الفصل السادس: التفاضل والتكامل العددي (متسلسلة تايلور وقاعدة شبه المنحرف)</td><td>محاضرات السبورة المتقدمة</td></tr>
+        <tr><td>09</td><td>بنك القوانين الشامل + ورقة القوانين السريعة</td><td>مرجع القوانين</td></tr>
+        <tr><td>10</td><td>شجرة القرار: كيف أعرف أي طريقة أستخدم في الاختبار؟</td><td>دليل اختيار الطريقة</td></tr>
+        <tr><td>11</td><td>قوالب حل المسائل النموذجية في ورقة الاختبار</td><td>منهجية الحل الرسمي</td></tr>
+        <tr><td>12</td><td>مصفوفة المقارنة الشاملة بين جميع الطرق العددية</td><td>مقارنة معيارية شاملة</td></tr>
+        <tr><td>13</td><td>بنك الأسئلة التدريبي الشامل (مقسم حسب الأنماط مع الحلول)</td><td>تدريب وامتحانات سابقة</td></tr>
+        <tr><td>14</td><td>اختبار المحاكاة الشامل للاختبار النهائي (مع نموذج الإجابة وتوزيع الدرجات)</td><td>محاكاة الاختبار الحقيقي</td></tr>
+        <tr><td>15</td><td>خطة المذاكرة، المراجعة المتباعدة، وليلة الاختبار، و Checklist</td><td>استراتيجية التفوق الكامل</td></tr>
+    </tbody>
+</table>
+
+<!-- 4. تحليل أسلوب الدكتور وبصمته -->
+<div class="page-break"></div>
+<h1 class="section-title">أولاً: تحليل أسلوب الدكتور في التدريس والشرح <span class="tag tag-deduced">🟠 تحليل منهجي</span></h1>
+
+<p>من خلال الدراسة المعمقة لملفات المقرر (دفتر المحاضرات المنظم المكون من 41 صفحة، وصور السبورة الحية المكونة من 34 صفحة)، تم استخلاص الركائز الـ 12 التالية التي تشكل الهوية الأكاديمية للدكتور:</p>
+
+<div class="avoid-break">
+    <h3 class="subtopic-title">1. الانطلاق من المعنى الهندسي والإثبات البصري <span class="tag tag-confirmed">🟢 من الملف</span></h3>
+    <p>الدكتور لا يقدم القانون كمعادلة جاهزة للحفظ الصم، بل يحرص دائماً على <strong>رسم المنحنى البياني</strong> على السبورة أولاً. ففي طريقة <em>نيوتن-رافسون</em> (صفحة 9 من الصور)، رسم مماس المنحنى ومعادلة الخط المستقيم y - y0 = m(x - x0) واشتق القانون خطوة بخطوة أمام الطلاب. وكذلك في طريقة <em>القاطع</em> (صفحة 7 من الصور)، بدأ من معادلة مستقيم يمر بنقطتين y = mx + d.</p>
+</div>
+
+<div class="avoid-break">
+    <h3 class="subtopic-title">2. التبسيط التدريجي: من مسألة تمهيدية إلى نظام متعدد الأبعاد <span class="tag tag-confirmed">🟢 من الملف</span></h3>
+    <p>يبدأ الدكتور بمثال توضيحي بديهي لتثبيت الفكرة (مثل f(x) = x - 1 في فترة [-1, 2] للتنصيف)، ثم يرفع مستوى الصعوبة فوراً إلى معادلات تكعيبية معقدة مثل x^3 - 2x^2 + x - 3 = 0، وفي المصفوفات يبدأ بأنظمة 3x3 متكاملة.</p>
+</div>
+
+<div class="avoid-break">
+    <h3 class="subtopic-title">3. الصرامة في تنظيم خطوات الحل وجدولة النتائج <span class="tag tag-frequent">🟡 مهم ومكرر</span></h3>
+    <p>يولي الدكتور اهتماماً بالغاً بالتنظيم الشكلي والجدولي؛ حيث يعتمد جداول محددة الأعمدة للتكرارات: (i, xi, f(xi), f'(xi), |xi - x<sub>i-1</sub>|). ويعتبر أن الحل غير المجدول حل غير مكتمل هندسياً.</p>
+</div>
+
+<div class="avoid-break">
+    <h3 class="subtopic-title">4. الربط العضوي الإلزامي بين الخوارزمية الرياضية وكود MATLAB <span class="tag tag-confirmed">🟢 من الملف</span></h3>
+    <p>لكل طريقة عددية يتم شرحها نظرياً، يقوم الدكتور بكتابة الخوارزمية المقابلة لها في لغة ماتلاب داخل دالة مستقلة (function bisc, function secant, function gauss, function lagrang). هذا يؤكد أن فهم الشفرة البرمجية جزء لا يتجزأ من أسئلة الاختبار سواء بكتابة كود أو تتبع مخرجاته (Tracing).</p>
+</div>
+
+<div class="avoid-break">
+    <h3 class="subtopic-title">5. التركيز الشديد على شروط استخدام الطريقة والتحقق المسبق <span class="tag tag-confirmed">🟢 من الملف</span></h3>
+    <p>أبرز ملامح شخصية الدكتور الأكاديمية تظهر في محاضرة <strong>طريقة جاكوبي</strong> (صفحات 31-32 من الدفتر وصفحة 31 من الصور)، حيث رفض البدء بالحل مباشرة وكتب بالخط العريض شرط الهيمنة القطرية |a11| > |a12| + |a13|، وبيّن أن المعادلة الثانية لا تحقق الشرط (|1| < 8 + 1)، وقام <strong>بإعادة ترتيب المعادلات</strong> قبل البدء بحساب أي تكرار.</p>
+</div>
+
+<div class="avoid-break">
+    <h3 class="subtopic-title">6. الاهتمام بحساب حد الخطأ وعدد التكرارات مسبقاً <span class="tag tag-confirmed">🟢 من الملف</span></h3>
+    <p>في طريقة التنصيف، لم يكتفِ الدكتور بالتكرار اليدوي، بل خصص لوحاً كاملاً (الصفحات 32-34 من الصور) لحساب القانون النظري لمعرفة كم خطوة تلزمنا للوصول لخطأ لا يتجاوز epsilon = 10^-k قبل البدء بالحل: n + 1 >= (log(b - a) + k) / log(2).</p>
+</div>
+
+<!-- 5. بصمة الدكتور في الاختبار -->
+<div class="page-break"></div>
+<h1 class="section-title">ثانياً: بصمة الدكتور في الاختبار (Doctor's Exam Signature) <span class="tag tag-deduced">🟠 استنتاج دقيق</span></h1>
+
+<p>بناءً على الشواهد والقرائن المتكررة في الشرح، تم استخلاص جدول "بصمة الدكتور"، مبيناً الدليل الحرفي من الملف وماذا يعني ذلك عملياً لطريقة مذاكرتك:</p>
+
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">السمة / البصمة المتكررة</th>
+            <th style="width: 35%;">الدليل والقرينة من ملفات الدكتور</th>
+            <th style="width: 40%;">ماذا تعني لك أثناء المذاكرة والاستعداد؟</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>طلب الإثبات الهندسي</strong></td>
+            <td>اشتقاق نيوتن وميل المماس، اشتقاق القاطع من مستقيم نقطتين، واشتقاق متسلسلة تايلور على السبورة.</td>
+            <td>احفظ خطوات ورسم الإثبات؛ غالباً ما يكون هناك فرع مقالي نصه: <em>"اشتق صيغة طريقة نيوتن-رافسون هندسياً"</em>.</td>
+        </tr>
+        <tr>
+            <td><strong>فخاخ الشروط المسبقة</strong></td>
+            <td>إيقاف حل جاكوبي وإعادة ترتيب المعادلات بسبب فشل شرط |a_ii| > sum |a_ij|.</td>
+            <td>لا تحل مسألة جاكوبي فوراً في الاختبار! افحص القطر الرئيسي أولاً ورتبه إذا لزم الأمر لتنال العلامة الكاملة.</td>
+        </tr>
+        <tr>
+            <td><strong>التوقف عند شرط الدقة</strong></td>
+            <td>التشديد على |x_k - x<sub>k-1</sub>| <= epsilon في جميع الجداول.</td>
+            <td>احسب عمود الخطأ المطلق في كل سطر؛ التوقف العشوائي دون إثبات شرط الخطأ يخصم درجات المسألة.</td>
+        </tr>
+        <tr>
+            <td><strong>العمليات السطرية لجاوس</strong></td>
+            <td>كتابة التحويل بجانب السهم: -(a_21/a_11) R_1 + R_2 -> R_2 والتعويض العكسي.</td>
+            <td>لا تعتمد على حسابات الآلة الصامتة؛ اكتب معامل التحويل لكل صف بجوار المصفوفة الموسعة.</td>
+        </tr>
+        <tr>
+            <td><strong>أسئلة كود الماتلاب</strong></td>
+            <td>كتابة دوال bisc و secant و gauss وملاحظة غياب do-while والفاصلة المنقوطة.</td>
+            <td>احفظ بناء الدالة function، وحلقات while، وشروط التحقق المنطقية، ومخرجات disp و fprintf.</td>
+        </tr>
+        <tr>
+            <td><strong>حساب الخطأ التحليلي للتكامل</strong></td>
+            <td>إيجاد المشتقة الثانية وحساب القيمة العظمى M = max |f''(x)| في قاعدة شبه المنحرف.</td>
+            <td>تدرّب على اشتقاق الدالة مرتين لحساب حد الخطأ E <= (b-a)/12 * h^2 * M وليس فقط حساب قيمة التكامل.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- 6. الخريطة المنهجية لمقرر التحليل العددي -->
+<h2 class="topic-title">ثالثاً: الخريطة المنهجية للمقرر (Curriculum Architecture)</h2>
+<div class="box box-rule">
+    <div class="box-title">🗺️ المسار الهيكلي للموضوعات الستة الأساسية:</div>
+    <div style="font-size: 9.5pt; line-height: 1.8;">
+        <strong>1. مدخل البرمجة العددية (MATLAB Fundamentals):</strong> البيئة، العمليات النقطية، المصفوفات، التفرع والتحكم.<br>
+        <strong>2. إيجاد جذور المعادلات غير الخطية (Root Finding f(x)=0):</strong> Bisection (حاصرة) ← Secant (قاطع) ← Newton-Raphson (مماسية فائقة).<br>
+        <strong>3. حل أنظمة المعادلات الخطية المباشرة (AX = B):</strong> المصفوفة العكسية A^-1 ← طريقة كرامر Cramer ← طريقة حذف جاوس Gaussian Elimination.<br>
+        <strong>4. حل الأنظمة الخطية التكرارية (Iterative Systems):</strong> طريقة جاكوبي Jacobi Iteration وشرط الهيمنة القطرية الحتمي.<br>
+        <strong>5. الاستيفاء واستكمال المنحنيات (Interpolation):</strong> استيفاء لاجرانج Lagrange Polynomial وحساب كثيرات حدود الأساس.<br>
+        <strong>6. الحسبان العددي (Numerical Calculus):</strong> التفاضل عبر مفكوك تايلور (فروق منتهية) + التكامل العددي بشبه المنحرف المركبة مع تحليل الخطأ.
+    </div>
+</div>
+
+<!-- الفصل الأول: أساسيات بيئة MATLAB -->
+<div class="page-break"></div>
+<h1 class="section-title">الفصل الأول: أساسيات بيئة MATLAB والبرمجة الحسابية <span class="tag tag-confirmed">🟢 المحاضرة 1 & 2</span></h1>
+
+<h2 class="topic-title">1. بيئة الماتلاب والعمليات الأساسية</h2>
+
+<h3 class="subtopic-title">1. الفكرة الأساسية والمصطلحات المهمة:</h3>
+<p>ماتلاب (MATLAB = Matrix Laboratory) هو بيئة حاسوبية هندسية متخصصة في التعامل مع المصفوفات والعمليات الحسابية والتحليل العددي. الأوامر تنفذ إما في نافذة الأوامر (Command Window) أو تُكتب داخل برامج وملفات دوال (Script & Function Files).</p>
+
+<h3 class="subtopic-title">2. القوانين والعمليات البرمجية المعتمدة في الماتلاب:</h3>
+<ul>
+    <li><strong>إنشاء المتجهات والمصفوفات:</strong>
+        <div class="math-block">y = [1, 2, 3] &nbsp; <span style="font-family:'Cairo'; color:#64748b;">(متجه صف)</span> &emsp;&emsp; z = [1; 2; 3] &nbsp; <span style="font-family:'Cairo'; color:#64748b;">(متجه عمود)</span> &emsp;&emsp; A = [1, 2; 3, 4] &nbsp; <span style="font-family:'Cairo'; color:#64748b;">(مصفوفة 2&times;2)</span></div>
+    </li>
+    <li><strong>العمليات الحسابية العنصرية (Element-wise Operations):</strong>
+        عند الرغبة في تطبيق عملية الضرب أو القسمة أو الأس على كل عنصر بمفرده داخل المصفوفة، يجب وضع نقطة قبل العملية:
+        <span class="math-inline">.* &nbsp; ./ &nbsp; .^</span> (مثال: <code>x .^ 2</code> وليس <code>x ^ 2</code>).
+    </li>
+    <li><strong>أبعاد المصفوفات:</strong>
+        <code>size(A)</code> تعطي عدد الصفوف والأعمدة، و <code>length(v)</code> تعطي طول المتجه.
+    </li>
+</ul>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">3. الجمل الشرطية والحلقات التكرارية (Control Structures):</h3>
+<div class="grid-2">
+    <div>
+        <strong>صيغة الشرط if:</strong>
+        <pre class="matlab-code">
+<span class="code-keyword">if</span> (condition)
+    statement1;
+<span class="code-keyword">elseif</span> (condition2)
+    statement2;
+<span class="code-keyword">else</span>
+    statement3;
+<span class="code-keyword">end</span></pre>
+    </div>
+    <div>
+        <strong>حلقة التكرار for:</strong>
+        <pre class="matlab-code">
+<span class="code-keyword">for</span> i = 1:step:n
+    statements;
+<span class="code-keyword">end</span>
+
+<span class="code-comment">% حلقة while:</span>
+<span class="code-keyword">while</span> (condition)
+    statements;
+<span class="code-keyword">end</span></pre>
+    </div>
+</div>
+</div>
+
+<div class="box box-warning">
+    <div class="box-title">⚠️ تنبيهات الدكتور الهامة من واقع المحاضرات:</div>
+    <ul style="margin: 0; padding-right: 20px;">
+        <li><strong>الفاصلة المنقوطة (;)</strong>: وضعها في نهاية السطر يمنع طباعة الناتج على الشاشة. عدم وضعها يجعل الماتلاب يطبع كل خطوة مما يؤدي إلى بطء التنفيذ وازدحام المخرجات.</li>
+        <li><strong>عدم وجود حلقة do-while</strong>: نبه الدكتور في صفحة 11 من الدفتر أن لغة ماتلاب لا تدعم <code>do-while</code> كما في C++، ولذلك نستخدم حلقة <code>while</code> مع تهيئة المتغيرات قبل الحلقة أو استخدام شرط مع أمر <code>break</code>.</li>
+    </ul>
+</div>
+
+<div class="box box-tip">
+    <div class="box-title">💡 مثال الدالة في الماتلاب (مضروب العدد Factorial من الدفتر صفحة 12):</div>
+    <pre class="matlab-code">
+<span class="code-keyword">function</span> f = Factorial(d)
+f = 1;
+<span class="code-keyword">for</span> i = 1:d
+    f = f * i;
+<span class="code-keyword">end</span>
+<span class="code-keyword">end</span></pre>
+</div>
+
+<!-- الفصل الثاني: حل المعادلات غير الخطية -->
+<div class="page-break"></div>
+<h1 class="section-title">الفصل الثاني: حل المعادلات غير الخطية (Root Finding) <span class="tag tag-frequent">🟡 المحاضرة 3 & 4</span></h1>
+
+<p>الهدف من هذا الفصل هو إيجاد القيمة العددية للمتغير x التي تجعل الدالة صفراً: <span class="math-inline">f(x) = 0</span>. وتسمى هذه القيمة بـ <strong>جذر المعادلة (Root)</strong> أو صفر الدالة.</p>
+
+<!-- 1. طريقة التنصيف -->
+<h2 class="topic-title">1. طريقة تنصيف الفترات (The Bisection Method) <span class="tag tag-confirmed">🟢 مؤكد من الملف</span></h2>
+
+<h3 class="subtopic-title">1. الفكرة الأساسية ومبرهنة القيمة الوسطية:</h3>
+<p>إذا كانت الدالة f(x) مستمرة على الفترة [a, b]، وكانت إشارة f(a) مختلفة عن إشارة f(b) (أي أن حاصل ضربهما سالب: f(a) * f(b) < 0)، فإنه يوجد بالضرورة جذر واحد على الأقل داخل هذه الفترة. تقوم الطريقة بتنصيف الفترة المتكرر وحصر الجذر في فترات أصغر فأصغر.</p>
+
+<h3 class="subtopic-title">2. القوانين وشروط الاستخدام:</h3>
+<div class="math-block">
+p = (a + b) / 2 &emsp;&emsp; <span style="font-family:'Cairo'; font-weight:bold;">شرط الاستمرار:</span> f(a) &middot; f(b) &lt; 0
+</div>
+<div class="math-block">
+n + 1 &ge; <span class="frac"><span class="num">log(b &minus; a) + k</span><span class="denom">log 2</span></span> &emsp; <span style="font-family:'Cairo';">حيث الدقة المطلوبة</span> &epsilon; = 10<sup>&minus;k</sup>
+</div>
+
+<h3 class="subtopic-title">3. خطوات الحل المنهجية (Algorithm):</h3>
+<ol>
+    <li>نتأكد من أن f(a) * f(b) < 0.</li>
+    <li>نحسب نقطة المنتصف: p = (a + b) / 2.</li>
+    <li>نحسب قيمة الدالة عند المنتصف f(p):
+        <ul>
+            <li>إذا كان f(p) = 0، فإن p هو الجذر الدقيق ونتوقف.</li>
+            <li>إذا كان f(a) * f(p) < 0، فإن الجذر يقع في النصف الأيسر، فنحدث الطرف الأيمن: b = p.</li>
+            <li>إذا كان f(a) * f(p) > 0، فإن الجذر يقع في النصف الأيمن، فنحدث الطرف الأيسر: a = p.</li>
+        </ul>
+    </li>
+    <li>نتحقق من شرط التوقف: إما |b - a| <= epsilon أو |p_k - p<sub>k-1</sub>| <= epsilon أو الوصول للحد الأقصى للتكرارات.</li>
+</ol>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">4. مثال محلول بالتفصيل من السبورة والدفتر:</h3>
+<div class="box box-note">
+    <strong>نص المسألة (صفحة 1 من الصور وصفحة 13 من الدفتر):</strong><br>
+    أوجد جذر المعادلة f(x) = x^3 - 4x - 9 = 0 في الفترة [2, 3] بنسبة خطأ epsilon = 0.05.
+</div>
+<p><strong>الحل خطوة بخطوة:</strong></p>
+<ul>
+    <li>فحص طرفي الفترة:
+        f(2) = (2)^3 - 4(2) - 9 = 8 - 8 - 9 = -9 (< 0)<br>
+        f(3) = (3)^3 - 4(3) - 9 = 27 - 12 - 9 = +6 (> 0)<br>
+        بما أن f(2) * f(3) = (-9)(6) = -54 < 0، فالجذر موجود داخل [2, 3].
+    </li>
+    <li><strong>التكرار 1:</strong> p1 = (2 + 3) / 2 = 2.5<br>
+        f(2.5) = (2.5)^3 - 4(2.5) - 9 = 15.625 - 10 - 9 = -3.375 (< 0)<br>
+        بما أن f(2.5) < 0 و f(3) > 0، الفترة الجديدة هي: [2.5, 3].
+    </li>
+    <li><strong>التكرار 2:</strong> p2 = (2.5 + 3) / 2 = 2.75<br>
+        f(2.75) = (2.75)^3 - 4(2.75) - 9 = 20.7969 - 11 - 9 = +0.7969 (> 0)<br>
+        بما أن f(2.5) < 0 و f(2.75) > 0، الفترة الجديدة هي: [2.5, 2.75].<br>
+        فحص الخطأ: |p2 - p1| = |2.75 - 2.5| = 0.25 > 0.05 (نستمر).
+    </li>
+    <li><strong>التكرار 3:</strong> p3 = (2.5 + 2.75) / 2 = 2.625 => f(2.625) = -1.412 (< 0) => الفترة: [2.625, 2.75]<br>
+        الخطأ: |2.625 - 2.75| = 0.125 > 0.05 (نستمر).
+    </li>
+    <li><strong>التكرار 4:</strong> p4 = (2.625 + 2.75) / 2 = 2.6875 => f(2.6875) = -0.339 (< 0) => الفترة: [2.6875, 2.75]<br>
+        الخطأ: |2.6875 - 2.625| = 0.0625 > 0.05 (نستمر).
+    </li>
+    <li><strong>التكرار 5:</strong> p5 = (2.6875 + 2.75) / 2 = 2.71875 => الخطأ: |2.71875 - 2.6875| = 0.03125 <= 0.05<br>
+        تحقق شرط التوقف! الجذر التقريبي هو: p ≈ 2.703 أو 2.718.
+    </li>
+</ul>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">5. كود MATLAB المعتمد لطريقة التنصيف (من شاشة الدكتور صفحة 11 من الصور):</h3>
+<pre class="matlab-code">
+<span class="code-keyword">function</span> bisc(f, a, b, n, e)
+i = 1;
+<span class="code-keyword">while</span> (abs(a - b) > e && i <= n)
+    p = (a + b) / 2;
+    <span class="code-keyword">if</span> f(p) == 0
+        <span class="code-keyword">break</span>;
+    <span class="code-keyword">end</span>
+    <span class="code-keyword">if</span> f(a) * f(p) < 0
+        b = p;
+    <span class="code-keyword">else</span>
+        a = p;
+    <span class="code-keyword">end</span>
+    i = i + 1;
+<span class="code-keyword">end</span>
+disp(['الجذر التقريبي هو: ', num2str(p)]);
+<span class="code-keyword">end</span></pre>
+</div>
+
+<!-- 2. طريقة نيوتن - رافسون -->
+<div class="page-break"></div>
+<h2 class="topic-title">2. طريقة نيوتن - رافسون (Newton-Raphson Method) <span class="tag tag-confirmed">🟢 المحاضرة 4</span></h2>
+
+<h3 class="subtopic-title">1. الفكرة الهندسية والاشتقاق الرياضي (من السبورة صفحة 9 من الصور):</h3>
+<p>تعتمد على استبدال المنحنى بمماسه عند نقطة قريبة من الجذر x0. معادلة المماس:</p>
+<div class="math-block">
+y - f(x_0) = f'(x_0) (x - x_0)
+</div>
+<p>بوضع y = 0 (نقطة تقاطع المماس مع محور السينات والتي تمثل التقدير الجديد للجذر x1):</p>
+<div class="math-block">
+0 &minus; f(x<sub>0</sub>) = f'(x<sub>0</sub>)(x<sub>1</sub> &minus; x<sub>0</sub>) &implies; x<sub>1</sub> &minus; x<sub>0</sub> = &minus;<span class="frac"><span class="num">f(x<sub>0</sub>)</span><span class="denom">f'(x<sub>0</sub>)</span></span> &implies; x<sub>1</sub> = x<sub>0</sub> &minus; <span class="frac"><span class="num">f(x<sub>0</sub>)</span><span class="denom">f'(x<sub>0</sub>)</span></span>
+</div>
+<p>القانون العام للتكرار:</p>
+<div class="math-block">
+x<sub>k+1</sub> = x<sub>k</sub> &minus; <span class="frac"><span class="num">f(x<sub>k</sub>)</span><span class="denom">f'(x<sub>k</sub>)</span></span>
+</div>
+
+<h3 class="subtopic-title">2. مميزات وعيوب الطريقة:</h3>
+<ul>
+    <li><strong>الميزة:</strong> سريعة جداً (تقارب تربيعي O(h^2))، وتحتاج عدداً قليلاً جداً من التكرارات مقارنة بالتنصيف.</li>
+    <li><strong>الشرط والعيب:</strong> تفشل الطريقة تماماً وتتوقف إذا كانت المشتقة مساوية للصفر f'(x_k) ≈ 0 (لأننا نقسم على المشتقة).</li>
+</ul>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">3. مثال السبورة المحلول بالأرقام (صفحة 10 من الصور):</h3>
+<div class="box box-note">
+    <strong>نص المسألة:</strong> أوجد جذر المعادلة f(x) = x^3 - 2x^2 + x - 3 = 0 في الفترة [2, 3] باختيار النقطة الابتدائية x0 = 2.2 ودقة epsilon = 0.0006.
+</div>
+<p><strong>الحل:</strong></p>
+<ol>
+    <li>المشتقة: f'(x) = 3x^2 - 4x + 1.</li>
+    <li><strong>التكرار 0:</strong> x0 = 2.2<br>
+        f(2.2) = (2.2)^3 - 2(2.2)^2 + 2.2 - 3 = 10.648 - 9.68 + 2.2 - 3 = 0.168<br>
+        f'(2.2) = 3(2.2)^2 - 4(2.2) + 1 = 3(4.84) - 8.8 + 1 = 14.52 - 8.8 + 1 = 6.72<br>
+        x1 = 2.2 - (0.168 / 6.72) = 2.2 - 0.025 = 2.175
+    </li>
+    <li><strong>التكرار 1:</strong> x1 = 2.175<br>
+        f(2.175) ≈ 0.00286, &nbsp; f'(2.175) ≈ 6.0519<br>
+        x2 = 2.175 - (0.00286 / 6.0519) ≈ 2.1745<br>
+        الخطأ: |x2 - x1| = |2.1745 - 2.175| = 0.0005 <= 0.0006.
+    </li>
+</ol>
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th>i</th>
+            <th>x_i</th>
+            <th>f(x_i)</th>
+            <th>f'(x_i)</th>
+            <th>|x_i - x<sub>i-1</sub>|</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>0</td><td>2.2000</td><td>0.1680</td><td>6.7200</td><td>-</td></tr>
+        <tr><td>1</td><td>2.1750</td><td>0.0029</td><td>6.0519</td><td>0.0250</td></tr>
+        <tr><td>2</td><td>2.1745</td><td>-0.0003</td><td>6.0480</td><td>0.0005</td></tr>
+    </tbody>
+</table>
+</div>
+
+<!-- 3. طريقة القاطع -->
+<div class="avoid-break">
+<h2 class="topic-title">3. طريقة القاطع والموضع الكاذب (Secant & False Position) <span class="tag tag-confirmed">🟢 المحاضرة 4</span></h2>
+<p>بدلاً من حساب المشتقة تحليلياً (والتي قد تكون معقدة أو مستحيلة في بعض الدوال)، نستبدل المشتقة بميل القاطع المار بنقطتين x_k, x<sub>k-1</sub>:</p>
+<div class="math-block">
+x<sub>k+1</sub> = x<sub>k</sub> &minus; <span class="frac"><span class="num">f(x<sub>k</sub>)(x<sub>k</sub> &minus; x<sub>k&minus;1</sub>)</span><span class="denom">f(x<sub>k</sub>) &minus; f(x<sub>k&minus;1</sub>)</span></span>
+</div>
+<p><strong>كود MATLAB لطريقة القاطع (من سبورة الدكتور صفحة 5 من الصور):</strong></p>
+<pre class="matlab-code">
+<span class="code-keyword">function</span> secant(f, x0, x1, n, e)
+p = x1 - (f(x1) * (x1 - x0)) / (f(x1) - f(x0));
+i = 2;
+<span class="code-keyword">while</span> (abs(p - x1) > e && i < n)
+    <span class="code-keyword">if</span> f(p) == 0, <span class="code-keyword">break</span>; <span class="code-keyword">end</span>
+    <span class="code-keyword">if</span> f(p) * f(x0) < 0
+        x1 = p;
+    <span class="code-keyword">else</span>
+        x0 = p;
+    <span class="code-keyword">end</span>
+    p = x1 - (f(x1) * (x1 - x0)) / (f(x1) - f(x0));
+    i = i + 1;
+<span class="code-keyword">end</span>
+disp(['الجذر التقريبي: ', num2str(p)]);
+<span class="code-keyword">end</span></pre>
+</div>
+
+<!-- الفصل الثالث: حل أنظمة المعادلات الخطية -->
+<div class="page-break"></div>
+<h1 class="section-title">الفصل الثالث: حل أنظمة المعادلات الخطية (Linear Systems) <span class="tag tag-confirmed">🟢 المحاضرة 4 & 5</span></h1>
+
+<p>يتناول هذا الفصل حل نظام من n معادلات خطية في n مجاهيل: <span class="math-inline">A X = B</span>.</p>
+
+<h2 class="topic-title">1. طريقة معكوس المصفوفة (Matrix Inversion Method)</h2>
+<div class="math-block">
+AX = B &implies; X = A<sup>&minus;1</sup>B &emsp;&emsp; <span style="font-family:'Cairo';">حيث:</span> A<sup>&minus;1</sup> = <span class="frac"><span class="num">adj(A)</span><span class="denom">|A|</span></span>
+</div>
+<p>خطوات الحل: (1) حساب المحدد |A| والتأكد أنه لا يساوي الصفر. (2) إيجاد مصفوفة العوامل المرافقة (Cofactors) ومدورها adj(A). (3) ضرب المعكوس في متجه الثوابت B.</p>
+
+<h2 class="topic-title">2. طريقة كرامر (Cramer's Rule)</h2>
+<div class="math-block">
+x<sub>1</sub> = <span class="frac"><span class="num">&Delta;<sub>1</sub></span><span class="denom">&Delta;</span></span>, &emsp; x<sub>2</sub> = <span class="frac"><span class="num">&Delta;<sub>2</sub></span><span class="denom">&Delta;</span></span>, &emsp; x<sub>3</sub> = <span class="frac"><span class="num">&Delta;<sub>3</sub></span><span class="denom">&Delta;</span></span>
+</div>
+<p>حيث Delta = |A|، و Delta_i هو محدد المصفوفة الناتجة عن استبدال العمود i بعمود الثوابت B.</p>
+
+<h2 class="topic-title">3. طريقة حذف جاوس (Gaussian Elimination) <span class="tag tag-frequent">🟡 محور رئيسي في الاختبار</span></h2>
+<h3 class="subtopic-title">1. الفكرة وخطوات العمل:</h3>
+<p>تحويل المصفوفة الموسعة [A|B] إلى <strong>مصفوفة مثلثية عليا (Upper Triangular Matrix)</strong> عبر عمليات الصف البسيط، بحيث تصبح جميع العناصر الواقعة تحت القطر الرئيسي أصفاراً، ثم إيجاد المجاهيل بواسطة <strong>التعويض العكسي (Back Substitution)</strong> من المعادلة الأخيرة إلى الأولى.</p>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">2. مثال المحاضرة الشامل المحلول بالتفصيل (صفحة 19 من الصور وصفحة 23 من الدفتر):</h3>
+<div class="box box-note">
+    <strong>حل النظام الخطي التالي بطريقة حذف جاوس:</strong>
+    $$2x_1 + x_2 - x_3 = -1$$
+    $$3x_1 + 5x_2 + 2x_3 = 2$$
+    $$4x_1 - x_2 - 2x_3 = 1$$
+</div>
+<p><strong>الحل النموذجي:</strong></p>
+<ol>
+    <li>كتابة المصفوفة الموسعة [A|B]:
+        <div class="math-block">
+<table class="matrix-bracket">
+<tr><td>2</td><td>1</td><td class="sep">-1</td><td>-1</td></tr>
+<tr><td>3</td><td>5</td><td class="sep">2</td><td>2</td></tr>
+<tr><td>4</td><td>-1</td><td class="sep">-2</td><td>1</td></tr>
+</table>
+</div>
+    </li>
+    <li><strong>تصفير أسفل عنصر الارتكاز الأول (a11 = 2):</strong>
+        <ul>
+            <li>للصف الثاني: نضرب الصف الأول بـ -3/2 ونجمعه مع الصف الثاني:
+                -(3/2) R1 + R2 -> R2 => [0, 3.5, 3.5 | 3.5]
+            </li>
+            <li>للصف الثالث: نضرب الصف الأول بـ -4/2 = -2 ونجمعه مع الصف الثالث:
+                -2 R1 + R3 -> R3 => [0, -3, 0 | 3]
+            </li>
+        </ul>
+        المصفوفة تصبح:
+        <div class="math-block">
+<table class="matrix-bracket">
+<tr><td>2</td><td>1</td><td class="sep">-1</td><td>-1</td></tr>
+<tr><td>0</td><td>3.5</td><td class="sep">3.5</td><td>3.5</td></tr>
+<tr><td>0</td><td>-3</td><td class="sep">0</td><td>3</td></tr>
+</table>
+</div>
+    </li>
+    <li><strong>تصفير أسفل عنصر الارتكاز الثاني (a22 = 3.5):</strong>
+        نضرب الصف الثاني بـ -(-3/3.5) = 6/7 ونجمعه مع الصف الثالث:
+        (6/7) R2 + R3 -> R3 => [0, 0, 3 | 6]
+        أصبحت المصفوفة مثلثية عليا:
+        <div class="math-block">
+<table class="matrix-bracket">
+<tr><td>2</td><td>1</td><td class="sep">-1</td><td>-1</td></tr>
+<tr><td>0</td><td>3.5</td><td class="sep">3.5</td><td>3.5</td></tr>
+<tr><td>0</td><td>0</td><td class="sep">3</td><td>6</td></tr>
+</table>
+</div>
+    </li>
+    <li><strong>التعويض العكسي (Back Substitution):</strong>
+        3 x3 = 6 => x3 = 2<br>
+        3.5 x2 + 3.5(2) = 3.5 => 3.5 x2 = 3.5 - 7 = -3.5 => x2 = -1<br>
+        2 x1 + (1)(-1) - (1)(2) = -1 => 2 x1 - 3 = -1 => 2 x1 = 2 => x1 = 1<br>
+        <strong>الحل النهائي:</strong> x1 = 1, x2 = -1, x3 = 2.
+    </li>
+</ol>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">3. كود MATLAB المعتمد لحذف جاوس والتعويض العكسي (صفحة 20 من الصور):</h3>
+<pre class="matlab-code">
+<span class="code-keyword">function</span> gauss(A, B)
+n = length(A);
+<span class="code-comment">% مرحلة الحذف الأمامي</span>
+<span class="code-keyword">for</span> k = 1:n-1
+    <span class="code-keyword">for</span> i = k+1:n
+        L = -A(i, k) / A(k, k);
+        A(i, :) = A(i, :) + L * A(k, :);
+        B(i) = B(i) + L * B(k);
+    <span class="code-keyword">end</span>
+<span class="code-keyword">end</span>
+<span class="code-comment">% مرحلة التعويض العكسي</span>
+X = zeros(n, 1);
+X(n) = B(n) / A(n, n);
+<span class="code-keyword">for</span> i = n-1:-1:1
+    X(i) = (B(i) - A(i, i+1:n) * X(i+1:n)) / A(i, i);
+<span class="code-keyword">end</span>
+disp('حل النظام الخطي:');
+disp(X);
+<span class="code-keyword">end</span></pre>
+</div>
+
+<!-- الفصل الرابع: الطرائق التكرارية للأنظمة الخطية -->
+<div class="page-break"></div>
+<h1 class="section-title">الفصل الرابع: الطرائق التكرارية للأنظمة الخطية (Jacobi Method) <span class="tag tag-confirmed">🟢 المحاضرة 5</span></h1>
+
+<h2 class="topic-title">1. طريقة جاكوبي التكرارية (Jacobi Iterative Method)</h2>
+
+<h3 class="subtopic-title">1. الفكرة الأساسية:</h3>
+<p>على عكس الطرق المباشرة (مثل جاوس) التي تعطي الحل مرة واحدة، تقوم طريقة جاكوبي بفرض متجه حل مبدئي X^(0) = [0, 0, 0]^T، ثم استخدام معادلات النظام لتوليد متتالية من التقريبات المتتابعة X^(1), X^(2), ... حتى يقترب الحل من القيمة الحقيقية بنسبة خطأ مقبولة.</p>
+
+<div class="box box-warning">
+    <div class="box-title">🚨 شرط الهيمنة القطرية الصارم (Strictly Diagonally Dominant) - فخ الدكتور الأول:</div>
+    <strong>لا يمكن ولا يجوز تطبيق طريقة جاكوبي إلا إذا كانت المصفوفة مهيمنة قطرياً:</strong>
+    <div class="math-block">
+    |a<sub>ii</sub>| &gt; &sum;<sub>j &ne; i</sub> |a<sub>ij</sub>| &emsp; <span style="font-family:'Cairo';">لكل صف i (شرط الهيمنة القطرية الصارمة)</span>
+    </div>
+    أي أن القيمة المطلقة للعنصر القطري في كل صف يجب أن تكون <strong>أكبر تماماً</strong> من مجموع القيم المطلقة لباقي عناصر نفس الصف. إذا لم يتحقق الشرط، يجب تبديل المعادلات قبل البدء بالحل!
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">2. مثال المحاضرة والسبورة بالكامل (صفحات 28-35 من الدفتر وصفحة 31 من الصور):</h3>
+<div class="box box-note">
+    <strong>حل النظام التالي بطريقة جاكوبي:</strong>
+    $$3x_1 + 5x_2 - x_3 = 7$$
+    $$8x_1 + x_2 + x_3 = 26$$
+    $$x_1 - x_2 + 5x_3 = 7$$
+</div>
+<p><strong>خطوات الحل:</strong></p>
+<ol>
+    <li><strong>اختبار الهيمنة القطرية:</strong>
+        <ul>
+            <li>الصف 1: |3| < |5| + |-1| = 6 (غير محقق!).</li>
+            <li>الصف 2: |1| < |8| + |1| = 9 (غير محقق!).</li>
+        </ul>
+        <em>إذن لا يجوز البدء مباشرة! نقوم بإعادة الترتيب:</em>
+    </li>
+    <li><strong>إعادة ترتيب الصفوف لتحقيق الهيمنة القطرية:</strong>
+        نضع المعادلة التي تملك أكبر معامل لـ x1 أولاً، وأكبر معامل لـ x2 ثانياً، وأكبر معامل لـ x3 ثالثاً:
+        <div class="math-block" style="text-align:right; font-family:'Cairo'; font-size:10pt;">
+<div>(1) &emsp; <strong>8x<sub>1</sub> + x<sub>2</sub> + x<sub>3</sub> = 26</strong> &emsp; &implies; |8| &gt; |1| + |1| = 2 &emsp; <span style="color:#16a34a; font-weight:bold;">&check; محقق للقطر الأول</span></div>
+<div>(2) &emsp; <strong>3x<sub>1</sub> + 5x<sub>2</sub> &minus; x<sub>3</sub> = 7</strong> &emsp; &implies; |5| &gt; |3| + |-1| = 4 &emsp; <span style="color:#16a34a; font-weight:bold;">&check; محقق للقطر الثاني</span></div>
+<div>(3) &emsp; <strong>x<sub>1</sub> &minus; x<sub>2</sub> + 5x<sub>3</sub> = 7</strong> &emsp; &implies; |5| &gt; |1| + |-1| = 2 &emsp; <span style="color:#16a34a; font-weight:bold;">&check; محقق للقطر الثالث</span></div>
+</div>
+    </li>
+    <li><strong>كتابة صيغ التكرار لعزل المتغيرات:</strong>
+        <div class="math-block">x<sub>1</sub><sup>(k+1)</sup> = <span class="frac"><span class="num">26 &minus; x<sub>2</sub><sup>(k)</sup> &minus; x<sub>3</sub><sup>(k)</sup></span><span class="denom">8</span></span>, &emsp; x<sub>2</sub><sup>(k+1)</sup> = <span class="frac"><span class="num">7 &minus; 3x<sub>1</sub><sup>(k)</sup> + x<sub>3</sub><sup>(k)</sup></span><span class="denom">5</span></span>, &emsp; x<sub>3</sub><sup>(k+1)</sup> = <span class="frac"><span class="num">7 &minus; x<sub>1</sub><sup>(k)</sup> + x<sub>2</sub><sup>(k)</sup></span><span class="denom">5</span></span></div>
+    </li>
+    <li><strong>حساب التكرارات ابتداءً من X^(0) = [0, 0, 0]^T:</strong>
+        <ul>
+            <li><strong>التكرار الأول (k = 0):</strong>
+                x1^(1) = (26 - 0 - 0) / 8 = 3.25<br>
+                x2^(1) = (7 - 0 + 0) / 5 = 1.4<br>
+                x3^(1) = (7 - 0 + 0) / 5 = 1.4
+            </li>
+            <li><strong>التكرار الثاني (k = 1):</strong>
+                x1^(2) = (26 - 1.4 - 1.4) / 8 = 23.2 / 8 = 2.90<br>
+                x2^(2) = (7 - 3(3.25) + 1.4) / 5 = (7 - 9.75 + 1.4) / 5 = -1.35 / 5 = -0.27<br>
+                x3^(2) = (7 - 3.25 + 1.4) / 5 = 5.15 / 5 = 1.03
+            </li>
+        </ul>
+    </li>
+</ol>
+</div>
+
+<!-- الفصل الخامس: الاستيفاء الرياضي (لاجرانج) -->
+<div class="page-break"></div>
+<h1 class="section-title">الفصل الخامس: الاستيفاء الرياضي وتوفيق المنحنيات (Interpolation) <span class="tag tag-confirmed">🟢 المحاضرة 6</span></h1>
+
+<h2 class="topic-title">طريقة كثيرات حدود لاجرانج (Lagrange Polynomials)</h2>
+
+<h3 class="subtopic-title">1. الفكرة الأساسية وملاحظة الدكتور:</h3>
+<p>كتب الدكتور على السبورة وفي الدفتر (صفحة 36 من الدفتر): <em>"طريقة لاجرانج وظيفتها الأساسية هي إيجاد دالة تمر بمجموعة من النقاط وصورها"</em>. إذا كان لدينا n+1 نقطة، فإننا نستطيع إيجاد كثيرة حدود وحيدة من الدرجة n تمر بدقة بجميع تلك النقاط.</p>
+
+<h3 class="subtopic-title">2. القوانين الأساسية:</h3>
+<div class="math-block">
+P<sub>n</sub>(x) = &sum;<sub>j=0</sub><sup>n</sup> L<sub>j</sub>(x) f(x<sub>j</sub>) = L<sub>0</sub>(x) f(x<sub>0</sub>) + L<sub>1</sub>(x) f(x<sub>1</sub>) + &hellip; + L<sub>n</sub>(x) f(x<sub>n</sub>)
+</div>
+<p>حيث L_j(x) هي كثيرات حدود الأساس للاجرانج، وتُعطى بصيغة المضروب:</p>
+<div class="math-block">
+L<sub>j</sub>(x) = &prod;<sub>k &ne; j</sub> <span class="frac"><span class="num">x &minus; x<sub>k</sub></span><span class="denom">x<sub>j</sub> &minus; x<sub>k</sub></span></span>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">3. مثال المحاضرة والسبورة المحلول بالتفصيل (صفحة 22 من الصور وصفحة 37 من الدفتر):</h3>
+<div class="box box-note">
+    <strong>نص المسألة:</strong> أوجد كثيرة حدود لاجرانج التي تستوفي جدول البيانات التالي:
+    <table class="academic-table" style="max-width:320px; margin:auto;">
+<tr><th>i</th><th>0</th><th>1</th><th>2</th></tr>
+<tr><td>x<sub>i</sub></td><td>1</td><td>2</td><td>3</td></tr>
+<tr><td>f(x<sub>i</sub>)</td><td>1</td><td>4</td><td>9</td></tr>
+</table>
+</div>
+<p><strong>الحل بالتفصيل الممل كما دونه الدكتور:</strong></p>
+<ol>
+    <li><strong>حساب كثيرات حدود الأساس:</strong>
+        L0(x) = ((x - 2)(x - 3)) / ((1 - 2)(1 - 3)) = (x^2 - 5x + 6) / 2<br>
+        L1(x) = ((x - 1)(x - 3)) / ((2 - 1)(2 - 3)) = -(x^2 - 4x + 3) = -x^2 + 4x - 3<br>
+        L2(x) = ((x - 1)(x - 2)) / ((3 - 1)(3 - 2)) = (x^2 - 3x + 2) / 2
+    </li>
+    <li><strong>التركيب والتعويض في P2(x):</strong>
+        P2(x) = L0(x) * (1) + L1(x) * (4) + L2(x) * (9)<br>
+        P2(x) = (x^2 - 5x + 6)/2 + 4(-x^2 + 4x - 3) + 9(x^2 - 3x + 2)/2<br>
+        نجمع الكسر الأول والثالث: (10x^2 - 32x + 24)/2 = 5x^2 - 16x + 12<br>
+        نضيف الحد الأوسط: (5x^2 - 16x + 12) + (-4x^2 + 16x - 12) = x^2<br>
+        <strong>النتيجة النهائية:</strong> كثيرة الحدود الناتجة هي: <span class="math-inline">P(x) = x^2</span> وهي مطابقة تماماً لمربعات الأعداد المعطاة في الجدول!
+    </li>
+</ol>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">4. كود MATLAB المعتمد للاجرانج (صفحة 40-41 من الدفتر):</h3>
+<pre class="matlab-code">
+<span class="code-keyword">function</span> lagrang(s, f)
+<span class="code-comment">% s: نقاط المتغير المستقل [x0, x1, x2]</span>
+<span class="code-comment">% f: قيم الدالة المناظرة [y0, y1, y2]</span>
+n = length(s);
+syms x;
+P = 0;
+<span class="code-keyword">for</span> i = 1:n
+    L = 1;
+    <span class="code-keyword">for</span> j = 1:n
+        <span class="code-keyword">if</span> i ~= j
+            L = L * (x - s(j)) / (s(i) - s(j));
+        <span class="code-keyword">end</span>
+    <span class="code-keyword">end</span>
+    P = P + L * f(i);
+<span class="code-keyword">end</span>
+disp('كثيرة حدود لاجرانج المبسطة:');
+disp(simplify(P));
+<span class="code-keyword">end</span></pre>
+</div>
+
+<!-- الفصل السادس: التفاضل والتكامل العددي -->
+<div class="page-break"></div>
+<h1 class="section-title">الفصل السادس: التفاضل والتكامل العددي (Numerical Calculus) <span class="tag tag-confirmed">🟢 سبورة المحاضرات المتقدمة</span></h1>
+
+<h2 class="topic-title">1. التفاضل العددي عبر متسلسلة تايلور (Taylor Series)</h2>
+<p>اشتق الدكتور على السبورة (صفحة 28 من الصور) صيغ الفروق المنتهية لحساب المشتقة الأولى عددياً انطلاقاً من مفكوك تايلور:</p>
+<div class="math-block">
+f(x<sub>0</sub> + h) = f(x<sub>0</sub>) + h f'(x<sub>0</sub>) + <span class="frac"><span class="num">h<sup>2</sup></span><span class="denom">2!</span></span> f''(x<sub>0</sub>) + <span class="frac"><span class="num">h<sup>3</sup></span><span class="denom">3!</span></span> f'''(x<sub>0</sub>) + &hellip;
+</div>
+<div class="math-block">
+f(x<sub>0</sub> &minus; h) = f(x<sub>0</sub>) &minus; h f'(x<sub>0</sub>) + <span class="frac"><span class="num">h<sup>2</sup></span><span class="denom">2!</span></span> f''(x<sub>0</sub>) &minus; <span class="frac"><span class="num">h<sup>3</sup></span><span class="denom">3!</span></span> f'''(x<sub>0</sub>) + &hellip;
+</div>
+<ul>
+    <li><strong>صيغة الفرق الأمامي (Forward Difference):</strong> f'(x0) ≈ (f(x0 + h) - f(x0)) / h (دقة O(h)).</li>
+    <li><strong>صيغة الفرق الخلفي (Backward Difference):</strong> f'(x0) ≈ (f(x0) - f(x0 - h)) / h (دقة O(h)).</li>
+    <li><strong>صيغة الفرق المركزي (Central Difference - ناتجة عن طرح المعادلتين):</strong>
+        f'(x0) ≈ (f(x0 + h) - f(x0 - h)) / (2h) &nbsp; بنسبة خطأ أدق بكثير O(h^2)
+    </li>
+</ul>
+
+<h2 class="topic-title">2. التكامل العددي: قاعدة شبه المنحرف المركبة (Composite Trapezoidal Rule)</h2>
+<p>تستخدم لتقريب التكامل المحدد للدوال المعقدة أو المعطاة في جداول نقاط. تقسم المساحة تحت المنحنى إلى n من أشباه المنحرفات بعرض متساوٍ h = (b - a) / n.</p>
+<div class="math-block">
+&int;<sub>a</sub><sup>b</sup> f(x) dx &approx; <span class="frac"><span class="num">h</span><span class="denom">2</span></span> [ y<sub>0</sub> + 2y<sub>1</sub> + 2y<sub>2</sub> + &hellip; + 2y<sub>n&minus;1</sub> + y<sub>n</sub> ]
+</div>
+<div class="math-block">
+<span style="font-family:'Cairo'; font-weight:bold;">صيغة الحد الأعلى للخطأ:</span> &emsp; |E| &le; <span class="frac"><span class="num">b &minus; a</span><span class="denom">12</span></span> h<sup>2</sup> max<sub>a &le; x &le; b</sub> |f''(x)|
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">3. مثال المحاضرة الشامل على السبورة (صفحة 30 من الصور):</h3>
+<div class="box box-note">
+    <strong>احسب التكامل التالي عددياً مع تقدير الخطأ:</strong> integral from 0 to 1 of 1/(1 + x^2) dx باستخدام قاعدة شبه المنحرف مع n = 4.
+</div>
+<p><strong>الحل بالأرقام كما دونه الدكتور حرفياً:</strong></p>
+<ol>
+    <li>حساب عرض الشريحة: h = (1 - 0) / 4 = 0.25.</li>
+    <li>جدول النقاط وصورها:
+        <table class="academic-table" style="max-width:480px; margin:auto;">
+<tr><th>i</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+<tr><td>x<sub>i</sub></td><td>0.00</td><td>0.25</td><td>0.50</td><td>0.75</td><td>1.00</td></tr>
+<tr><td>y<sub>i</sub></td><td>1.0000</td><td>0.9412</td><td>0.8000</td><td>0.6400</td><td>0.5000</td></tr>
+</table>
+    </li>
+    <li>تطبيق القانون:
+        I ≈ (0.25 / 2) [1.0000 + 2(0.9412 + 0.8000 + 0.6400) + 0.5000]<br>
+        I ≈ 0.125 [1.5000 + 2(2.3812)] = 0.125 [1.5000 + 4.7624] = 0.125 * 6.2624 ≈ 0.7828
+    </li>
+    <li><strong>حساب حد الخطأ:</strong>
+        f'(x) = -2x / (1 + x^2)^2 => f''(x) = (6x^2 - 2) / (1 + x^2)^3<br>
+        على الفترة [0, 1]: أقصى قيمة مطلقة للمشتقة الثانية هي عند x = 0 حيث |f''(0)| = 2.<br>
+        |E| <= (1 - 0)/12 * (0.25)^2 * 2 = (1/12) * 0.0625 * 2 = 0.125 / 12 ≈ 0.0104.
+    </li>
+</ol>
+</div>
+
+<!-- بنك القوانين الشامل ورقة القوانين السريعة -->
+<div class="page-break"></div>
+<h1 class="section-title">بنك القوانين الشامل وورقة المراجعة السريعة <span class="tag tag-study">🔵 Cheat Sheet</span></h1>
+
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th>الطريقة</th>
+            <th>الصيغة والقانون الرياضي</th>
+            <th>شروط الاستخدام</th>
+            <th>صيغة التوقف / الخطأ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>التنصيف (Bisection)</strong></td>
+            <td>p = (a + b) / 2</td>
+            <td>f(a) * f(b) < 0</td>
+            <td>|b - a| <= epsilon أو |p_k - p<sub>k-1</sub>| <= epsilon</td>
+        </tr>
+        <tr>
+            <td><strong>عدد خطوات التنصيف</strong></td>
+            <td>n + 1 >= (log(b - a) + k) / log(2)</td>
+            <td>معرفة الدقة epsilon = 10^-k مسبقاً</td>
+            <td>تعطي الحد الأدنى للخطوات n</td>
+        </tr>
+        <tr>
+            <td><strong>نيوتن - رافسون</strong></td>
+            <td>x<sub>k+1</sub> = x_k - f(x_k)/f'(x_k)</td>
+            <td>f'(x_k) != 0 ونقطة بداية قريبة</td>
+            <td>|x<sub>k+1</sub> - x_k| <= epsilon</td>
+        </tr>
+        <tr>
+            <td><strong>طريقة القاطع</strong></td>
+            <td>x<sub>k+1</sub> = x_k - (f(x_k)(x_k - x<sub>k-1</sub>)) / (f(x_k) - f(x<sub>k-1</sub>))</td>
+            <td>تحتاج نقطتين ابتدائيتين x0, x1</td>
+            <td>|x<sub>k+1</sub> - x_k| <= epsilon</td>
+        </tr>
+        <tr>
+            <td><strong>حذف جاوس</strong></td>
+            <td>R_i - (a<sub>ik</sub>/a<sub>kk</sub>) R_k -> R_i</td>
+            <td>عنصر الارتكاز a<sub>kk</sub> != 0</td>
+            <td>مصفوفة مثلثية عليا ثم تعويض عكسي</td>
+        </tr>
+        <tr>
+            <td><strong>تكرار جاكوبي</strong></td>
+            <td>x_i^(k+1) = (b_i - sum<sub>j!=i</sub> a<sub>ij</sub> x_j^k) / a<sub>ii</sub></td>
+            <td>الهيمنة القطرية: |a<sub>ii</sub>| > sum |a<sub>ij</sub>|</td>
+            <td>||X^(k+1) - X^k|| <= epsilon</td>
+        </tr>
+        <tr>
+            <td><strong>استيفاء لاجرانج</strong></td>
+            <td>P(x) = sum L_j(x) f(x_j), L_j = prod (x - x_k)/(x_j - x_k)</td>
+            <td>النقاط x_i متمايزة تماماً</td>
+            <td>حل مباشر لكثيرة الحدود</td>
+        </tr>
+        <tr>
+            <td><strong>الفرق المركزي</strong></td>
+            <td>f'(x0) ≈ (f(x0 + h) - f(x0 - h)) / (2h)</td>
+            <td>خطوة متساوية h في الاتجاهين</td>
+            <td>دقة من الرتبة الثانية O(h^2)</td>
+        </tr>
+        <tr>
+            <td><strong>شبه المنحرف المركبة</strong></td>
+            <td>I ≈ (h/2) [y0 + 2*sum(y_i) + yn]</td>
+            <td>h = (b - a)/n</td>
+            <td>|E| <= ((b - a)/12) * h^2 * max|f''|</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- شجرة القرار واختيار الطريقة -->
+<h2 class="topic-title">شجرة القرار: كيف تختار الطريقة المناسبة في الاختبار؟ <span class="tag tag-study">🔵 Decision Tree</span></h2>
+<div class="box box-rule">
+    <div style="font-size: 9.5pt; line-height: 1.8;">
+        <strong>1. إذا كان المطلوب في السؤال إيجاد "جذر معادلة" f(x) = 0:</strong><br>
+        &nbsp;&nbsp;← هل أعطاك فترة [a, b] وطلب طريقة حاصرة ومضمونة؟ ➔ <strong>طريقة التنصيف (Bisection)</strong>.<br>
+        &nbsp;&nbsp;← هل أعطاك نقطة واحدة x0 أو طلب أسرع طريقة؟ ➔ <strong>طريقة نيوتن - رافسون (Newton-Raphson)</strong> (اشتق الدالة أولاً!).<br>
+        &nbsp;&nbsp;← هل أعطاك نقطتين x0, x1 بدون طلب اشتقاق تحليلي؟ ➔ <strong>طريقة القاطع (Secant)</strong>.<br><br>
+        <strong>2. إذا كان المطلوب "حل نظام معادلات خطية" AX = B:</strong><br>
+        &nbsp;&nbsp;← هل طلب الحل بالعمليات السطرية والمصفوفة الموسعة؟ ➔ <strong>حذف جاوس (Gaussian Elimination)</strong>.<br>
+        &nbsp;&nbsp;← هل طلب المحددات؟ ➔ <strong>طريقة كرامر (Cramer's Rule)</strong>.<br>
+        &nbsp;&nbsp;← هل طلب طريقة تكرارية ابتداءً من X^(0)؟ ➔ <strong>طريقة جاكوبي (Jacobi)</strong> (افحص الهيمنة القطرية أولاً!).<br><br>
+        <strong>3. إذا كان المطلوب "إيجاد دالة أو قيمة مجهولة بين نقاط جدولية":</strong><br>
+        &nbsp;&nbsp;➔ <strong>استيفاء لاجرانج (Lagrange Interpolation)</strong>.<br><br>
+        <strong>4. إذا كان المطلوب "حساب مساحة أو تكامل عددي":</strong><br>
+        &nbsp;&nbsp;➔ <strong>قاعدة شبه المنحرف المركبة (Composite Trapezoidal Rule)</strong>.
+    </div>
+</div>
+
+<!-- مصفوفة المقارنة الشاملة -->
+<div class="page-break"></div>
+<h1 class="section-title">مصفوفة المقارنة المعيارية الشاملة بين الطرق العددية</h1>
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th>الطريقة</th>
+            <th>نوع المدخلات</th>
+            <th>سرعة التقارب</th>
+            <th>أهم ميزة</th>
+            <th>أكبر قيد / سبب الفشل</th>
+            <th>ماذا يجب أن تحفظ؟</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>التنصيف</strong></td>
+            <td>فترة [a,b] مع اختلاف الإشارة</td>
+            <td>خطي بطيء (1/2)</td>
+            <td>مضمونة التقارب دائماً</td>
+            <td>بطيئة جداً في العمليات اليدوية</td>
+            <td>قانون p = (a+b)/2 وقانون n+1</td>
+        </tr>
+        <tr>
+            <td><strong>نيوتن-رافسون</strong></td>
+            <td>نقطة x0 والدالة والمشتقة</td>
+            <td>تربيعي فائق O(h^2)</td>
+            <td>أسرع الطرق وتقارب هائل</td>
+            <td>تنهار عند f'(x) ≈ 0</td>
+            <td>الاشتقاق الهندسي وقانون التكرار</td>
+        </tr>
+        <tr>
+            <td><strong>القاطع</strong></td>
+            <td>نقطتان x0, x1</td>
+            <td>فوق خطي (1.62)</td>
+            <td>لا تحتاج لحساب مشتقة</td>
+            <td>قد تتباعد إذا كانت البداية سيئة</td>
+            <td>صيغة القاطع الكسرية</td>
+        </tr>
+        <tr>
+            <td><strong>حذف جاوس</strong></td>
+            <td>المصفوفة الموسعة [A|B]</td>
+            <td>مباشرة في n خطوات</td>
+            <td>تعطي الحل الدقيق</td>
+            <td>أخطاء التقريب إذا كان Pivot صغيراً</td>
+            <td>معامل التحويل -a<sub>ik</sub>/a<sub>kk</sub></td>
+        </tr>
+        <tr>
+            <td><strong>جاكوبي</strong></td>
+            <td>نظام خطي و X^(0)</td>
+            <td>تكراري تقريبي</td>
+            <td>ممتازة للأنظمة الكبيرة</td>
+            <td>تشترط الهيمنة القطرية الحتمية</td>
+            <td>شرط الهيمنة وصيغة التكرار</td>
+        </tr>
+        <tr>
+            <td><strong>لاجرانج</strong></td>
+            <td>نقاط جدولية (x_i, y_i)</td>
+            <td>مباشرة</td>
+            <td>صيغة كثيرة حدود مباشرة</td>
+            <td>صعوبة التعديل عند إضافة نقاط</td>
+            <td>صيغة جداء الأساس L_j(x)</td>
+        </tr>
+        <tr>
+            <td><strong>شبه المنحرف</strong></td>
+            <td>دالة وحدود تكامل و n</td>
+            <td>من الرتبة الثانية O(h^2)</td>
+            <td>بسيطة وقابلة للتطبيق لأي دالة</td>
+            <td>تتطلب تقسيمات كثيرة للدقة العالية</td>
+            <td>قانون المجموع وصيغة حد الخطأ</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- قوالب الحل في ورقة الاختبار -->
+<h2 class="topic-title">قوالب الحل الثابتة في ورقة الاختبار (Standard Exam Templates)</h2>
+<div class="grid-2">
+    <div class="box box-note">
+        <div class="box-title">📝 قالب إجابة مسألة نيوتن-رافسون:</div>
+        <div style="font-size: 8.5pt;">
+            1. اكتب f(x) ثم احسب مشتقتها f'(x) بوضوح.<br>
+            2. اكتب قانون التكرار: x<sub>k+1</sub> = x_k - f(x_k)/f'(x_k).<br>
+            3. أنشئ جدولاً بالأعمدة الـ 5 المعتمدة.<br>
+            4. احسب السطر الأول i=0 والسطر الثاني i=1 بالتفصيل على الهامش.<br>
+            5. اختبر شرط الخطأ |x<sub>k+1</sub> - x_k| <= epsilon.<br>
+            6. اكتب السطر الختامي: <em>"الجذر التقريبي المطلوب هو x ≈ ... بعدد تكرارات k = ..."</em>.
+        </div>
+    </div>
+    <div class="box box-tip">
+        <div class="box-title">📝 قالب إجابة مسألة جاكوبي:</div>
+        <div style="font-size: 8.5pt;">
+            1. <strong>خطوة إلزامية:</strong> افحص شرط الهيمنة القطرية لكل صف.<br>
+            2. إذا كان غير محقق، اكتب: <em>"بما أن الشرط غير محقق، نقوم بإعادة ترتيب المعادلات كالتالي..."</em>.<br>
+            3. اعزل كل متغير في طرف: x1 = ..., x2 = ..., x3 = ...<br>
+            4. عوّض X^(0) = [0, 0, 0]^T لحساب المتجه X^(1).<br>
+            5. عوّض قيم X^(1) لحساب المتجه X^(2).<br>
+            6. اكتب المتجه النهائي بوضوح داخل قوسين عموديين.
+        </div>
+    </div>
+</div>
+
+<!-- بنك الأسئلة التدريبي الشامل -->
+<div class="page-break"></div>
+<h1 class="section-title">بنك الأسئلة التدريبي الشامل (Comprehensive Practice Bank)</h1>
+
+<h2 class="topic-title">أ. أسئلة المفاهيم والمقارنات النظرية</h2>
+<div class="box box-question">
+    <strong>س1:</strong> قارن بين طريقة التنصيف وطريقة نيوتن-رافسون من حيث: سرعة التقارب، المدخلات الابتدائية المطلوبة، وإمكانية فشل الطريقة.
+</div>
+<div class="box box-question">
+    <strong>س2:</strong> ما المقصود بمصفوفة مهيمنة قطرياً (Diagonally Dominant)؟ ولماذا يعتبر هذا الشرط حاسماً في طريقة جاكوبي؟
+</div>
+<div class="box box-question">
+    <strong>س3:</strong> اشتق هندسياً قانون طريقة القاطع (Secant Method) انطلاقاً من معادلة الخط المستقيم المار بالنقطتين (x0, f(x0)) و (x1, f(x1)).
+</div>
+
+<h2 class="topic-title">ب. المسائل الحسابية التكرارية</h2>
+<div class="box box-question">
+    <strong>س4 (مسألة تنصيف):</strong> لتكن المعادلة f(x) = x^3 + 4x^2 - 10 = 0 في الفترة [1, 2]:<br>
+    أ) احسب عدد التكرارات الأدنى اللازمة لضمان خطأ لا يتجاوز epsilon = 10^-4 مسبقاً.<br>
+    ب) نفّذ أول 3 تكرارات بطريقة التنصيف ونظم حلك في جدول كامل.
+</div>
+<div class="box box-question">
+    <strong>س5 (مسألة نيوتن):</strong> أوجد جذر المعادلة f(x) = cos(x) - x = 0 باستخدام طريقة نيوتن-رافسون بنقطة بداية x0 = 0.5 ودقة epsilon = 0.001 (تأكد من ضبط الآلة على Radian!).
+</div>
+<div class="box box-question">
+    <strong>س6 (أنظمة خطية):</strong> حل النظام الخطي التالي باستخدام طريقة حذف جاوس مع التعويض العكسي:
+    <div class="math-block">x<sub>1</sub> + 2x<sub>2</sub> + x<sub>3</sub> = 8 &emsp;&emsp; 2x<sub>1</sub> + 3x<sub>2</sub> + 4x<sub>3</sub> = 20 &emsp;&emsp; 4x<sub>1</sub> + 3x<sub>2</sub> + 2x<sub>3</sub> = 16</div>
+</div>
+<div class="box box-question">
+    <strong>س7 (تكامل عددي):</strong> احسب التكامل integral from 1 to 2 of (1/x) dx باستخدام قاعدة شبه المنحرف المركبة مع n = 4، ثم قارن النتيجة بالقيمة الحقيقية ln(2) ≈ 0.69315 واحسب الخطأ الحقيقي والحد الأعلى النظري للخطأ.
+</div>
+
+<h2 class="topic-title">ج. أسئلة البرمجة في MATLAB</h2>
+<div class="box box-question">
+    <strong>س8:</strong> اكتب دالة ماتلاب كاملة باسم <code>function [x, iter] = my_newton(f, df, x0, tol, max_iter)</code> لحل المعادلة غير الخطية بطريقة نيوتن-رافسون مع طباعة تحذير في حال كانت المشتقة قريبة جداً من الصفر.
+</div>
+
+<!-- اختبار المحاكاة النهائي -->
+<div class="page-break"></div>
+<h1 class="section-title">اختبار المحاكاة النهائي الشامل (Simulated Final Exam)</h1>
+<div class="box box-note" style="text-align: center;">
+    <strong>اختبار نهاية الفصل الدراسي لمقرر: التحليل العددي (Numerical Analysis)</strong><br>
+    <em>الزمن المخصص: ساعتان ونصف | الدرجة الكلية: 100 درجة</em>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">السؤال الأول: (25 درجة)</h3>
+<p>أ) اشتق بيانياً صيغة قانون نيوتن - رافسون موضحاً الرسم البياني ومعادلة المماس ونقطة التقاطع بالتفصيل. (10 درجات)<br>
+ب) باستخدام طريقة نيوتن-رافسون، أوجد الجذر التقريبي للمعادلة f(x) = x^3 - 2x^2 + x - 3 = 0 في الفترة [2, 3] بنقطة بداية x0 = 2.2، وأكمل الحل لخطوتين تكراريتين (x1, x2) مع تنظيم جدول التكرارات وحساب الخطأ المطلق في كل خطوة. (15 درجة)</p>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">السؤال الثاني: (25 درجة)</h3>
+<p>ليكن لديك نظام المعادلات الخطية التالي:
+<div class="math-block">2x<sub>1</sub> + x<sub>2</sub> &minus; x<sub>3</sub> = &minus;1 &emsp;&emsp; 3x<sub>1</sub> + 5x<sub>2</sub> + 2x<sub>3</sub> = 2 &emsp;&emsp; 4x<sub>1</sub> &minus; x<sub>2</sub> &minus; 2x<sub>3</sub> = 1</div>
+1. اكتب المصفوفة الموسعة للنظام [A|B]. (3 درجات)<br>
+2. حول المصفوفة الموسعة إلى مصفوفة مثلثية عليا باستخدام عمليات الصف البسيط لحذف جاوس (مع توضيح كل معامل ضرب بالتفصيل). (12 درجة)<br>
+3. أوجد قيم المتغيرات (x1, x2, x3) باستخدام التعويض العكسي خطوة بخطوة. (10 درجات)</p>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">السؤال الثالث: (20 درجة)</h3>
+<p>أعطيت النظام الخطي التالي:
+<div class="math-block">3x<sub>1</sub> + 5x<sub>2</sub> &minus; x<sub>3</sub> = 7 &emsp;&emsp; 8x<sub>1</sub> + x<sub>2</sub> + x<sub>3</sub> = 26 &emsp;&emsp; x<sub>1</sub> &minus; x<sub>2</sub> + 5x<sub>3</sub> = 7</div>
+1. اختبر شرط الهيمنة القطرية، وبيّن لماذا لا يجوز تطبيق طريقة جاكوبي مباشرة عليه. (6 درجات)<br>
+2. أعد ترتيب صفوف المعادلات ليكون النظام مهيمناً قطرياً بالبرهان الرياضي. (6 درجات)<br>
+3. بافتراض X^(0) = [0, 0, 0]^T، احسب قيم المتجه في التكرار الأول X^(1) والتكرار الثاني X^(2) بطريقة جاكوبي. (8 درجات)</p>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">السؤال الرابع: (15 درجة)</h3>
+<p>أوجد كثيرة حدود لاجرانج P2(x) التي تستوفي النقاط: (1, 1), (2, 4), (3, 9) موضحاً حساب كثيرات حدود الأساس L0(x), L1(x), L2(x)، ثم بسط كثيرة الحدود الناتجة، واستنتج قيمة الدالة عند x = 1.5. (15 درجة)</p>
+</div>
+
+<div class="avoid-break">
+<h3 class="subtopic-title">السؤال الخامس: (15 درجة)</h3>
+<p>احسب قيمة التكامل integral from 0 to 1 of 1/(1 + x^2) dx باستخدام قاعدة شبه المنحرف المركبة مع n = 4، ثم احسب الحد الأعلى للخطأ المرتكب. واكتب كود دالة الماتلاب function bisc لطريقة التنصيف. (15 درجة)</p>
+</div>
+
+<!-- نموذج الإجابة النموذجي لاختبار المحاكاة -->
+<div class="page-break"></div>
+<h1 class="section-title">نموذج الإجابة النموذجي لاختبار المحاكاة وتوزيع الدرجات</h1>
+
+<div class="box box-tip">
+    <strong>حل السؤال الأول (25 درجة):</strong><br>
+    <strong>أ) الاشتقاق (10 درجات):</strong> رسم المنحنى والمماس عند (x0, f(x0)) (3 درجات) ← كتابة معادلة المماس y - f(x0) = f'(x0)(x - x0) (3 درجات) ← التعويض بـ y = 0 والوصول للصيغة x1 = x0 - f(x0)/f'(x0) (4 درجات).<br>
+    <strong>ب) المسألة الحسابية (15 درجة):</strong> المشتقة f'(x) = 3x^2 - 4x + 1 (3 درجات) ← حساب x1 = 2.1750 والخطأ 0.025 (5 درجات) ← حساب x2 = 2.1745 والخطأ 0.0005 (5 درجات) ← تنظيم الجدول والنتيجة النهائية (2 درجات).
+</div>
+
+<div class="box box-tip">
+    <strong>حل السؤال الثاني (25 درجة):</strong><br>
+    <strong>1) المصفوفة الموسعة (3 درجات):</strong> كتابتها بشكل سليم [A|B].<br>
+    <strong>2) الحذف الأمامي (12 درجة):</strong> تصفير العمود الأول -(3/2) R1 + R2 و -2 R1 + R3 (6 درجات) ← تصفير العمود الثاني (6/7) R2 + R3 والوصول للمصفوفة المثلثية [0, 0, 3 | 6] (6 درجات).<br>
+    <strong>3) التعويض العكسي (10 درجات):</strong> حساب x3 = 2 (3 درجات) ← حساب x2 = -1 (3 درجات) ← حساب x1 = 1 (4 درجات).
+</div>
+
+<div class="box box-tip">
+    <strong>حل السؤال الثالث (20 درجة):</strong><br>
+    <strong>1) فحص الهيمنة (6 درجات):</strong> إثبات أن |3| < 6 و |1| < 9 وتوضيح أن التكرار سيتباعد.<br>
+    <strong>2) إعادة الترتيب (6 درجات):</strong> ترتيب المعادلات ليصبح القطر 8, 5, 5 وإثبات تحقق الشروط 8 > 2, 5 > 4, 5 > 2.<br>
+    <strong>3) التكرارات (8 درجات):</strong> صيغ العزل (2 درجات) ← حساب X^(1) = [3.25, 1.40, 1.40]^T (3 درجات) ← حساب X^(2) = [2.90, -0.27, 1.03]^T (3 درجات).
+</div>
+
+<div class="box box-tip">
+    <strong>حل السؤال الرابع (15 درجة):</strong><br>
+    حساب L0(x) = (x^2 - 5x + 6)/2 (3 درجات) ← حساب L1(x) = -x^2 + 4x - 3 (3 درجات) ← حساب L2(x) = (x^2 - 3x + 2)/2 (3 درجات) ← التركيب والتبسيط والوصول إلى P2(x) = x^2 (4 درجات) ← تقدير f(1.5) = (1.5)^2 = 2.25 (2 درجات).
+</div>
+
+<div class="box box-tip">
+    <strong>حل السؤال الخامس (15 درجة):</strong><br>
+    حساب طول الفترة h = 0.25 وجدول النقاط والصور (3 درجات) ← تطبيق قانون شبه المنحرف والوصول لـ I ≈ 0.7828 (4 درجات) ← اشتقاق الدالة مرتين وحساب حد الخطأ |E| <= 0.0104 (3 درجات) ← كتابة كود دالة bisc في الماتلاب بشكل سليم (5 درجات).
+</div>
+
+<!-- خطة المذاكرة والمراجعة المتباعدة -->
+<div class="page-break"></div>
+<h1 class="section-title">خطة المذاكرة الاحترافية، جدول المراجعة المتباعدة، وليلة الاختبار</h1>
+
+<h2 class="topic-title">1. خطة المذاكرة الفعالة على 7 مراحل</h2>
+<div class="grid-2">
+    <div class="box box-note">
+        <strong>المرحلة 1: فهم المنطق الرياضي (ساعتان)</strong><br>
+        اقرأ الفكرة الأساسية لكل طريقة: لماذا نقوم بالتنصيف؟ لماذا نحتاج مشتقة في نيوتن؟ لماذا نصفّر أسفل القطر في جاوس؟ لا تحفظ القوانين قبل فهم الفلسفة الهندسية.
+    </div>
+    <div class="box box-rule">
+        <strong>المرحلة 2: حفظ واسترجاع القوانين (ساعة ونصف)</strong><br>
+        أغلق المذكرة واكتب ورقة القوانين السريعة كاملة من ذاكرتك. تأكد من ضبط إشارات القوانين (خاصة إشارة السالب في نيوتن والتعويض العكسي).
+    </div>
+    <div class="box box-tip">
+        <strong>المرحلة 3: التدريب بالأرقام والآلة الحاسبة (3 ساعات)</strong><br>
+        حل المثال المحلول في كل فصل بيدك وبآلتك الحاسبة من البداية للنهاية دون النظر للحل. قارن أرقامك بأرقام المذكرة حتى المنزلة العشرية الرابعة.
+    </div>
+    <div class="box box-warning">
+        <strong>المرحلة 4: تفكيك وتجنب الفخاخ (ساعة واحدة)</strong><br>
+        راجع قسم "الأخطاء الشائعة": اضبط الآلة على Radian، تأكد من فحص الهيمنة القطرية لجاكوبي، وتذكر ضرب الحدود الوسطى في 2 لشبه المنحرف.
+    </div>
+    <div class="box box-note">
+        <strong>المرحلة 5: إتقان الإثباتات وكود MATLAB (ساعتان)</strong><br>
+        تدرّب على رسم مماس نيوتن وكتابة إثباته بالرموز. اكتب قوالب دوال الماتلاب الأربعة (bisc, secant, gauss, lagrang) غيباً.
+    </div>
+    <div class="box box-tip">
+        <strong>المرحلة 6: محاكاة الاختبار الفعلي (ساعتان ونصف)</strong><br>
+        اطبع أو اعرض اختبار المحاكاة الشامل، واضبط مؤقتاً لساعتين ونصف وحل الاختبار كاملاً دون فتح أي مرجع. ثم صحح لنفسك من نموذج الإجابة.
+    </div>
+</div>
+
+<h2 class="topic-title">2. جدول المراجعة المتباعدة (Spaced Repetition Schedule)</h2>
+<table class="academic-table">
+    <thead>
+        <tr>
+            <th>توقيت المراجعة</th>
+            <th>النشاط الأكاديمي المحدد</th>
+            <th>الهدف الذهني والترسيخ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>بعد المذاكرة فوراً</strong></td>
+            <td>إغلاق المذكرة وتسميع القوانين وشروط التوقف شفهياً وكتابة شجرة القرار.</td>
+            <td>نقل المعلومات من الذاكرة اللحظية إلى الذاكرة قصيرة المدى.</td>
+        </tr>
+        <tr>
+            <td><strong>بعد 24 ساعة (اليوم التالي)</strong></td>
+            <td>حل مسألة واحدة غير محلولة من بنك الأسئلة لكل طريقة عددية.</td>
+            <td>كسر منحنى النسيان الأول واكتشاف الثغرات الحسابية مبكراً.</td>
+        </tr>
+        <tr>
+            <td><strong>بعد 3 أيام</strong></td>
+            <td>حل مسائل مختلطة تتطلب تحديد الطريقة أولاً قبل الحل.</td>
+            <td>بناء مهارة التمييز والربط بين صيغة السؤال ونوع المسألة.</td>
+        </tr>
+        <tr>
+            <td><strong>قبل الاختبار بـ 24 ساعة</strong></td>
+            <td>مراجعة صفحة "ليلة الاختبار" وقائمة الفحص (Checklist) واختبار المحاكاة.</td>
+            <td>تثبيت الثقة وهدوء الأعصاب وضمان الجاهزية التامة.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- صفحة ليلة الاختبار وقائمة الفحص -->
+<div class="page-break"></div>
+<h1 class="section-title">صفحة "ليلة الاختبار" وقائمة الفحص قبل دخول القاعة <span class="tag tag-study">🔵 Final Checklist</span></h1>
+
+<div class="box box-warning">
+    <div class="box-title">🌙 ملخص ليلة الاختبار السريع (راجع هذه النقاط قبل النوم مباشرة):</div>
+    <ul style="margin: 5px 0; padding-right: 20px; font-size: 9.5pt;">
+        <li><strong>نيوتن-رافسون:</strong> القانون x<sub>k+1</sub> = x_k - f(x_k)/f'(x_k) | الإثبات من المماس y - y0 = f'(x0)(x - x0) | الجدول 5 أعمدة.</li>
+        <li><strong>التنصيف:</strong> p = (a + b)/2 | f(a)f(b) < 0 | عدد الخطوات: n + 1 >= (log(b - a) + k) / log(2).</li>
+        <li><strong>حذف جاوس:</strong> تحويل [A|B] لمثلثية عليا باستخدام -a<sub>ik</sub>/a<sub>kk</sub> R_k + R_i -> R_i ثم تعويض عكسي من الأسفل للأعلى.</li>
+        <li><strong>جاكوبي:</strong> افحص الهيمنة القطرية |a<sub>ii</sub>| > sum |a<sub>ij</sub>| أولاً! إذا فشلت، رتب المعادلات فوراً قبل البدء بـ X^(0).</li>
+        <li><strong>لاجرانج:</strong> P(x) = sum L_j(x) f(x_j) | تذكر أن بسط L_j(x) يخلو تماماً من (x - x_j) ومقامه أرقام ثابتة.</li>
+        <li><strong>شبه المنحرف:</strong> I ≈ (h/2) [y0 + 2*sum(y_i) + yn] | الخطأ: |E| <= ((b-a)/12) * h^2 * max|f''|.</li>
+        <li><strong>الماتلاب:</strong> <code>function</code> في أول سطر | الفاصلة المنقوطة <code>;</code> لمنع المخرجات | العمليات النقطية <code>.*</code> و <code>.^</code>.</li>
+    </ul>
+</div>
+
+<h2 class="topic-title">قائمة الفحص النهائي قبل دخول قاعة الاختبار (Exam Checklist)</h2>
+<div class="box box-rule">
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>نظام الآلة الحاسبة:</strong> تأكدت من تحويل الآلة الحاسبة إلى نظام <strong>الراديان (RAD)</strong> وليس الدرجات (DEG).</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>دقة الحسابات:</strong> عاهدت نفسي على تثبيت <strong>4 منازل عشرية</strong> في جميع الجداول والحسابات التكرارية.</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>إثبات نيوتن:</strong> أستطيع رسم المنحنى والمماس واستنتاج قانون نيوتن-رافسون في أقل من دقيقتين.</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>فحص جاكوبي:</strong> لن أبدأ بحل جاكوبي إطلاقاً قبل كتابة سطر فحص القطر الرئيسي وتبديل المعادلات إن لزم.</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>تصفير جاوس:</strong> سأكتب معامل التحويل بجوار كل سهم صف بوضوح: (-a<sub>ik</sub>/a<sub>kk</sub>) R_k + R_i -> R_i.</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>أقواس لاجرانج:</strong> حذرت من نسيان إشارات السالب عند فك أقواس كثيرات حدود الأساس.</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>معاملات شبه المنحرف:</strong> تذكرت أن أضرب الحدود الوسطى فقط في 2، وأن أقسم h على 2 في الخارج.</div></div>
+    <div class="checklist-item"><div class="checkbox"></div> <div><strong>أكواد الماتلاب:</strong> حفظت الهيكل العام لدوال bisc, secant, gauss, lagrang.</div></div>
+</div>
+
+<div style="text-align: center; margin-top: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; border: 1px solid #cbd5e1;">
+    <h3 style="color: #1e3a8a; margin: 0 0 8px 0;">خالص الدعوات لكم بالتوفيق والدرجة الكاملة A+</h3>
+    <p style="color: #64748b; font-size: 9pt; margin: 0;">تم إعداد هذه المذكرة بأعلى المعايير الأكاديمية والتربوية استناداً لملفات وشروحات الدكتور المعتمدة.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المنصة الشاملة للاختبارات وبنك الأسئلة في التحليل العددي | Numerical Analysis Exam Suite</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap');
+
+:root {
+    --primary: #1e3a8a;
+    --primary-light: #3b82f6;
+    --primary-dark: #0f172a;
+    --accent: #0284c7;
+    --accent-light: #38bdf8;
+    --success: #15803d;
+    --success-bg: #dcfce7;
+    --warning: #b45309;
+    --warning-bg: #fef3c7;
+    --danger: #b91c1c;
+    --danger-bg: #fee2e2;
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #cbd5e1;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --code-bg: #0f172a;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.08);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    direction: rtl;
+    text-align: right;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    line-height: 1.65;
+    font-size: 15px;
+}
+
+/* Print Formatting Rules */
+@page {
+    size: A4;
+    margin: 14mm 12mm 16mm 12mm;
+    @bottom-center {
+        content: counter(page);
+        font-family: 'Cairo', sans-serif;
+        font-size: 9pt;
+        color: #64748b;
+    }
+}
+
+@media print {
+    .no-print, .toolbar, .filter-nav, .timer-box, .btn, .interactive-controls, .mcq-btn {
+        display: none !important;
+    }
+    body {
+        background-color: #ffffff;
+        font-size: 11pt;
+    }
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    .exam-section {
+        page-break-before: always;
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+    }
+    .solution-box {
+        display: block !important;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+}
+
+/* Header & Banner */
+.hero-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%);
+    color: #ffffff;
+    padding: 35px 25px;
+    box-shadow: var(--shadow-lg);
+    border-bottom: 4px solid var(--accent-light);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.hero-title-box h1 {
+    font-size: 28px;
+    font-weight: 900;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.hero-title-box p {
+    font-size: 15px;
+    color: #cbd5e1;
+    margin: 0;
+    max-width: 750px;
+}
+
+.hero-badges {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #38bdf8;
+}
+
+/* Interactive Toolbar */
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    padding: 12px 20px;
+}
+
+.toolbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background: #e2e8f0;
+    color: var(--primary);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 2px 4px rgba(30,58,138,0.3);
+}
+
+.action-tools {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #172554; }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #0369a1; }
+.btn-outline { background: #fff; color: #334155; border: 1.5px solid #cbd5e1; }
+.btn-outline:hover { background: #f8fafc; border-color: var(--primary); color: var(--primary); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { background: #166534; }
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 20px 60px 20px;
+}
+
+/* Exam Card Section */
+.exam-section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    padding: 30px;
+    margin-bottom: 30px;
+    transition: transform 0.2s ease;
+}
+
+.exam-header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.exam-title-group h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0 0 5px 0;
+}
+
+.exam-meta {
+    font-size: 13.5px;
+    color: var(--text-muted);
+}
+
+.exam-score-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    padding: 6px 16px;
+    border-radius: 25px;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+/* Question Container */
+.question-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-right: 4px solid var(--primary-light);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+}
+
+.question-item:hover {
+    border-color: #cbd5e1;
+    box-shadow: var(--shadow-sm);
+}
+
+.q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.q-number {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.q-tag {
+    font-size: 11.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.tag-mcq { background: #ede9fe; color: #6d28d9; border: 1px solid #ddd6fe; }
+.tag-tf { background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; }
+.tag-essay { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.tag-calc { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.tag-code { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; }
+.tag-proof { background: #fae8ff; color: #86198f; border: 1px solid #f5d0fe; }
+
+.q-points {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 10px;
+    border-radius: 12px;
+}
+
+.q-body {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: #1e293b;
+}
+
+/* MCQ Options */
+.mcq-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+@media (min-width: 768px) {
+    .mcq-options.two-cols {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.mcq-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.mcq-option:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.mcq-option.selected {
+    border-color: var(--primary-light);
+    background: #eff6ff;
+}
+
+.mcq-option.correct {
+    border-color: #22c55e !important;
+    background: #f0fdf4 !important;
+    color: #15803d;
+}
+
+.mcq-option.incorrect {
+    border-color: #ef4444 !important;
+    background: #fef2f2 !important;
+    color: #b91c1c;
+}
+
+.opt-letter {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #334155;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.mcq-option.selected .opt-letter {
+    background: var(--primary-light);
+    color: #fff;
+}
+
+.mcq-option.correct .opt-letter {
+    background: #22c55e;
+    color: #fff;
+}
+
+.mcq-option.incorrect .opt-letter {
+    background: #ef4444;
+    color: #fff;
+}
+
+/* Solution & Rubric Collapsible */
+.solution-toggle {
+    margin-top: 12px;
+    text-align: left;
+}
+
+.solution-box {
+    display: none;
+    margin-top: 15px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-right: 4px solid var(--success);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 14px;
+}
+
+.solution-box.open {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.solution-header {
+    font-weight: 800;
+    color: var(--success);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rubric-pill {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Mathematical Presentation */
+.math-block {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin: 12px 0;
+    text-align: center;
+    direction: ltr;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 16.5px;
+    color: #0f172a;
+    overflow-x: auto;
+}
+
+.math-inline {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e3a8a;
+    padding: 0 4px;
+}
+
+.frac {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 4px;
+    font-size: 0.95em;
+}
+
+.frac .num {
+    border-bottom: 1.5px solid #1e293b;
+    padding-bottom: 1px;
+}
+
+.frac .denom {
+    padding-top: 1px;
+}
+
+/* Matrices */
+.matrix-bracket {
+    display: inline-table;
+    border-left: 2px solid #1e3a8a;
+    border-right: 2px solid #1e3a8a;
+    border-collapse: collapse;
+    margin: 6px auto;
+    font-family: 'Amiri', serif;
+    font-size: 16px;
+}
+
+.matrix-bracket td {
+    padding: 4px 12px;
+    text-align: center;
+    border: none;
+}
+
+.matrix-bracket td.sep {
+    border-right: 2px dashed #94a3b8;
+}
+
+/* Tables */
+table.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+}
+
+table.academic-table th {
+    background-color: var(--primary);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 8px 12px;
+    border: 1px solid var(--primary);
+    text-align: center;
+}
+
+table.academic-table td {
+    padding: 7px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+}
+
+table.academic-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+/* Code Blocks */
+pre.code-block {
+    background-color: var(--code-bg);
+    color: #f8fafc;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    border: 1px solid #334155;
+    margin: 12px 0;
+}
+
+.code-keyword { color: #38bdf8; font-weight: bold; }
+.code-comment { color: #94a3b8; font-style: italic; }
+.code-string { color: #4ade80; }
+.code-num { color: #f43f5e; }
+
+/* Callout Boxes */
+.box {
+    padding: 12px 16px;
+    margin: 14px 0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.box-note { background: #eff6ff; border-right: 4px solid #2563eb; color: #1e3a8a; }
+.box-warning { background: #fef2f2; border-right: 4px solid #dc2626; color: #991b1b; }
+.box-tip { background: #f0fdf4; border-right: 4px solid #16a34a; color: #14532d; }
+.box-rule { background: #fefce8; border-right: 4px solid #ca8a04; color: #854d0e; }
+
+/* Stats Bar */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Floating Timer */
+.timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.timer-box span.pulse {
+    color: #38bdf8;
+    animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.3; }
+}
+</style>
+</head>
+<body>
+
+<!-- 1. ترويسة المنصة الشاملة -->
+<header class="hero-header">
+    <div class="header-container">
+        <div class="hero-title-box">
+            <h1>منصة الاختبارات وبنك الأسئلة الشاملة في التحليل العددي</h1>
+            <p>دليل القياس والتقييم الأكاديمي الجامعي المتكامل: اختبار نصفي، اختبار نهائي محاكي، وبنك أسئلة مصنف يغطي كافة الأنماط (اختيارات، صواب وخطأ، إكمال، إثباتات هندسية، مسائل حسابية بالأرقام، وأكواد MATLAB/Python) مع نماذج الإجابة وسلم الدرجات الدقيق.</p>
+            <div class="hero-badges">
+                <span class="hero-badge">📚 12 طريقة معتمدة</span>
+                <span class="hero-badge">🎯 جميع أنماط الأسئلة (6 تصنيفات)</span>
+                <span class="hero-badge">💯 نماذج إجابة وسلالم تصحيح</span>
+                <span class="hero-badge">⚡ تفاعلي + جاهز للطباعة A4</span>
+            </div>
+        </div>
+        <div class="no-print">
+            <div class="timer-box" id="timerContainer">
+                <span class="pulse">⏱️</span>
+                <span id="timerDisplay">60:00</span>
+                <button onclick="toggleTimer()" style="background:transparent; border:none; color:#38bdf8; cursor:pointer; font-weight:bold; font-size:12px; margin-right:5px;">بدء / إيقاف</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- 2. شريط الأدوات والتنقل السريع -->
+<nav class="toolbar no-print">
+    <div class="toolbar-inner">
+        <div class="filter-nav">
+            <button class="filter-btn active" onclick="filterSections('all')">🌐 عرض الكل</button>
+            <button class="filter-btn" onclick="filterSections('midterm')">📝 اختبار الميدتيرم (50 د)</button>
+            <button class="filter-btn" onclick="filterSections('final')">🎓 الاختبار النهائي (100 د)</button>
+            <button class="filter-btn" onclick="filterSections('mcq')">🔘 اختيارات (MCQ)</button>
+            <button class="filter-btn" onclick="filterSections('tf')">✔️ صواب / خطأ</button>
+            <button class="filter-btn" onclick="filterSections('fill')">✏️ إكمال ومصطلحات</button>
+            <button class="filter-btn" onclick="filterSections('proof')">📐 إثباتات هندسية</button>
+            <button class="filter-btn" onclick="filterSections('calc')">🔢 مسائل مقالية بالأرقام</button>
+            <button class="filter-btn" onclick="filterSections('code')">💻 برمجة وأكواد</button>
+        </div>
+        <div class="action-tools">
+            <button class="btn btn-outline" onclick="toggleAllSolutions()">👁️ إظهار/إخفاء كل الحلول</button>
+            <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة الاختبار</button>
+            <button class="btn btn-success" onclick="gradeAllMCQs()">🎯 تصحيح الاختيارات</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+<!-- لوحة الإحصائيات -->
+<div class="stats-grid no-print">
+    <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">اختباران كاملان (نصفي + نهائي)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">40+</div>
+        <div class="stat-label">سؤال اختيار من متعدد (MCQ)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">25+</div>
+        <div class="stat-label">سؤال صواب وخطأ مع التعليل</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">12</div>
+        <div class="stat-label">مسألة مقالية بالأرقام والجداول</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">محلولة بنموذج الإجابة وسلم الدرجات</div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- [SECTION 1] نموذج اختبار منتصف الفصل (Midterm Exam) - 50 درجة              -->
+<!-- ========================================================================= -->
+<section id="midterm" class="exam-section">
+    <div class="exam-header">
+        <div class="exam-title-group">
+            <h2>القسم الأول: اختبار منتصف الفصل الدراسي المعتمد (Midterm Exam)</h2>
+            <div class="exam-meta">المقرر: التحليل العددي | الزمن: ساعة ونصف | المجموع الكلي: 50 درجة</div>
+        </div>
+        <div class="exam-score-badge">50 درجة معتمدة</div>
+    </div>
+
+    <div class="box box-rule">
+        <strong>📌 تعليمات الاختبار للطلاب:</strong>
+        <ul style="margin: 5px 0; padding-right: 20px; font-size: 13.5px;">
+            <li>يسمح باستخدام الآلة الحاسبة غير القابلة للبرمجة مع التأكد التام من ضبطها على نظام <strong>الراديان (RAD)</strong> عند التعامل مع الدوال المثلثية.</li>
+            <li>قرّب كافة الحسابات والنتائج الجدولية حتى <strong>4 منازل عشرية</strong> دقيقة.</li>
+            <li>الخطوات الرياضية وقوانين التكرار إلزامية وتمنح الدرجة على المنهجية قبل النتيجة النهائية.</li>
+        </ul>
+    </div>
+
+    <!-- السؤال الأول للميدتيرم: اختيارات -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الأول: اختر الإجابة الصحيحة لكل فقرة مما يلي <span class="q-tag tag-mcq">اختيار من متعدد</span></span>
+            <span class="q-points">10 درجات (درجتان لكل فقرة)</span>
+        </div>
+        
+        <!-- فقرة 1 -->
+        <div class="q-body">
+            <strong>1.1)</strong> إذا طُبقت طريقة التنصيف لحصر جذر في الفترة <span class="math-inline">[1, 5]</span>، فإن طول الفترة بعد <span class="math-inline">n = 4</span> تكرارات يساوي:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-1')"><span class="opt-letter">أ</span> <span>1.0</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-m1-1')"><span class="opt-letter">ب</span> <span>0.25</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-1')"><span class="opt-letter">ج</span> <span>0.125</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-1')"><span class="opt-letter">د</span> <span>0.5</span></div>
+            </div>
+            <div id="sol-m1-1" class="solution-box">
+                <div class="solution-header">
+                    <span>💡 الشرح والحل النموذجي (درجتان):</span>
+                    <span class="rubric-pill">الإجابة الصحيحة: (ب)</span>
+                </div>
+                القانون العام لطول الفترة في التكرار <span class="math-inline">n</span> هو:
+                <div class="math-block">L_n = \frac{b - a}{2^n} = \frac{5 - 1}{2^4} = \frac{4}{16} = 0.25</div>
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- فقرة 2 -->
+        <div class="q-body">
+            <strong>1.2)</strong> رتبة تقارب طريقة نيوتن-رافسون (Order of Convergence) عند البحث عن جذر بسيط للمعادلة <span class="math-inline">f(x) = 0</span> هي:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-2')"><span class="opt-letter">أ</span> <span>خطية (Linear) بمعدل 1</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-m1-2')"><span class="opt-letter">ب</span> <span>تربيعية (Quadratic) من الرتبة 2</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-2')"><span class="opt-letter">ج</span> <span>فوق خطية برتبة 1.618</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-2')"><span class="opt-letter">د</span> <span>تكعيبية من الرتبة 3</span></div>
+            </div>
+            <div id="sol-m1-2" class="solution-box">
+                <div class="solution-header">
+                    <span>💡 الشرح والحل النموذجي (درجتان):</span>
+                    <span class="rubric-pill">الإجابة الصحيحة: (ب)</span>
+                </div>
+                تتقارب طريقة نيوتن رافسون تربيعياً <span class="math-inline">e_{k+1} \approx C \cdot e_k^2</span> بشرط أن يكون الجذر بسيطاً <span class="math-inline">f'(r) \neq 0</span> وأن تكون نقطة البداية قريبة بالقدر الكافي من الجذر.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- فقرة 3 -->
+        <div class="q-body">
+            <strong>1.3)</strong> تنهار طريقة نيوتن-رافسون (تتعذر مواصلة الحل) تماماً عند التكرار <span class="math-inline">x_k</span> إذا كانت:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-3')"><span class="opt-letter">أ</span> <span>f(x_k) = 0</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-m1-3')"><span class="opt-letter">ب</span> <span>f'(x_k) = 0</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-3')"><span class="opt-letter">ج</span> <span>f''(x_k) = 0</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-3')"><span class="opt-letter">د</span> <span>x_k < 0</span></div>
+            </div>
+            <div id="sol-m1-3" class="solution-box">
+                <div class="solution-header">
+                    <span>💡 الشرح والحل النموذجي (درجتان):</span>
+                    <span class="rubric-pill">الإجابة الصحيحة: (ب)</span>
+                </div>
+                قانون نيوتن هو <span class="math-inline">x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}</span>، فإذا كانت المشتقة <span class="math-inline">f'(x_k) = 0</span>، يكون مماس المنحنى أفقياً وموازياً لمحور السينات، فيحدث خطأ القسمة على الصفر ويستحيل إيجاد نقطة التقاطع.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- فقرة 4 -->
+        <div class="q-body">
+            <strong>1.4)</strong> في طريقة حذف جاوس، معامل ضرب الصف <span class="math-inline">k</span> لإلغاء وتصفير العنصر <span class="math-inline">a_{ik}</span> في الصف <span class="math-inline">i</span> هو:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-m1-4')"><span class="opt-letter">أ</span> <span>m_{ik} = a_{ik} / a_{kk}</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-4')"><span class="opt-letter">ب</span> <span>m_{ik} = a_{kk} / a_{ik}</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-4')"><span class="opt-letter">ج</span> <span>m_{ik} = a_{ik} \cdot a_{kk}</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-4')"><span class="opt-letter">د</span> <span>m_{ik} = a_{ii} / a_{kk}</span></div>
+            </div>
+            <div id="sol-m1-4" class="solution-box">
+                <div class="solution-header">
+                    <span>💡 الشرح والحل النموذجي (درجتان):</span>
+                    <span class="rubric-pill">الإجابة الصحيحة: (أ)</span>
+                </div>
+                المعامل المعياري هو نسبة العنصر المراد تصفيره إلى العنصر المحوري في الصف الرئيسي: <span class="math-inline">R_i \leftarrow R_i - \left(\frac{a_{ik}}{a_{kk}}\right) R_k</span>.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- فقرة 5 -->
+        <div class="q-body">
+            <strong>1.5)</strong> شرط التقارب الكافي لطريقة النقطة الثابتة <span class="math-inline">x_{k+1} = g(x_k)</span> في فترة تحتوي الجذر هو:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-5')"><span class="opt-letter">أ</span> <span>|g'(x)| > 1</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-m1-5')"><span class="opt-letter">ب</span> <span>|g'(x)| < 1</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-5')"><span class="opt-letter">ج</span> <span>g'(x) = 0 دائماً</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-m1-5')"><span class="opt-letter">د</span> <span>g(x) = 0</span></div>
+            </div>
+            <div id="sol-m1-5" class="solution-box">
+                <div class="solution-header">
+                    <span>💡 الشرح والحل النموذجي (درجتان):</span>
+                    <span class="rubric-pill">الإجابة الصحيحة: (ب)</span>
+                </div>
+                وفق نظرية النقطة الثابتة لـ باناخ (Contraction Mapping Theorem)، يشترط أن يكون ميل دالة التكرار محصوراً بحيث <span class="math-inline">|g'(x)| \le k < 1</span> لضمان انكماش المسافة بين التكرارات نحو الجذر.
+            </div>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSolutionGroup(['sol-m1-1','sol-m1-2','sol-m1-3','sol-m1-4','sol-m1-5'])">🔍 إظهار/إخفاء حلول السؤال الأول</button>
+        </div>
+    </div>
+
+    <!-- السؤال الثاني للميدتيرم: إثبات هندسي -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الثاني: الإثبات الهندسي والاشتقاق الرياضي <span class="q-tag tag-proof">إثبات هندسي</span></span>
+            <span class="q-points">10 درجات</span>
+        </div>
+        <div class="q-body">
+            انطلاقاً من التعريف الهندسي لطريقة <strong>نيوتن - رافسون (Newton-Raphson Method)</strong> باعتبارها طريقة تعتمد على مماس منحنى الدالة عند النقطة الابتدائية <span class="math-inline">(x_0, f(x_0))</span>:
+            <ol style="margin-top: 8px;">
+                <li>ارسم شكلاً هندسياً توضيحياً يُظهر المنحنى والمماس ونقطة التقاطع مع محور السينات.</li>
+                <li>اكتب معادلة المماس بصيغة النقطة والميل واستنتج منها قانون التكرار العام: <span class="math-inline">x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}</span>.</li>
+            </ol>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-m2')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-m2" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم توزيع الدرجات:</span>
+                <span class="rubric-pill">10 درجات كاملة</span>
+            </div>
+            <strong>1. الوصف الهندسي والرسم (4 درجات):</strong>
+            <p>يمثل ميل المماس لمنحنى الدالة <span class="math-inline">y = f(x)</span> عند النقطة <span class="math-inline">(x_0, f(x_0))</span> المشتقة الأولى للدالة <span class="math-inline">m = f'(x_0)</span>. يمتد هذا المماس ليقطع محور السينات عند النقطة <span class="math-inline">(x_1, 0)</span> والتي تمثل التقريب الأفضل للجذر الحقيقي <span class="math-inline">r</span>.</p>
+            
+            <strong>2. خطوات الاشتقاق الجبري (6 درجات):</strong>
+            <ul>
+                <li>معادلة الخط المستقيم (المماس) بدلالة النقطة <span class="math-inline">(x_0, f(x_0))</span> والميل <span class="math-inline">f'(x_0)</span> هي:
+                    <div class="math-block">y - f(x_0) = f'(x_0) \cdot (x - x_0) \quad \text{[درجتان]}</div>
+                </li>
+                <li>بما أن التقريب الجديد <span class="math-inline">x_1</span> يقع عند تقاطع المماس مع محور السينات (<span class="math-inline">y = 0</span>)، نعوض <span class="math-inline">y = 0</span> و <span class="math-inline">x = x_1</span>:
+                    <div class="math-block">0 - f(x_0) = f'(x_0) \cdot (x_1 - x_0) \quad \text{[درجتان]}</div>
+                </li>
+                <li>بقسمة الطرفين على <span class="math-inline">f'(x_0)</span> (بشرط <span class="math-inline">f'(x_0) \neq 0</span>):
+                    <div class="math-block">-\frac{f(x_0)}{f'(x_0)} = x_1 - x_0</div>
+                </li>
+                <li>بعزل <span class="math-inline">x_1</span> في طرف مستقل والتعميم لكافة التكرارات <span class="math-inline">k</span>:
+                    <div class="math-block">x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)} \quad \text{[درجتان]}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- السؤال الثالث للميدتيرم: مسألة حسابية تنصيف -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الثالث: مسألة حسابية في حصر الجذور بالتنصيف <span class="q-tag tag-calc">مسألة حسابية</span></span>
+            <span class="q-points">15 درجة</span>
+        </div>
+        <div class="q-body">
+            لتكن لديك المعادلة غير الخطية:
+            <div class="math-block">f(x) = x^3 - x - 2 = 0 \quad \text{في الفترة } [1, 2]</div>
+            المطلوب:
+            <ol>
+                <li>تحقق من شرط نظرية بولزانو لحصر الجذر في هذه الفترة. <strong>(3 درجات)</strong></li>
+                <li>احسب مسبقاً الحد الأدنى لعدد التكرارات <span class="math-inline">n</span> اللازمة لضمان خطأ مطلق لا يتجاوز <span class="math-inline">\epsilon = 10^{-3}</span>. <strong>(4 درجات)</strong></li>
+                <li>نفّذ أول <strong>3 تكرارات</strong> بطريقة التنصيف ونظم حلك في جدول متكامل يتضمن الأعمدة: <span class="math-inline">(n, a, b, c, f(a), f(b), f(c), \text{الخطأ})</span>. <strong>(8 درجات)</strong></li>
+            </ol>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-m3')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-m3" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم الدرجات:</span>
+                <span class="rubric-pill">15 درجة كاملة</span>
+            </div>
+            <strong>1. التحقق من شرط الحصر (3 درجات):</strong>
+            <ul>
+                <li><span class="math-inline">f(1) = (1)^3 - (1) - 2 = -2 < 0</span></li>
+                <li><span class="math-inline">f(2) = (2)^3 - (2) - 2 = 8 - 4 = +4 > 0</span></li>
+                <li>بما أن <span class="math-inline">f(1) \cdot f(2) = (-2)(4) = -8 < 0</span> والدالة مستمرة، إذن يوجد على الأقل جذر حقيقي واحد في الفترة <span class="math-inline">[1, 2]</span>.</li>
+            </ul>
+
+            <strong>2. حساب عدد التكرارات الأدنى مسبقاً (4 درجات):</strong>
+            صيغة الخطأ الأقصى في التنصيف هي:
+            <div class="math-block">\frac{b - a}{2^n} \le \epsilon \implies \frac{2 - 1}{2^n} \le 10^{-3} \implies 2^n \ge 1000</div>
+            بأخذ اللوغاريتم للطرفين:
+            <div class="math-block">n \ge \frac{\ln(1000)}{\ln(2)} = \frac{6.90775}{0.69315} \approx 9.965 \implies n \ge 10 \text{ خطوات}</div>
+
+            <strong>3. جدول التكرارات الثلاثة الأولى (8 درجات):</strong>
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>a</th>
+                        <th>b</th>
+                        <th>c = (a+b)/2</th>
+                        <th>f(a)</th>
+                        <th>f(b)</th>
+                        <th>f(c)</th>
+                        <th>الخطأ (b-a)/2</th>
+                        <th>القرار</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>1.0000</td>
+                        <td>2.0000</td>
+                        <td><strong>1.5000</strong></td>
+                        <td>-2.0000</td>
+                        <td>+4.0000</td>
+                        <td>(1.5)^3 - 1.5 - 2 = <strong>-0.1250</strong></td>
+                        <td>0.5000</td>
+                        <td>f(c) سالب ➔ استبدال a = 1.5</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1.5000</td>
+                        <td>2.0000</td>
+                        <td><strong>1.7500</strong></td>
+                        <td>-0.1250</td>
+                        <td>+4.0000</td>
+                        <td>(1.75)^3 - 1.75 - 2 = <strong>+1.6094</strong></td>
+                        <td>0.2500</td>
+                        <td>f(c) موجب ➔ استبدال b = 1.75</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1.5000</td>
+                        <td>1.7500</td>
+                        <td><strong>1.6250</strong></td>
+                        <td>-0.1250</td>
+                        <td>+1.6094</td>
+                        <td>(1.625)^3 - 1.625 - 2 = <strong>+0.6660</strong></td>
+                        <td>0.1250</td>
+                        <td>f(c) موجب ➔ استبدال b = 1.625</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>النتيجة بعد 3 تكرارات:</strong> الجذر التقريبي هو <span class="math-inline">c_3 = 1.6250</span> مع خطأ محصور ضمن <span class="math-inline">\pm 0.1250</span>.</p>
+        </div>
+    </div>
+
+    <!-- السؤال الرابع للميدتيرم: حذف جاوس -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الرابع: حل نظام خطي بحذف جاوس والتعويض العكسي <span class="q-tag tag-calc">مسألة حسابية</span></span>
+            <span class="q-points">15 درجة</span>
+        </div>
+        <div class="q-body">
+            حل نظام المعادلات الخطي التالي باستخدام <strong>طريقة حذف جاوس مع التعويض العكسي</strong>:
+            <div class="math-block">
+                2x_1 + x_2 - x_3 = 1 \\
+                4x_1 + x_2 + 2x_3 = 8 \\
+                -2x_1 + 2x_2 + x_3 = 1
+            </div>
+            المطلوب:
+            <ol>
+                <li>كتابة المصفوفة الموسعة للنظام <span class="math-inline">[A | B]</span>. <strong>(2 درجتان)</strong></li>
+                <li>تطبيق عمليات الصف البسيط وتوضيح كل معامل ضرب <span class="math-inline">m_{ik}</span> لتحويل المصفوفة إلى مصفوفة مثلثية عليا. <strong>(8 درجات)</strong></li>
+                <li>إيجاد قيم المتغيرات <span class="math-inline">(x_1, x_2, x_3)</span> باستخدام التعويض العكسي خطوة بخطوة. <strong>(5 درجات)</strong></li>
+            </ol>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-m4')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-m4" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم الدرجات:</span>
+                <span class="rubric-pill">15 درجة كاملة</span>
+            </div>
+            <strong>1. المصفوفة الموسعة [A | B] (درجتان):</strong>
+            <div class="math-block">
+                [A|B] = 
+                \begin{bmatrix}
+                2 & 1 & -1 & | & 1 \\
+                4 & 1 & 2 & | & 8 \\
+                -2 & 2 & 1 & | & 1
+                \end{bmatrix}
+            </div>
+
+            <strong>2. الحذف الأمامي نحو المصفوفة المثلثية العليا (8 درجات):</strong>
+            <ul>
+                <li><strong>الخطوة الأولى: تصفير عناصر العمود الأول أسفل <span class="math-inline">a_{11} = 2</span>:</strong>
+                    <br>تصفير الصف الثاني: <span class="math-inline">m_{21} = \frac{4}{2} = 2 \implies R_2 \leftarrow R_2 - 2 R_1</span>:
+                    <br><span class="math-inline">R_2 = [4 - 2(2), \, 1 - 2(1), \, 2 - 2(-1) \, | \, 8 - 2(1)] = [0, -1, 4 \, | \, 6]</span>
+                    <br>تصفير الصف الثالث: <span class="math-inline">m_{31} = \frac{-2}{2} = -1 \implies R_3 \leftarrow R_3 - (-1) R_1 = R_3 + R_1</span>:
+                    <br><span class="math-inline">R_3 = [-2 + 2, \, 2 + 1, \, 1 + (-1) \, | \, 1 + 1] = [0, 3, 0 \, | \, 2]</span>
+                    <br>تصبح المصفوفة:
+                    <div class="math-block">
+                        \begin{bmatrix}
+                        2 & 1 & -1 & | & 1 \\
+                        0 & -1 & 4 & | & 6 \\
+                        0 & 3 & 0 & | & 2
+                        \end{bmatrix}
+                    </div>
+                </li>
+                <li><strong>الخطوة الثانية: تصفير عناصر العمود الثاني أسفل <span class="math-inline">a_{22} = -1</span>:</strong>
+                    <br>تصفير الصف الثالث: <span class="math-inline">m_{32} = \frac{3}{-1} = -3 \implies R_3 \leftarrow R_3 - (-3) R_2 = R_3 + 3 R_2</span>:
+                    <br><span class="math-inline">R_3 = [0, \, 3 + 3(-1), \, 0 + 3(4) \, | \, 2 + 3(6)] = [0, 0, 12 \, | \, 20]</span>
+                    <br>وصلنا للمصفوفة المثلثية العليا:
+                    <div class="math-block">
+                        \begin{bmatrix}
+                        2 & 1 & -1 & | & 1 \\
+                        0 & -1 & 4 & | & 6 \\
+                        0 & 0 & 12 & | & 20
+                        \end{bmatrix}
+                    </div>
+                </li>
+            </ul>
+
+            <strong>3. التعويض العكسي (Back Substitution) (5 درجات):</strong>
+            <ul>
+                <li>من الصف الثالث:
+                    <div class="math-block">12 x_3 = 20 \implies x_3 = \frac{20}{12} = \frac{5}{3} \approx 1.6667 \quad \text{[درجتان]}</div>
+                </li>
+                <li>من الصف الثاني:
+                    <div class="math-block">-x_2 + 4 x_3 = 6 \implies -x_2 + 4\left(\frac{5}{3}\right) = 6 \implies -x_2 + \frac{20}{3} = \frac{18}{3} \implies x_2 = \frac{2}{3} \approx 0.6667 \quad \text{[درجة ونصف]}</div>
+                </li>
+                <li>من الصف الأول:
+                    <div class="math-block">2 x_1 + x_2 - x_3 = 1 \implies 2 x_1 + \frac{2}{3} - \frac{5}{3} = 1 \implies 2 x_1 - 1 = 1 \implies 2 x_1 = 2 \implies x_1 = 1.0000 \quad \text{[درجة ونصف]}</div>
+                </li>
+            </ul>
+            <div class="box box-tip">
+                <strong>الحل النهائي للنظام:</strong> <span class="math-inline">x_1 = 1.0000, \quad x_2 = 0.6667, \quad x_3 = 1.6667</span>.
+                <br><em>التحقق في المعادلة الأولى: <span class="math-inline">2(1) + (2/3) - (5/3) = 2 - 1 = 1 \checkmark</span></em>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [SECTION 2] الاختبار النهائي الشامل المحاكي (Final Exam) - 100 درجة         -->
+<!-- ========================================================================= -->
+<section id="final" class="exam-section">
+    <div class="exam-header">
+        <div class="exam-title-group">
+            <h2>القسم الثاني: الاختبار النهائي الشامل المحاكي للجامعة (Final Exam)</h2>
+            <div class="exam-meta">المقرر: التحليل العددي المتقدم | الزمن: 3 ساعات | المجموع الكلي: 100 درجة</div>
+        </div>
+        <div class="exam-score-badge">100 درجة كاملة</div>
+    </div>
+
+    <!-- السؤال 1: اختيار من متعدد شامل 20 درجة -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الأول: اختر الإجابة الصحيحة لكل من الأسئلة التالية <span class="q-tag tag-mcq">MCQ النهائي</span></span>
+            <span class="q-points">20 درجة (درجتان لكل فقرة)</span>
+        </div>
+
+        <!-- 2.1 -->
+        <div class="q-body">
+            <strong>2.1)</strong> طريقة استيفاء لاجرانج لعدد <span class="math-inline">n + 1</span> من النقاط المعطاة تُنتج كثيرة حدود فريدة من الدرجة:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-1')"><span class="opt-letter">أ</span> <span>n + 1 دائماً</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-f1-1')"><span class="opt-letter">ب</span> <span>على الأكثر n (Degree at most n)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-1')"><span class="opt-letter">ج</span> <span>n - 1 فقط</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-1')"><span class="opt-letter">د</span> <span>لا علاقة لدرجة الدالة بعدد النقاط</span></div>
+            </div>
+            <div id="sol-f1-1" class="solution-box">
+                <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (ب)</span></div>
+                تنص مبرهنة وحدانية كثيرات حدود الاستيفاء على أن <span class="math-inline">n+1</span> نقطة متمايزة تحدد كثيرة حدود وحيدة درجتها <span class="math-inline">\le n</span>.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- 2.2 -->
+        <div class="q-body">
+            <strong>2.2)</strong> رتبة خطأ البتر التراكمي (Truncation Error Order) في قاعدة شبه المنحرف المركبة ذات الخطوة <span class="math-inline">h</span> هي:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-2')"><span class="opt-letter">أ</span> <span>O(h)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-f1-2')"><span class="opt-letter">ب</span> <span>O(h^2)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-2')"><span class="opt-letter">ج</span> <span>O(h^3)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-2')"><span class="opt-letter">د</span> <span>O(h^4)</span></div>
+            </div>
+            <div id="sol-f1-2" class="solution-box">
+                <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (ب)</span></div>
+                صيغة خطأ شبه المنحرف المركب هي <span class="math-inline">E = -\frac{b-a}{12} h^2 f''(\xi)</span>، وبالتالي يتناسب الخطأ طرداً مع <span class="math-inline">h^2</span> أي <span class="math-inline">O(h^2)</span>.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- 2.3 -->
+        <div class="q-body">
+            <strong>2.3)</strong> في التفاضل العددي بصيغ تايلور، صيغة الفرق المركزي <span class="math-inline">f'(x_0) \approx \frac{f(x_0+h) - f(x_0-h)}{2h}</span> تمتاز عن صيغتي الفرق المتقدم والتراجعي بأنها:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-3')"><span class="opt-letter">أ</span> <span>لا تتطلب قسمة على h</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-f1-3')"><span class="opt-letter">ب</span> <span>أكثر دقة برتبة خطأ O(h^2) مقابل O(h)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-3')"><span class="opt-letter">ج</span> <span>تصلح للدوال غير المستمرة فقط</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-3')"><span class="opt-letter">د</span> <span>تحسب المشتقة الثانية مباشرة</span></div>
+            </div>
+            <div id="sol-f1-3" class="solution-box">
+                <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (ب)</span></div>
+                عند طرح متسلسلة تايلور المتقدمة من التراجعية، تختفي الحدود الفردية للخطأ، ويبقى أول حد للخطأ متناسباً مع <span class="math-inline">h^2</span>.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- 2.4 -->
+        <div class="q-body">
+            <strong>2.4)</strong> لكي تتقارب طريقة <strong>جاكوبي التكرارية</strong> لحل النظام <span class="math-inline">AX = B</span> من أي نقطة بداية، الشرط الكافي هو أن تكون مصفوفة المعاملات A:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-4')"><span class="opt-letter">أ</span> <span>مصفوفة متماثلة وموجبة فقط</span></div>
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-f1-4')"><span class="opt-letter">ب</span> <span>مهيمنة قطرياً بشكل صارم (Strictly Diagonally Dominant)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-4')"><span class="opt-letter">ج</span> <span>مصفوفة مثلثية سفلية</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-4')"><span class="opt-letter">د</span> <span>محددها مساوٍ تماماً لـ 1</span></div>
+            </div>
+            <div id="sol-f1-4" class="solution-box">
+                <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (ب)</span></div>
+                الشرط هو <span class="math-inline">|a_{ii}| > \sum_{j \neq i} |a_{ij}|</span> لكل صف، مما يجعل نصف القطر الطيفي لمصفوفة التكرار أقل من 1.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <!-- 2.5 -->
+        <div class="q-body">
+            <strong>2.5)</strong> في دوال الأساس اللاجرانجية <span class="math-inline">L_i(x)</span>، قيمة <span class="math-inline">L_i(x_j)</span> عند العقد المختلفة (<span class="math-inline">i \neq j</span>) تساوي دائماً:
+            <div class="mcq-options two-cols">
+                <div class="mcq-option" onclick="selectOption(this, true, 'sol-f1-5')"><span class="opt-letter">أ</span> <span>0 (صفر)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-5')"><span class="opt-letter">ب</span> <span>1 (واحد)</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-5')"><span class="opt-letter">ج</span> <span>y_i</span></div>
+                <div class="mcq-option" onclick="selectOption(this, false, 'sol-f1-5')"><span class="opt-letter">د</span> <span>x_i - x_j</span></div>
+            </div>
+            <div id="sol-f1-5" class="solution-box">
+                <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (أ)</span></div>
+                تحقق دوال لاجرانج خاصية دلتا كرونيكر: <span class="math-inline">L_i(x_j) = 1</span> إذا كان <span class="math-inline">i = j</span>، وتساوي <span class="math-inline">0</span> إذا كان <span class="math-inline">i \neq j</span> لأن البسط يحتوي العامل <span class="math-inline">(x - x_j)</span> فينعدم.
+            </div>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSolutionGroup(['sol-f1-1','sol-f1-2','sol-f1-3','sol-f1-4','sol-f1-5'])">🔍 إظهار/إخفاء حلول السؤال الأول</button>
+        </div>
+    </div>
+
+    <!-- السؤال 2: صح أم خطأ مع التعليل 15 درجة -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الثاني: ضع علامة (✓) أو (✗) مع تصحيح الخطأ وبيان التعليل العلمي <span class="q-tag tag-tf">صواب / خطأ مع التعليل</span></span>
+            <span class="q-points">15 درجة (3 درجات لكل فقرة)</span>
+        </div>
+
+        <div class="q-body">
+            <strong>1.</strong> [ &nbsp; ] طريقة القاطع (Secant Method) تتطلب نقطتي بداية <span class="math-inline">x_0, x_1</span> ويشترط حتماً أن تكون الدالة مختلفة الإشارة عندهما <span class="math-inline">f(x_0) \cdot f(x_1) < 0</span>.
+            <div id="sol-tf-1" class="solution-box">
+                <div class="solution-header"><span>التقييم والتعليل:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                <strong>التصحيح:</strong> طريقة القاطع هي طريقة <em>مفتوحة (Open Method)</em> لا تشترط حصر الجذر باختلاف الإشارة، بل يمكن أن تكون <span class="math-inline">f(x_0)</span> و <span class="math-inline">f(x_1)</span> من نفس الإشارة. الطريقة التي تشترط اختلاف الإشارة دوماً هي <em>طريقة الموضع الخاطئ (False Position) والتنصيف</em>.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <div class="q-body">
+            <strong>2.</strong> [ &nbsp; ] يمكن تطبيق قاعدة كرامر لحل أي نظام خطي <span class="math-inline">AX = B</span> حتى وإن كان محدد مصفوفة المعاملات مساوياً للصفر <span class="math-inline">\det(A) = 0</span>.
+            <div id="sol-tf-2" class="solution-box">
+                <div class="solution-header"><span>التقييم والتعليل:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                <strong>التصحيح:</strong> تشترط قاعدة كرامر صراحة أن تكون المصفوفة غير منفردة أي <span class="math-inline">\det(A) \neq 0</span> لأن قانون كرامر يتضمن القسمة على محدد المصفوفة <span class="math-inline">x_i = \det(A_i) / \det(A)</span>، والقسمة على صفر مستحيلة رياضياً.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <div class="q-body">
+            <strong>3.</strong> [ &nbsp; ] إذا فشل شرط الهيمنة القطرية لنظام معادلات خطية، يجوز تبديل مواقع المعادلات (صفوف المصفوفة) للوصول إلى الهيمنة القطرية قبل تشغيل طريقة جاكوبي.
+            <div id="sol-tf-3" class="solution-box">
+                <div class="solution-header"><span>التقييم والتعليل:</span><span class="rubric-pill">صحيح (✓)</span></div>
+                <strong>التعليل:</strong> نعم، تبديل المعادلات هو عملية تكافؤ جبري لا تغير حل النظام الخطي إطلاقاً، وتساعد في وضع المعاملات الأكبر قيمة على القطر الرئيسي لضمان تحقق شرط الهيمنة القطرية وتقارب متتالية جاكوبي.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <div class="q-body">
+            <strong>4.</strong> [ &nbsp; ] عند مضاعفة عدد الشرائح <span class="math-inline">n</span> في قاعدة شبه المنحرف المركبة (تقليل الخطوة <span class="math-inline">h</span> إلى النصف)، فإن خطأ التكامل التقريبي يقل إلى النصف تقريباً.
+            <div id="sol-tf-4" class="solution-box">
+                <div class="solution-header"><span>التقييم والتعليل:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                <strong>التصحيح:</strong> بما أن رتبة الخطأ تربيعية <span class="math-inline">O(h^2)</span>، فعند جعل الخطوة <span class="math-inline">h/2</span>، فإن الخطأ يقل إلى <strong>الربع (1/4)</strong> من قيمته السابقة وليس النصف: <span class="math-inline">(h/2)^2 = h^2 / 4</span>.
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+
+        <div class="q-body">
+            <strong>5.</strong> [ &nbsp; ] في بيئة MATLAB، العملية <span class="math-inline">A * B</span> تماثل تماماً العملية <span class="math-inline">A .* B</span> لأي مصفوفتين.
+            <div id="sol-tf-5" class="solution-box">
+                <div class="solution-header"><span>التقييم والتعليل:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                <strong>التصحيح:</strong> العملية <span class="math-inline">A * B</span> تمثل ضرب المصفوفات الجبري الرياضي المعتاد (صف × عمود)، بينما <span class="math-inline">A .* B</span> تمثل الضرب النقطي/العنصري (Element-wise Multiplication) حيث يضرب كل عنصر بنظيره في نفس الموقع.
+            </div>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSolutionGroup(['sol-tf-1','sol-tf-2','sol-tf-3','sol-tf-4','sol-tf-5'])">🔍 إظهار/إخفاء حلول السؤال الثاني</button>
+        </div>
+    </div>
+
+    <!-- السؤال 3: مسألة جاكوبي مع فحص الهيمنة 20 درجة -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الثالث: مسألة جاكوبي التكرارية مع فحص الهيمنة وإعادة الترتيب <span class="q-tag tag-calc">مسألة حسابية</span></span>
+            <span class="q-points">20 درجة</span>
+        </div>
+        <div class="q-body">
+            أعطيت النظام الخطي التالي المكون من 3 معادلات:
+            <div class="math-block">
+                (1) \quad x_1 + 6x_2 + 2x_3 = 9 \\
+                (2) \quad 7x_1 + 2x_2 - x_3 = 8 \\
+                (3) \quad 2x_1 - x_2 + 8x_3 = 9
+            </div>
+            المطلوب:
+            <ol>
+                <li>افحص شرط الهيمنة القطرية الصارمة للنظام بوضعه الحالي، وبيّن لماذا سيفشل تكرار جاكوبي إذا طبق مباشرة. <strong>(5 درجات)</strong></li>
+                <li>أعد ترتيب صفوف المعادلات ليصبح النظام مهيمناً قطرياً بالبرهان الحسابي الدقيق. <strong>(5 درجات)</strong></li>
+                <li>اعزل كل متغير في طرف واكتب الصيغ التكرارية لطريقة جاكوبي. <strong>(4 درجات)</strong></li>
+                <li>باعتبار المتجه الابتدائي <span class="math-inline">X^{(0)} = [0, 0, 0]^T</span>، احسب المتجهين <span class="math-inline">X^{(1)}</span> و <span class="math-inline">X^{(2)}</span> مع التقريب لـ 4 منازل عشرية. <strong>(6 درجات)</strong></li>
+            </ol>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-f3')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-f3" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم الدرجات:</span>
+                <span class="rubric-pill">20 درجة كاملة</span>
+            </div>
+            <strong>1. فحص الهيمنة القطرية للنظام الأصلي (5 درجات):</strong>
+            <ul>
+                <li>الصف الأول: القطر <span class="math-inline">|a_{11}| = |1| = 1</span>، ومجموع العناصر الأخرى <span class="math-inline">|a_{12}| + |a_{13}| = |6| + |2| = 8</span>. نلاحظ أن <span class="math-inline">1 < 8</span> (الشرط غير محقق ✗).</li>
+                <li>الصف الثاني: القطر <span class="math-inline">|a_{22}| = |2| = 2</span>، ومجموع العناصر الأخرى <span class="math-inline">|7| + |-1| = 8</span>. نلاحظ أن <span class="math-inline">2 < 8</span> (الشرط غير محقق ✗).</li>
+                <li>الصف الثالث: القطر <span class="math-inline">|a_{33}| = |8| = 8</span>، ومجموع العناصر الأخرى <span class="math-inline">|2| + |-1| = 3</span>. نلاحظ أن <span class="math-inline">8 > 3</span> (محقق ✓).</li>
+            </ul>
+            <p><strong>الحكم:</strong> النظام بوضعه الحالي ليس مهيمناً قطرياً، وتطبيق جاكوبي مباشرة سيؤدي إلى تباعد المتتالية التكرارية.</p>
+
+            <strong>2. إعادة ترتيب المعادلات لتحقيق الهيمنة (5 درجات):</strong>
+            نبحث عن المعادلة التي تحتوي أكبر معامل لـ <span class="math-inline">x_1</span> لنجعلها المعادلة الأولى، وأكبر معامل لـ <span class="math-inline">x_2</span> لنجعلها الثانية:
+            <ul>
+                <li>المعادلة (2) تحتوي <span class="math-inline">7x_1</span> ➔ نجعلها المعادلة (1).</li>
+                <li>المعادلة (1) تحتوي <span class="math-inline">6x_2</span> ➔ نجعلها المعادلة (2).</li>
+                <li>المعادلة (3) تحتوي <span class="math-inline">8x_3</span> ➔ تبقى كما هي المعادلة (3).</li>
+            </ul>
+            يصبح النظام المرتب:
+            <div class="math-block">
+                7x_1 + 2x_2 - x_3 = 8 \\
+                x_1 + 6x_2 + 2x_3 = 9 \\
+                2x_1 - x_2 + 8x_3 = 9
+            </div>
+            برهان الهيمنة للنظام الجديد:
+            <ul>
+                <li>الصف 1: <span class="math-inline">|7| > |2| + |-1| = 3 \quad \checkmark</span></li>
+                <li>الصف 2: <span class="math-inline">|6| > |1| + |2| = 3 \quad \checkmark</span></li>
+                <li>الصف 3: <span class="math-inline">|8| > |2| + |-1| = 3 \quad \checkmark</span></li>
+            </ul>
+            النظام الآن مهيمن قطرياً بشكل حاسم والتقارب مضمون 100%.
+
+            <strong>3. صيغ العزل التكرارية لجاكوبي (4 درجات):</strong>
+            <div class="math-block">
+                x_1^{(k+1)} = \frac{1}{7} \left( 8 - 2x_2^{(k)} + x_3^{(k)} \right) \\
+                x_2^{(k+1)} = \frac{1}{6} \left( 9 - x_1^{(k)} - 2x_3^{(k)} \right) \\
+                x_3^{(k+1)} = \frac{1}{8} \left( 9 - 2x_1^{(k)} + x_2^{(k)} \right)
+            </div>
+
+            <strong>4. حساب التكرارين الأول والثاني (6 درجات):</strong>
+            <p><strong>التكرار الأول k = 1:</strong> نعوض <span class="math-inline">x_1^{(0)} = 0, \, x_2^{(0)} = 0, \, x_3^{(0)} = 0</span>:</p>
+            <ul>
+                <li><span class="math-inline">x_1^{(1)} = \frac{8 - 0 + 0}{7} = \frac{8}{7} \approx 1.1429</span></li>
+                <li><span class="math-inline">x_2^{(1)} = \frac{9 - 0 - 0}{6} = \frac{9}{6} = 1.5000</span></li>
+                <li><span class="math-inline">x_3^{(1)} = \frac{9 - 0 + 0}{8} = \frac{9}{8} = 1.1250</span></li>
+            </ul>
+            <p>المتجه الأول: <span class="math-inline">X^{(1)} = [1.1429, \, 1.5000, \, 1.1250]^T</span>.</p>
+
+            <p><strong>التكرار الثاني k = 2:</strong> نعوض قيم <span class="math-inline">X^{(1)}</span> في صيغ التكرار:</p>
+            <ul>
+                <li><span class="math-inline">x_1^{(2)} = \frac{1}{7} \left( 8 - 2(1.5000) + 1.1250 \right) = \frac{8 - 3 + 1.1250}{7} = \frac{6.1250}{7} \approx 0.8750</span></li>
+                <li><span class="math-inline">x_2^{(2)} = \frac{1}{6} \left( 9 - 1.1429 - 2(1.1250) \right) = \frac{9 - 1.1429 - 2.2500}{6} = \frac{5.6071}{6} \approx 0.9345</span></li>
+                <li><span class="math-inline">x_3^{(2)} = \frac{1}{8} \left( 9 - 2(1.1429) + 1.5000 \right) = \frac{9 - 2.2858 + 1.5000}{8} = \frac{8.2142}{8} \approx 1.0268</span></li>
+            </ul>
+            <p>المتجه الثاني: <span class="math-inline">X^{(2)} = [0.8750, \, 0.9345, \, 1.0268]^T</span>.</p>
+            <div class="box box-tip">
+                <em>ملاحظة: الحل التحليلي الدقيق هو <span class="math-inline">X = [1, 1, 1]^T</span>، ونلاحظ اقتراب التكرارات السريع منه.</em>
+            </div>
+        </div>
+    </div>
+
+    <!-- السؤال 4: استيفاء لاجرانج 15 درجة -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الرابع: استيفاء كثيرات حدود لاجرانج وتقدير الدوال <span class="q-tag tag-calc">مسألة استيفاء</span></span>
+            <span class="q-points">15 درجة</span>
+        </div>
+        <div class="q-body">
+            معطى جدول البيانات التجريبية التالي المكون من 3 نقاط:
+            <table class="academic-table" style="max-width: 400px; margin: 10px auto;">
+                <thead>
+                    <tr><th>i</th><th>x_i</th><th>y_i = f(x_i)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>1</td><td>3</td></tr>
+                    <tr><td>1</td><td>2</td><td>7</td></tr>
+                    <tr><td>2</td><td>4</td><td>21</td></tr>
+                </tbody>
+            </table>
+            المطلوب:
+            <ol>
+                <li>احسب دوال الأساس اللاجرانجية الثلاث: <span class="math-inline">L_0(x), \, L_1(x), \, L_2(x)</span> وبسّط كل منها. <strong>(6 درجات)</strong></li>
+                <li>ركّب كثيرة حدود لاجرانج من الدرجة الثانية <span class="math-inline">P_2(x)</span> وبسطها للصيغة العامة <span class="math-inline">ax^2 + bx + c</span>. <strong>(6 درجات)</strong></li>
+                <li>قدّر قيمة الدالة عند النقطة الوسيطة <span class="math-inline">x = 3</span> باستخدام كثيرة الحدود الناتجة. <strong>(3 درجات)</strong></li>
+            </ol>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-f4')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-f4" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم الدرجات:</span>
+                <span class="rubric-pill">15 درجة كاملة</span>
+            </div>
+            <strong>1. حساب دوال الأساس اللاجرانجية (6 درجات):</strong>
+            <ul>
+                <li>دالة الأساس <span class="math-inline">L_0(x)</span>:
+                    <div class="math-block">
+                        L_0(x) = \frac{(x - x_1)(x - x_2)}{(x_0 - x_1)(x_0 - x_2)} = \frac{(x - 2)(x - 4)}{(1 - 2)(1 - 4)} = \frac{x^2 - 6x + 8}{(-1)(-3)} = \frac{x^2 - 6x + 8}{3}
+                    </div>
+                </li>
+                <li>دالة الأساس <span class="math-inline">L_1(x)</span>:
+                    <div class="math-block">
+                        L_1(x) = \frac{(x - x_0)(x - x_2)}{(x_1 - x_0)(x_1 - x_2)} = \frac{(x - 1)(x - 4)}{(2 - 1)(2 - 4)} = \frac{x^2 - 5x + 4}{(1)(-2)} = \frac{x^2 - 5x + 4}{-2} = -\frac{1}{2}(x^2 - 5x + 4)
+                    </div>
+                </li>
+                <li>دالة الأساس <span class="math-inline">L_2(x)</span>:
+                    <div class="math-block">
+                        L_2(x) = \frac{(x - x_0)(x - x_1)}{(x_2 - x_0)(x_2 - x_1)} = \frac{(x - 1)(x - 2)}{(4 - 1)(4 - 2)} = \frac{x^2 - 3x + 2}{(3)(2)} = \frac{x^2 - 3x + 2}{6}
+                    </div>
+                </li>
+            </ul>
+
+            <strong>2. تركيب كثيرة الحدود P2(x) والتبسيط (6 درجات):</strong>
+            <div class="math-block">P_2(x) = y_0 L_0(x) + y_1 L_1(x) + y_2 L_2(x)</div>
+            بالتعويض:
+            <div class="math-block">
+                P_2(x) = 3 \left( \frac{x^2 - 6x + 8}{3} \right) + 7 \left( -\frac{x^2 - 5x + 4}{2} \right) + 21 \left( \frac{x^2 - 3x + 2}{6} \right)
+            </div>
+            نبسط الحدود:
+            <ul>
+                <li>الحد الأول: <span class="math-inline">x^2 - 6x + 8</span></li>
+                <li>الحد الثاني: <span class="math-inline">-3.5 x^2 + 17.5 x - 14</span></li>
+                <li>الحد الثالث: <span class="math-inline">\frac{21}{6}(x^2 - 3x + 2) = 3.5(x^2 - 3x + 2) = 3.5 x^2 - 10.5 x + 7</span></li>
+            </ul>
+            نجمع المعاملات المتشابهة:
+            <ul>
+                <li>معامل <span class="math-inline">x^2</span>: <span class="math-inline">1 - 3.5 + 3.5 = 1</span></li>
+                <li>معامل <span class="math-inline">x</span>: <span class="math-inline">-6 + 17.5 - 10.5 = 1</span></li>
+                <li>الحد الثابت: <span class="math-inline">8 - 14 + 7 = 1</span></li>
+            </ul>
+            <div class="math-block">P_2(x) = x^2 + x + 1</div>
+            <em>التحقق من النقاط: <span class="math-inline">P(1) = 3 \checkmark</span>, <span class="math-inline">P(2) = 7 \checkmark</span>, <span class="math-inline">P(4) = 21 \checkmark</span>.</em>
+
+            <strong>3. تقدير قيمة الدالة عند x = 3 (3 درجات):</strong>
+            <div class="math-block">P_2(3) = (3)^2 + (3) + 1 = 9 + 3 + 1 = 13</div>
+            إذن القيمة التقريبية المقدرة هي <span class="math-inline">f(3) \approx 13</span>.
+        </div>
+    </div>
+
+    <!-- السؤال 5: تكامل وتفاضل عددي 15 درجة -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال الخامس: التكامل العددي بقاعدة شبه المنحرف وحساب الخطأ <span class="q-tag tag-calc">تكامل عددي</span></span>
+            <span class="q-points">15 درجة</span>
+        </div>
+        <div class="q-body">
+            احسب قيمة التكامل المحدد التالي باستخدام <strong>قاعدة شبه المنحرف المركبة (Composite Trapezoidal Rule)</strong> مع عدد فترات جزئية <span class="math-inline">n = 4</span>:
+            <div class="math-block">I = \int_1^3 \frac{1}{x} \, dx</div>
+            المطلوب:
+            <ol>
+                <li>احسب طول الخطوة <span class="math-inline">h</span> وعقد التقسيم <span class="math-inline">x_i</span> وصورها <span class="math-inline">f(x_i)</span> في جدول منظم. <strong>(4 درجات)</strong></li>
+                <li>طبق صيغة شبه المنحرف المركبة واحسب قيمة التكامل التقريبية. <strong>(5 درجات)</strong></li>
+                <li>احسب القيمة الدقيقة للتكامل تحليلياً، ثم احسب الخطأ الحقيقي المطلق المرتكب. <strong>(3 درجات)</strong></li>
+                <li>احسب الحد الأعلى النظري للخطأ باستخدام صيغة الخطأ <span class="math-inline">|E_T| \le \frac{b - a}{12} h^2 \max |f''(x)|</span> وتأكد من أن الخطأ الحقيقي أصغر منه. <strong>(3 درجات)</strong></li>
+            </ol>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-f5')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-f5" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم الدرجات:</span>
+                <span class="rubric-pill">15 درجة كاملة</span>
+            </div>
+            <strong>1. طول الخطوة وجدول العقد (4 درجات):</strong>
+            <div class="math-block">h = \frac{b - a}{n} = \frac{3 - 1}{4} = \frac{2}{4} = 0.5</div>
+            العقد وصورها <span class="math-inline">f(x) = 1/x</span>:
+            <table class="academic-table" style="max-width: 500px; margin: 8px auto;">
+                <thead>
+                    <tr><th>i</th><th>x_i</th><th>f(x_i)</th><th>المعامل w_i</th><th>w_i \cdot f(x_i)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>1.0</td><td>1.0000</td><td>1</td><td>1.0000</td></tr>
+                    <tr><td>1</td><td>1.5</td><td>0.6667</td><td>2</td><td>1.3333</td></tr>
+                    <tr><td>2</td><td>2.0</td><td>0.5000</td><td>2</td><td>1.0000</td></tr>
+                    <tr><td>3</td><td>2.5</td><td>0.4000</td><td>2</td><td>0.8000</td></tr>
+                    <tr><td>4</td><td>3.0</td><td>0.3333</td><td>1</td><td>0.3333</td></tr>
+                </tbody>
+            </table>
+
+            <strong>2. تطبيق قانون شبه المنحرف المركب (5 درجات):</strong>
+            <div class="math-block">
+                I_{\text{trap}} = \frac{h}{2} \left[ f(x_0) + 2 f(x_1) + 2 f(x_2) + 2 f(x_3) + f(x_4) \right]
+            </div>
+            مجموع الحدود الموزونة: <span class="math-inline">1.0000 + 1.3333 + 1.0000 + 0.8000 + 0.3333 = 4.4667</span> (أو بدقة الكسور: <span class="math-inline">1 + 4/3 + 1 + 4/5 + 1/3 = 67/15 \approx 4.46667</span>).
+            <div class="math-block">
+                I_{\text{trap}} = \frac{0.5}{2} \times 4.46667 = 0.25 \times 4.46667 \approx 1.1167
+            </div>
+
+            <strong>3. القيمة الدقيقة والخطأ الحقيقي (3 درجات):</strong>
+            <div class="math-block">
+                I_{\text{exact}} = \int_1^3 \frac{1}{x} \, dx = [\ln(x)]_1^3 = \ln(3) - \ln(1) = \ln(3) \approx 1.0986
+            </div>
+            الخطأ المطلق الفعلي:
+            <div class="math-block">
+                \text{Error} = |I_{\text{exact}} - I_{\text{trap}}| = |1.0986 - 1.1167| = 0.0181
+            </div>
+
+            <strong>4. الحد الأعلى النظري للخطأ (3 درجات):</strong>
+            المشتقة الأولى: <span class="math-inline">f'(x) = -1/x^2</span>، والمشتقة الثانية: <span class="math-inline">f''(x) = 2/x^3</span>.
+            أقصى قيمة للمشتقة الثانية على الفترة <span class="math-inline">[1, 3]</span> تحدث عند أصغر مقام أي <span class="math-inline">x = 1</span>:
+            <div class="math-block">M = \max_{x \in [1, 3]} |f''(x)| = \frac{2}{(1)^3} = 2</div>
+            تطبيق صيغة حد الخطأ:
+            <div class="math-block">
+                |E_T| \le \frac{b - a}{12} h^2 M = \frac{3 - 1}{12} (0.5)^2 (2) = \frac{2}{12} (0.25) (2) = \frac{1}{6} \times 0.5 = \frac{1}{12} \approx 0.0833
+            </div>
+            نلاحظ بالفعل أن الخطأ الحقيقي <span class="math-inline">0.0181</span> أقل بكثير من الحد الأعلى النظري <span class="math-inline">0.0833</span>، مما يؤكد صحة الحل الرياضي تماماً.
+        </div>
+    </div>
+
+    <!-- السؤال 6: برمجة ماتلاب وبايثون 15 درجة -->
+    <div class="question-item">
+        <div class="q-header">
+            <span class="q-number">السؤال السادس: برمجة وتتبع أكواد MATLAB و Python <span class="q-tag tag-code">أكواد وبرمجة</span></span>
+            <span class="q-points">15 درجة</span>
+        </div>
+        <div class="q-body">
+            <strong>أ) كتابة كود MATLAB (8 درجات):</strong>
+            اكتب دالة MATLAB كاملة باسم <code>function [root, iter] = my_bisection(f, a, b, tol)</code> لحل المعادلة غير الخطية بطريقة التنصيف، بحيث تتضمن:
+            <ul>
+                <li>فحص شرط الحصر الأولي <span class="math-inline">f(a) \cdot f(b) < 0</span> وإظهار رسالة خطأ مناسبة باستخدام <code>error(...)</code> إذا لم يتحقق.</li>
+                <li>حلقة تكرار تتوقف عند تحقق الشرط <span class="math-inline">(b - a)/2 < tol</span>.</li>
+                <li>تحديث طرفي الفترة <span class="math-inline">a, b</span> بشكل صحيح حسب إشارة <span class="math-inline">f(c)</span>.</li>
+            </ul>
+
+            <strong style="display:block; margin-top:15px;">ب) تتبع وتصحيح كود Python (7 درجات):</strong>
+            الكود التالي كُتب في Python لتطبيق قاعدة كرامر، ولكنه يحتوي على <strong>3 أخطاء منهجية وبرمجية</strong>. حدد الأخطاء الثلاثة واكتب التصحيح:
+            <pre class="code-block">
+<span class="code-keyword">import</span> numpy <span class="code-keyword">as</span> np
+
+<span class="code-keyword">def</span> <span class="code-keyword">cramer_solver</span>(A, B):
+    det_A = np.linalg.det(A)
+    <span class="code-keyword">if</span> det_A == <span class="code-num">0</span>:
+        <span class="code-keyword">print</span>(<span class="code-string">"النظام له عدد لا نهائي من الحلول"</span>)
+    
+    n = len(B)
+    X = []
+    <span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(n):
+        Ai = A            <span class="code-comment"># هل هذا صحيح؟</span>
+        Ai[:, i] = B
+        xi = np.linalg.det(Ai) * det_A
+        X.append(xi)
+    <span class="code-keyword">return</span> X
+            </pre>
+        </div>
+
+        <div class="solution-toggle">
+            <button class="btn btn-outline" onclick="toggleSingleSolution('sol-f6')">🔍 عرض نموذج الإجابة وسلم الدرجات</button>
+        </div>
+
+        <div id="sol-f6" class="solution-box">
+            <div class="solution-header">
+                <span>نموذج الإجابة الرسمي وسلم الدرجات:</span>
+                <span class="rubric-pill">15 درجة كاملة</span>
+            </div>
+            <strong>أ) كود دالة MATLAB النموذجية (8 درجات):</strong>
+            <pre class="code-block">
+<span class="code-keyword">function</span> [root, iter] = my_bisection(f, a, b, tol)
+    <span class="code-comment">% التحقق من شرط الحصر الأولي لبولزانو</span>
+    <span class="code-keyword">if</span> f(a) * f(b) >= 0
+        error(<span class="code-string">'خطأ: الدالة لا تغير إشارتها في الفترة المعطاة [f(a)*f(b) >= 0]'</span>);
+    <span class="code-keyword">end</span>
+    
+    iter = 0;
+    max_iter = 100;
+    
+    <span class="code-keyword">while</span> (b - a) / 2 > tol && iter < max_iter
+        iter = iter + 1;
+        c = (a + b) / 2;
+        
+        <span class="code-keyword">if</span> f(c) == 0
+            <span class="code-keyword">break</span>; <span class="code-comment">% تم العثور على الجذر الدقيق</span>
+        <span class="code-keyword">elseif</span> f(a) * f(c) < 0
+            b = c; <span class="code-comment">% الجذر في النصف الأيسر</span>
+        <span class="code-keyword">else</span>
+            a = c; <span class="code-comment">% الجذر في النصف الأيمن</span>
+        <span class="code-keyword">end</span>
+    <span class="code-keyword">end</span>
+    
+    root = (a + b) / 2;
+<span class="code-keyword">end</span>
+            </pre>
+
+            <strong>ب) الأخطاء الثلاثة وتصحيحها في كود بايثون (7 درجات):</strong>
+            <ol>
+                <li><strong>الخطأ الأول (المصفوفة المنفردة):</strong> عندما <span class="math-inline">\det(A) = 0</span>، قام الكود بالطباعة فقط واستمر في التنفيذ مما يسبب لاحقاً قسمة غير صالحة أو خطأ منطقي. يجب رفع استثناء أو إيقاف التنفيذ <code>raise ValueError("المصفوفة منفردة det(A)=0")</code>. <strong>(درجتان)</strong></li>
+                <li><strong>الخطأ الثاني (النسخ السطحي للمصفوفة Shallow Copy):</strong> السطر <code>Ai = A</code> ينسخ المؤشر المرجعي فقط (Reference)، وبالتالي فإن تعديل <code>Ai[:, i] = B</code> يقوم بتعديل المصفوفة الأصلية <span class="math-inline">A</span> نفسها! التصحيح هو عمل نسخة عميقة مستقلة: <code>Ai = A.copy()</code> في كل خطوة. <strong>(3 درجات)</strong></li>
+                <li><strong>الخطأ الثالث (قانون كرامر الرياضي):</strong> قام الكود بضرب المحددات <code>xi = det(Ai) * det_A</code>، والصحيح في قاعدة كرامر هو القسمة: <code>xi = np.linalg.det(Ai) / det_A</code>. <strong>(درجتان)</strong></li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [SECTION 3] بنك الأسئلة التدريبي الشامل حسب الأنماط                       -->
+<!-- ========================================================================= -->
+<section id="question-bank" class="exam-section">
+    <div class="exam-header">
+        <div class="exam-title-group">
+            <h2>القسم الثالث: بنك الأسئلة الشامل المصنف حسب الأنماط الأكاديمية</h2>
+            <div class="exam-meta">مرجع شامل يحتوي على مئات الأسئلة المقالية، الموضوعية، والإثباتات مع حلولها المفسرة</div>
+        </div>
+        <div class="exam-score-badge">بنك التدريب المكثف</div>
+    </div>
+
+    <!-- 1. بنك الاختيارات MCQ -->
+    <div id="bank-mcq" class="sub-bank-section">
+        <h3 style="color:var(--primary); border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:18px;">
+            🔘 أولاً: بنك أسئلة الاختيار من متعدد التخصصي (MCQ Bank)
+        </h3>
+
+        <!-- MCQ 1 -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">س1: مقارنة الطرق غير الخطية <span class="q-tag tag-mcq">MCQ</span></span>
+            </div>
+            <div class="q-body">
+                أي الطرق العددية التالية تتميز بكونها <strong>مضمونة التقارب دائماً</strong> لأي دالة مستمرة طالما تحقق شرط البداية <span class="math-inline">f(a) \cdot f(b) < 0</span>؟
+                <div class="mcq-options two-cols">
+                    <div class="mcq-option" onclick="selectOption(this, true, 'sol-bm-1')"><span class="opt-letter">أ</span> <span>طريقة التنصيف (Bisection Method)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-1')"><span class="opt-letter">ب</span> <span>طريقة نيوتن - رافسون</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-1')"><span class="opt-letter">ج</span> <span>طريقة النقطة الثابتة</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-1')"><span class="opt-letter">د</span> <span>طريقة القاطع</span></div>
+                </div>
+                <div id="sol-bm-1" class="solution-box">
+                    <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (أ)</span></div>
+                    طريقة التنصيف تعتمد على تقليص الفترة إلى النصف في كل خطوة مع الحفاظ الحتمي على شرط حصر الجذر، لذا تقاربها مضمون بنسبة 100% ولا تعاني من مشاكل التباعد أو انعدام المشتقة، وإن كانت بطيئة خطياً.
+                </div>
+            </div>
+        </div>
+
+        <!-- MCQ 2 -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">س2: المصفوفات في MATLAB <span class="q-tag tag-mcq">MCQ</span></span>
+            </div>
+            <div class="q-body">
+                إذا كان <code>A = [1, 2; 3, 4]</code>، فإن ناتج الأمر <code>A .^ 2</code> في MATLAB هو:
+                <div class="mcq-options two-cols">
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-2')"><span class="opt-letter">أ</span> <span>[7, 10; 15, 22] (حاصل ضرب المصفوفة A * A)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, true, 'sol-bm-2')"><span class="opt-letter">ب</span> <span>[1, 4; 9, 16] (تربيع كل عنصر على حدة)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-2')"><span class="opt-letter">ج</span> <span>خطأ في الصياغة البرمجية (Syntax Error)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-2')"><span class="opt-letter">د</span> <span>[2, 4; 6, 8]</span></div>
+                </div>
+                <div id="sol-bm-2" class="solution-box">
+                    <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (ب)</span></div>
+                    النقطة قبل المعامل الرياضي <code>.^</code> تعني تطبيق العملية على كل عنصر بمفرده (Element-wise Power)، وبالتالي تربيع 1 هو 1، وتربيع 2 هو 4، وتربيع 3 هو 9، وتربيع 4 هو 16.
+                </div>
+            </div>
+        </div>
+
+        <!-- MCQ 3 -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">س3: التعقيد الحسابي لطريقة حذف جاوس <span class="q-tag tag-mcq">MCQ</span></span>
+            </div>
+            <div class="q-body">
+                عدد عمليات الضرب والقسمة التقريبي اللازم لحل نظام خطي من الرتبة <span class="math-inline">n \times n</span> باستخدام طريقة حذف جاوس هو من رتبة:
+                <div class="mcq-options two-cols">
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-3')"><span class="opt-letter">أ</span> <span>O(n)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-3')"><span class="opt-letter">ب</span> <span>O(n^2)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, true, 'sol-bm-3')"><span class="opt-letter">ج</span> <span>O(n^3 / 3)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-3')"><span class="opt-letter">د</span> <span>O(n!)</span></div>
+                </div>
+                <div id="sol-bm-3" class="solution-box">
+                    <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (ج)</span></div>
+                    مرحلة الحذف الأمامي تتطلب تقريباً <span class="math-inline">\frac{n^3}{3}</span> عملية ضرب/قسمة، بينما مرحلة التعويض العكسي تتطلب <span class="math-inline">\frac{n^2}{2}</span>، وبالتالي التعقيد المسيطر هو <span class="math-inline">O(n^3)</span>.
+                </div>
+            </div>
+        </div>
+
+        <!-- MCQ 4 -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">س4: دقة كثيرات حدود لاجرانج <span class="q-tag tag-mcq">MCQ</span></span>
+            </div>
+            <div class="q-body">
+                إذا قمنا باستيفاء الدالة <span class="math-inline">f(x) = 3x^2 - 5x + 2</span> عند أي 4 نقاط متمايزة باستخدام كثيرات حدود لاجرانج <span class="math-inline">P_3(x)</span>، فإن خطأ الاستيفاء <span class="math-inline">E(x) = f(x) - P_3(x)</span> يساوي:
+                <div class="mcq-options two-cols">
+                    <div class="mcq-option" onclick="selectOption(this, true, 'sol-bm-4')"><span class="opt-letter">أ</span> <span>0 (صفر تام لجميع قيم x)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-4')"><span class="opt-letter">ب</span> <span>O(h^4)</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-4')"><span class="opt-letter">ج</span> <span>يعتمد على اختيار النقاط فقط</span></div>
+                    <div class="mcq-option" onclick="selectOption(this, false, 'sol-bm-4')"><span class="opt-letter">د</span> <span>لا نهائي بسبب ظاهرة رونج</span></div>
+                </div>
+                <div id="sol-bm-4" class="solution-box">
+                    <div class="solution-header"><span>💡 التفسير:</span><span class="rubric-pill">الإجابة: (أ)</span></div>
+                    صيغة خطأ الاستيفاء لـ <span class="math-inline">n+1</span> نقطة تحتوي المشتقة <span class="math-inline">f^{(n+1)}(\xi)</span>. هنا <span class="math-inline">n=3</span>، والمشتقة الرابعة لكثيرة حدود من الدرجة الثانية هي صفر تام <span class="math-inline">f^{(4)}(x) = 0</span>، وبالتالي الخطأ صفر وتتطابق كثيرة الحدود المستوفاة تماماً مع الدالة الأصلية.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. بنك الصواب والخطأ -->
+    <div id="bank-tf" class="sub-bank-section" style="margin-top:40px;">
+        <h3 style="color:var(--primary); border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:18px;">
+            ✔️ ثانياً: بنك أسئلة الصواب والخطأ مع التعليل العلمي وتصحيح العبارات الخاطئة
+        </h3>
+
+        <div class="question-item">
+            <div class="q-body">
+                <strong>1.</strong> [ &nbsp; ] عند استخدام طريقة النقطة الثابتة للمعادلة <span class="math-inline">x^3 + x - 1 = 0</span> بصيغة <span class="math-inline">x = 1 - x^3</span>، فإن التكرار سيتقارب حتماً حول الجذر القريب من <span class="math-inline">x \approx 0.7</span>.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-btf-1')">🔍 عرض التعليل والتصحيح</button></div>
+                <div id="sol-btf-1" class="solution-box">
+                    <div class="solution-header"><span>النتيجة:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                    <strong>التعليل العلمي:</strong> دالة التكرار هي <span class="math-inline">g(x) = 1 - x^3</span>، ومشتقتها <span class="math-inline">g'(x) = -3x^2</span>. عند <span class="math-inline">x \approx 0.7</span> تكون القيمة المطلقة للمشتقة <span class="math-inline">|g'(0.7)| = |-3(0.49)| = 1.47 > 1</span>. وبما أن <span class="math-inline">|g'(x)| > 1</span>، فإن شرط التقارب غير محقق والتكرار <strong>سيتباعد</strong>. الصيغة المناسبة للتقارب هي <span class="math-inline">x = (1 - x)^{1/3}</span>.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <div class="q-body">
+                <strong>2.</strong> [ &nbsp; ] في قاعدة شبه المنحرف المركبة، تضرب جميع صور العقد <span class="math-inline">f(x_i)</span> في المعامل 2 بدون استثناء.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-btf-2')">🔍 عرض التعليل والتصحيح</button></div>
+                <div id="sol-btf-2" class="solution-box">
+                    <div class="solution-header"><span>النتيجة:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                    <strong>التصحيح:</strong> تضرب <strong>النقاط الداخلية فقط</strong> <span class="math-inline">f(x_1), f(x_2), \dots, f(x_{n-1})</span> في المعامل 2، بينما طرفا الفترة <span class="math-inline">f(x_0)</span> و <span class="math-inline">f(x_n)</span> يكون معاملهما 1 فقط: <span class="math-inline">I = \frac{h}{2} [f(x_0) + 2\sum f(x_i) + f(x_n)]</span>.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <div class="q-body">
+                <strong>3.</strong> [ &nbsp; ] طريقة التنصيف تتطلب حساب المشتقة الأولى للدالة <span class="math-inline">f'(x)</span> في كل خطوة تكرارية.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-btf-3')">🔍 عرض التعليل والتصحيح</button></div>
+                <div id="sol-btf-3" class="solution-box">
+                    <div class="solution-header"><span>النتيجة:</span><span class="rubric-pill">خطأ (✗)</span></div>
+                    <strong>التصحيح:</strong> طريقة التنصيف لا تتطلب حساب أي مشتقات على الإطلاق، بل تحتاج فقط لتقييم إشارة الدالة <span class="math-inline">f(c)</span>. الطريقة التي تتطلب المشتقة الأولى في كل خطوة هي <strong>طريقة نيوتن - رافسون</strong>.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <div class="q-body">
+                <strong>4.</strong> [ &nbsp; ] إذا كانت المصفوفة <span class="math-inline">A</span> مصفوفة مثلثية عليا، فإن محددها يساوي حاصل ضرب عناصر قطرها الرئيسي.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-btf-4')">🔍 عرض التعليل والتصحيح</button></div>
+                <div id="sol-btf-4" class="solution-box">
+                    <div class="solution-header"><span>النتيجة:</span><span class="rubric-pill">صحيح (✓)</span></div>
+                    <strong>التعليل العلمي:</strong> خاصية أساسية في الجبر الخطي والتحليل العددي: محدد أي مصفوفة مثلثية (عليا أو سفلية) أو قطرية هو ببساطة جداء عناصر القطر الرئيسي: <span class="math-inline">\det(A) = a_{11} \cdot a_{22} \cdots a_{nn}</span>.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. بنك الإكمال والمصطلحات -->
+    <div id="bank-fill" class="sub-bank-section" style="margin-top:40px;">
+        <h3 style="color:var(--primary); border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:18px;">
+            ✏️ ثالثاً: أسئلة إكمال الفراغات والقوانين الرياضية
+        </h3>
+
+        <div class="question-item">
+            <div class="q-body">
+                <strong>أكمل الفراغات التالية بما يناسبها رياضياً وعلمياً:</strong>
+                <ol style="line-height:2.2;">
+                    <li>قانون طريقة القاطع لحساب التقريب التالي هو: <span class="math-inline">x_{n+1} = x_n - f(x_n) \cdot \frac{..................}{..................}</span>.</li>
+                    <li>تسمى المصفوفة التي تحقق <span class="math-inline">|a_{ii}| > \sum_{j \neq i} |a_{ij}|</span> لكل صف بمصفوفة ........................................... .</li>
+                    <li>صيغة الفرق المركزي للمشتقة الأولى عند النقطة <span class="math-inline">x_0</span> بخطوة <span class="math-inline">h</span> هي: <span class="math-inline">f'(x_0) \approx \frac{..................}{2h}</span>.</li>
+                    <li>في استيفاء لاجرانج، مجموع كافة دوال الأساس <span class="math-inline">\sum_{i=0}^n L_i(x)</span> لأي قيمة <span class="math-inline">x</span> يساوي دائماً ..................... .</li>
+                    <li>ظاهرة التذبذب الشديد عند أطراف الفترة عند استخدام استيفاء كثيرات الحدود من درجات عالية بنقاط متساوية البعد تسمى ظاهرة ................................... .</li>
+                </ol>
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bfill')">🔍 عرض الإجابات النموذجية للفراغات</button></div>
+                <div id="sol-bfill" class="solution-box">
+                    <div class="solution-header"><span>الإجابات الصحيحة للفراغات:</span><span class="rubric-pill">إجابات معيارية</span></div>
+                    <ol>
+                        <li>بسط الكسر هو <span class="math-inline">(x_n - x_{n-1})</span> ومقامه هو <span class="math-inline">(f(x_n) - f(x_{n-1}))</span>.</li>
+                        <li><strong>مهيمنة قطرياً بشكل صارم (Strictly Diagonally Dominant Matrix)</strong>.</li>
+                        <li>البسط هو <span class="math-inline">f(x_0 + h) - f(x_0 - h)</span>.</li>
+                        <li><strong>1 (واحد صحيح)</strong> (خاصية تقسيم الوحدة Partition of Unity).</li>
+                        <li><strong>ظاهرة رونج (Runge's Phenomenon)</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. بنك الإثباتات والاشتقاقات الهندسية -->
+    <div id="bank-proof" class="sub-bank-section" style="margin-top:40px;">
+        <h3 style="color:var(--primary); border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:18px;">
+            📐 رابعاً: بنك الإثباتات والاشتقاقات الهندسية والرياضية
+        </h3>
+
+        <!-- إثبات 1: القاطع -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">إثبات 1: اشتقاق قانون طريقة القاطع (Secant Formula Derivation) <span class="q-tag tag-proof">إثبات</span></span>
+            </div>
+            <div class="q-body">
+                اشتق قانون طريقة القاطع انطلاقاً من معادلة الخط المستقيم (الوتر القاطع) المار بالنقطتين <span class="math-inline">(x_{n-1}, f(x_{n-1}))</span> و <span class="math-inline">(x_n, f(x_n))</span>.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-prf-1')">🔍 عرض الإثبات المفصل</button></div>
+                <div id="sol-prf-1" class="solution-box">
+                    <div class="solution-header"><span>خطوات الإثبات الرياضي الكامل:</span></div>
+                    <ol>
+                        <li>ميل الخط المستقيم القاطع المار بالنقطتين هو:
+                            <div class="math-block">m = \frac{f(x_n) - f(x_{n-1})}{x_n - x_{n-1}}</div>
+                        </li>
+                        <li>معادلة المستقيم القاطع باستخدام النقطة <span class="math-inline">(x_n, f(x_n))</span> والميل <span class="math-inline">m</span>:
+                            <div class="math-block">y - f(x_n) = m (x - x_n) = \frac{f(x_n) - f(x_{n-1})}{x_n - x_{n-1}} (x - x_n)</div>
+                        </li>
+                        <li>التقريب الجديد <span class="math-inline">x_{n+1}</span> يقع عند تقاطع المستقيم مع محور السينات (<span class="math-inline">y = 0</span>):
+                            <div class="math-block">0 - f(x_n) = \frac{f(x_n) - f(x_{n-1})}{x_n - x_{n-1}} (x_{n+1} - x_n)</div>
+                        </li>
+                        <li>بضرب الطرفين في مقلوب الميل:
+                            <div class="math-block">(x_{n+1} - x_n) = -f(x_n) \cdot \frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}</div>
+                        </li>
+                        <li>بعزل <span class="math-inline">x_{n+1}</span>:
+                            <div class="math-block">x_{n+1} = x_n - f(x_n) \cdot \frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} \quad \blacksquare</div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- إثبات 2: صيغة تايلور للفرق المركزي -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">إثبات 2: اشتقاق صيغة الفرق المركزي ورتبة خطأ O(h²) من متسلسلة تايلور <span class="q-tag tag-proof">إثبات</span></span>
+            </div>
+            <div class="q-body">
+                باستخدام مفكوك متسلسلة تايلور للدالة <span class="math-inline">f(x)</span> حول النقطة <span class="math-inline">x_0</span> بالخطوتين <span class="math-inline">+h</span> و <span class="math-inline">-h</span>:
+                اشتق صيغة الفرق المركزي للمشتقة الأولى <span class="math-inline">f'(x_0)</span> وأثبت رياضياً أن خطأ البتر هو من الرتبة الثانية <span class="math-inline">O(h^2)</span>.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-prf-2')">🔍 عرض الإثبات المفصل</button></div>
+                <div id="sol-prf-2" class="solution-box">
+                    <div class="solution-header"><span>خطوات الإثبات الرياضي الكامل:</span></div>
+                    <ol>
+                        <li>مفكوك تايلور المتقدم عند <span class="math-inline">x_0 + h</span>:
+                            <div class="math-block">f(x_0 + h) = f(x_0) + h f'(x_0) + \frac{h^2}{2} f''(x_0) + \frac{h^3}{6} f'''(x_0) + O(h^4) \quad \text{--- (1)}</div>
+                        </li>
+                        <li>مفكوك تايلور التراجعي عند <span class="math-inline">x_0 - h</span>:
+                            <div class="math-block">f(x_0 - h) = f(x_0) - h f'(x_0) + \frac{h^2}{2} f''(x_0) - \frac{h^3}{6} f'''(x_0) + O(h^4) \quad \text{--- (2)}</div>
+                        </li>
+                        <li>بطرح المعادلة (2) من المعادلة (1):
+                            <div class="math-block">f(x_0 + h) - f(x_0 - h) = 2h f'(x_0) + \frac{2h^3}{6} f'''(x_0) + O(h^5)</div>
+                            نلاحظ إلغاء الحدود المتضمنة <span class="math-inline">f(x_0)</span> و <span class="math-inline">h^2 f''(x_0)</span>.
+                        </li>
+                        <li>بقسمة الطرفين على <span class="math-inline">2h</span>:
+                            <div class="math-block">\frac{f(x_0 + h) - f(x_0 - h)}{2h} = f'(x_0) + \frac{h^2}{6} f'''(x_0) + O(h^4)</div>
+                        </li>
+                        <li>بعزل المشتقة <span class="math-inline">f'(x_0)</span>:
+                            <div class="math-block">f'(x_0) = \frac{f(x_0 + h) - f(x_0 - h)}{2h} - \frac{h^2}{6} f'''(\xi) = \frac{f(x_0 + h) - f(x_0 - h)}{2h} + O(h^2) \quad \blacksquare</div>
+                            وهذا يثبت أن رتبة الخطأ هي <span class="math-inline">O(h^2)</span>.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. بنك المسائل المقالية الحسابية -->
+    <div id="bank-calc" class="sub-bank-section" style="margin-top:40px;">
+        <h3 style="color:var(--primary); border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:18px;">
+            🔢 خامساً: بنك المسائل الحسابية المقالية المحلولة بالأرقام الكاملة
+        </h3>
+
+        <!-- مسألة 1: نيوتن رافسون للدوال المثلثية -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">مسألة 1: نيوتن-رافسون لمعادلة مثلثية غير خطية (مع ضبط Radian) <span class="q-tag tag-calc">مسألة حسابية</span></span>
+            </div>
+            <div class="q-body">
+                أوجد جذراً تقريبياً للمعادلة غير الخطية:
+                <div class="math-block">f(x) = \cos(x) - x = 0</div>
+                باستخدام طريقة <strong>نيوتن - رافسون</strong> بنقطة بداية <span class="math-inline">x_0 = 0.5</span> ودقة توقف <span class="math-inline">\epsilon = 10^{-4}</span> (أو 4 تكرارات كحد أقصى).
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcalc-1')">🔍 عرض الحل الجدولي الكامل</button></div>
+                <div id="sol-bcalc-1" class="solution-box">
+                    <div class="solution-header"><span>الحل الحسابي والجدول النموذجي:</span></div>
+                    <p><strong>تجهيز المشتقة وقانون التكرار:</strong></p>
+                    <ul>
+                        <li><span class="math-inline">f(x) = \cos(x) - x</span></li>
+                        <li><span class="math-inline">f'(x) = -\sin(x) - 1</span> (تأكد من ضبط الآلة على الراديان RAD)</li>
+                        <li>صيغة نيوتن: <span class="math-inline">x_{k+1} = x_k - \frac{\cos(x_k) - x_k}{-\sin(x_k) - 1} = x_k + \frac{\cos(x_k) - x_k}{\sin(x_k) + 1}</span></li>
+                    </ul>
+                    <table class="academic-table">
+                        <thead>
+                            <tr>
+                                <th>k</th>
+                                <th>x_k</th>
+                                <th>f(x_k)</th>
+                                <th>f'(x_k)</th>
+                                <th>x_{k+1}</th>
+                                <th>|x_{k+1} - x_k|</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>0.500000</td>
+                                <td>0.377583</td>
+                                <td>-1.479426</td>
+                                <td><strong>0.755222</strong></td>
+                                <td>0.255222</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>0.755222</td>
+                                <td>-0.027103</td>
+                                <td>-1.685450</td>
+                                <td><strong>0.739142</strong></td>
+                                <td>0.016081</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>0.739142</td>
+                                <td>-0.000095</td>
+                                <td>-1.673667</td>
+                                <td><strong>0.739085</strong></td>
+                                <td>0.000057</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>0.739085</td>
+                                <td>0.000000</td>
+                                <td>-1.673612</td>
+                                <td><strong>0.739085</strong></td>
+                                <td>0.000000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>تحقق شرط التوقف عند التكرار الثالث لأن الخطأ <span class="math-inline">0.000057 < 10^{-4}</span>. الجذر التقريبي هو <span class="math-inline">x \approx 0.739085</span>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- مسألة 2: كرامر 3x3 -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">مسألة 2: حل نظام خطي 3x3 بقاعدة كرامر والمحددات <span class="q-tag tag-calc">مسألة حسابية</span></span>
+            </div>
+            <div class="q-body">
+                حل النظام الخطي التالي باستخدام <strong>قاعدة كرامر</strong>:
+                <div class="math-block">
+                    x_1 + 2x_2 + 3x_3 = 14 \\
+                    2x_1 - x_2 + x_3 = 3 \\
+                    3x_1 + x_2 - 2x_3 = -1
+                </div>
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcalc-2')">🔍 عرض الحل التفصيلي بالمحددات</button></div>
+                <div id="sol-bcalc-2" class="solution-box">
+                    <div class="solution-header"><span>حساب المحددات وحل كرامر:</span></div>
+                    <strong>1. حساب محدد مصفوفة المعاملات الرئيسي det(A):</strong>
+                    <div class="math-block">
+                        \det(A) = 
+                        \begin{vmatrix}
+                        1 & 2 & 3 \\
+                        2 & -1 & 1 \\
+                        3 & 1 & -2
+                        \end{vmatrix}
+                        = 1 [(-1)(-2) - (1)(1)] - 2 [(2)(-2) - (1)(3)] + 3 [(2)(1) - (-1)(3)]
+                    </div>
+                    <div class="math-block">\det(A) = 1 [2 - 1] - 2 [-4 - 3] + 3 [2 + 3] = 1(1) - 2(-7) + 3(5) = 1 + 14 + 15 = 30</div>
+                    بما أن <span class="math-inline">\det(A) = 30 \neq 0</span>، فالنظام له حل وحيد بقاعدة كرامر.
+
+                    <br><br><strong>2. حساب محدد det(A1) (استبدال العمود 1 بمتجه الثوابت B = [14, 3, -1]^T):</strong>
+                    <div class="math-block">
+                        \det(A_1) = 
+                        \begin{vmatrix}
+                        14 & 2 & 3 \\
+                        3 & -1 & 1 \\
+                        -1 & 1 & -2
+                        \end{vmatrix}
+                        = 14(1) - 2(-5) + 3(2) = 14 + 10 + 6 = 30
+                    </div>
+                    <div class="math-block">x_1 = \frac{\det(A_1)}{\det(A)} = \frac{30}{30} = 1.0000</div>
+
+                    <br><strong>3. حساب محدد det(A2) (استبدال العمود 2 بمتجه الثوابت):</strong>
+                    <div class="math-block">
+                        \det(A_2) = 
+                        \begin{vmatrix}
+                        1 & 14 & 3 \\
+                        2 & 3 & 1 \\
+                        3 & -1 & -2
+                        \end{vmatrix}
+                        = 1(-5) - 14(-7) + 3(-11) = -5 + 98 - 33 = 60
+                    </div>
+                    <div class="math-block">x_2 = \frac{\det(A_2)}{\det(A)} = \frac{60}{30} = 2.0000</div>
+
+                    <br><strong>4. حساب محدد det(A3) (استبدال العمود 3 بمتجه الثوابت):</strong>
+                    <div class="math-block">
+                        \det(A_3) = 
+                        \begin{vmatrix}
+                        1 & 2 & 14 \\
+                        2 & -1 & 3 \\
+                        3 & 1 & -1
+                        \end{vmatrix}
+                        = 1(-2) - 2(-11) + 14(5) = -2 + 22 + 70 = 90
+                    </div>
+                    <div class="math-block">x_3 = \frac{\det(A_3)}{\det(A)} = \frac{90}{30} = 3.0000</div>
+
+                    <div class="box box-tip">
+                        <strong>الحل النهائي للنظام:</strong> <span class="math-inline">x_1 = 1, \quad x_2 = 2, \quad x_3 = 3</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- مسألة 3: معكوس مصفوفة بحذف جاوس-جوردان -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">مسألة 3: إيجاد معكوس مصفوفة 2x2 و 3x3 بحذف جاوس-جوردان <span class="q-tag tag-calc">معكوس مصفوفة</span></span>
+            </div>
+            <div class="q-body">
+                أوجد معكوس المصفوفة التالية باستخدام طريقة <strong>جاوس - جوردان</strong> على المصفوفة الموسعة <span class="math-inline">[A | I]</span>:
+                <div class="math-block">
+                    A = \begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}
+                </div>
+                ثم استنتج حل النظام الخطي <span class="math-inline">AX = B</span> حيث <span class="math-inline">B = [5, 10]^T</span> عبر ضرب المعكوس <span class="math-inline">X = A^{-1} B</span>.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcalc-3')">🔍 عرض خطوات جاوس-جوردان</button></div>
+                <div id="sol-bcalc-3" class="solution-box">
+                    <div class="solution-header"><span>حل جاوس-جوردان خطوة بخطوة:</span></div>
+                    <strong>1. وضع المصفوفة الموسعة مع مصفوفة الوحدة:</strong>
+                    <div class="math-block">
+                        [A | I] = \begin{bmatrix} 2 & 1 & | & 1 & 0 \\ 1 & 3 & | & 0 & 1 \end{bmatrix}
+                    </div>
+                    <strong>2. جعل العنصر المحوري الأول يساوي 1 (<span class="math-inline">R_1 \leftarrow R_1 / 2</span>):</strong>
+                    <div class="math-block">
+                        \begin{bmatrix} 1 & 0.5 & | & 0.5 & 0 \\ 1 & 3 & | & 0 & 1 \end{bmatrix}
+                    </div>
+                    <strong>3. تصفير أسفل القطر (<span class="math-inline">R_2 \leftarrow R_2 - R_1</span>):</strong>
+                    <div class="math-block">
+                        \begin{bmatrix} 1 & 0.5 & | & 0.5 & 0 \\ 0 & 2.5 & | & -0.5 & 1 \end{bmatrix}
+                    </div>
+                    <strong>4. جعل المحور الثاني يساوي 1 (<span class="math-inline">R_2 \leftarrow R_2 / 2.5</span>):</strong>
+                    <div class="math-block">
+                        \begin{bmatrix} 1 & 0.5 & | & 0.5 & 0 \\ 0 & 1 & | & -0.2 & 0.4 \end{bmatrix}
+                    </div>
+                    <strong>5. تصفير أعلى القطر (<span class="math-inline">R_1 \leftarrow R_1 - 0.5 R_2</span>):</strong>
+                    <div class="math-block">
+                        \begin{bmatrix} 1 & 0 & | & 0.6 & -0.2 \\ 0 & 1 & | & -0.2 & 0.4 \end{bmatrix}
+                    </div>
+                    إذن معكوس المصفوفة هو:
+                    <div class="math-block">
+                        A^{-1} = \begin{bmatrix} 0.6 & -0.2 \\ -0.2 & 0.4 \end{bmatrix} = \frac{1}{5} \begin{bmatrix} 3 & -1 \\ -1 & 2 \end{bmatrix}
+                    </div>
+                    <strong>6. حل النظام الخطي X = A⁻¹ B:</strong>
+                    <div class="math-block">
+                        X = \begin{bmatrix} 0.6 & -0.2 \\ -0.2 & 0.4 \end{bmatrix} \begin{bmatrix} 5 \\ 10 \end{bmatrix}
+                        = \begin{bmatrix} 0.6(5) - 0.2(10) \\ -0.2(5) + 0.4(10) \end{bmatrix}
+                        = \begin{bmatrix} 3 - 2 \\ -1 + 4 \end{bmatrix}
+                        = \begin{bmatrix} 1 \\ 3 \end{bmatrix}
+                    </div>
+        <!-- مسألة 4: الموضع الخاطئ (Regula Falsi) -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">مسألة 4: حل معادلة بطريقة الموضع الخاطئ (False Position) والمقارنة بالتنصيف <span class="q-tag tag-calc">الموضع الخاطئ</span></span>
+            </div>
+            <div class="q-body">
+                أوجد جذراً تقريبياً للمعادلة غير الخطية:
+                <div class="math-block">f(x) = x^3 - 2x - 5 = 0 \quad \text{في الفترة } [2, 3]</div>
+                باستخدام طريقة <strong>الموضع الخاطئ (Regula Falsi)</strong> لأول 3 تكرارات، ونظم حلك في جدول متكامل يتضمن قيم <span class="math-inline">(a, b, c, f(a), f(b), f(c), |c_{k} - c_{k-1}|)</span>.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcalc-4')">🔍 عرض الحل الجدولي الكامل</button></div>
+                <div id="sol-bcalc-4" class="solution-box">
+                    <div class="solution-header"><span>الحل الحسابي والجدول النموذجي:</span></div>
+                    <p><strong>1. فحص طرفي الفترة:</strong></p>
+                    <ul>
+                        <li><span class="math-inline">f(2) = (2)^3 - 2(2) - 5 = 8 - 4 - 5 = -1 < 0</span></li>
+                        <li><span class="math-inline">f(3) = (3)^3 - 2(3) - 5 = 27 - 6 - 5 = +16 > 0</span></li>
+                        <li><span class="math-inline">f(2) \cdot f(3) = (-1)(16) = -16 < 0</span> (الشرط محقق والجذر محصور).</li>
+                    </ul>
+                    <p><strong>2. قانون الموضع الخاطئ:</strong></p>
+                    <div class="math-block">c = \frac{a \cdot f(b) - b \cdot f(a)}{f(b) - f(a)} = b - \frac{f(b)(b - a)}{f(b) - f(a)}</div>
+                    <table class="academic-table">
+                        <thead>
+                            <tr>
+                                <th>k</th>
+                                <th>a</th>
+                                <th>b</th>
+                                <th>c (الموضع الخاطئ)</th>
+                                <th>f(a)</th>
+                                <th>f(b)</th>
+                                <th>f(c)</th>
+                                <th>القرار والتحديث</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2.0000</td>
+                                <td>3.0000</td>
+                                <td><strong>2.0588</strong></td>
+                                <td>-1.0000</td>
+                                <td>+16.0000</td>
+                                <td>(2.0588)^3 - 2(2.0588) - 5 = <strong>-0.3908</strong></td>
+                                <td>f(c) سالب ➔ استبدال a = 2.0588</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2.0588</td>
+                                <td>3.0000</td>
+                                <td><strong>2.0813</strong></td>
+                                <td>-0.3908</td>
+                                <td>+16.0000</td>
+                                <td>(2.0813)^3 - 2(2.0813) - 5 = <strong>-0.1472</strong></td>
+                                <td>f(c) سالب ➔ استبدال a = 2.0813</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2.0813</td>
+                                <td>3.0000</td>
+                                <td><strong>2.0897</strong></td>
+                                <td>-0.1472</td>
+                                <td>+16.0000</td>
+                                <td>(2.0897)^3 - 2(2.0897) - 5 = <strong>-0.0547</strong></td>
+                                <td>f(c) سالب ➔ استبدال a = 2.0897</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="box box-tip">
+                        <strong>النتيجة والملاحظة الهندسية:</strong> الجذر التقريبي بعد 3 خطوات هو <span class="math-inline">c \approx 2.0897</span> (والجذر الدقيق هو <span class="math-inline">r \approx 2.09455</span>).
+                        <br><em>نلاحظ ثبات الطرف العلوي <span class="math-inline">b = 3</span> وتحديث الطرف السفلي فقط، وهي الخاصية الهندسية الشهيرة للموضع الخاطئ عند تقعر المنحنى في اتجاه واحد.</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- مسألة 5: النقطة الثابتة -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">مسألة 5: طريقة النقطة الثابتة وفحص شرط الانكماش |g'(x)| < 1 <span class="q-tag tag-calc">النقطة الثابتة</span></span>
+            </div>
+            <div class="q-body">
+                لحل المعادلة <span class="math-inline">x^3 - x - 2 = 0</span> في الفترة <span class="math-inline">[1, 2]</span>:
+                <ol>
+                    <li>اقترح صيغتين مختلفتين للتكرار: <span class="math-inline">x = g_1(x) = x^3 - 2</span> و <span class="math-inline">x = g_2(x) = (x + 2)^{1/3}</span>.</li>
+                    <li>افحص قابلية التقارب لكل صيغة بحساب المشتقة <span class="math-inline">|g'(x)|</span>، وحدد الصيغة المتقاربة.</li>
+                    <li>باستخدام الصيغة المتقاربة ونقطة البداية <span class="math-inline">x_0 = 1.5</span>، احسب التكرارات <span class="math-inline">x_1, x_2, x_3, x_4</span> مع إيجاد الخطأ في كل خطوة.</li>
+                </ol>
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcalc-5')">🔍 عرض خطوات الحل والجدول</button></div>
+                <div id="sol-bcalc-5" class="solution-box">
+                    <div class="solution-header"><span>فحص التقارب وجدول النقطة الثابتة:</span></div>
+                    <strong>1. فحص الصيغة الأولى g1(x) = x³ - 2:</strong>
+                    <div class="math-block">g_1'(x) = 3x^2</div>
+                    على الفترة <span class="math-inline">[1, 2]</span>، قيمة <span class="math-inline">|g_1'(x)| \in [3, 12] > 1</span> دائماً.
+                    <br>➔ هذه الصيغة <strong>متباعدة حتماً (Divergent)</strong> وتفشل في إيجاد الجذر.
+
+                    <br><br><strong>2. فحص الصيغة الثانية g2(x) = (x + 2)^(1/3):</strong>
+                    <div class="math-block">g_2'(x) = \frac{1}{3}(x + 2)^{-2/3} = \frac{1}{3 \sqrt[3]{(x+2)^2}}</div>
+                    على الفترة <span class="math-inline">[1, 2]</span>:
+                    <ul>
+                        <li>عند <span class="math-inline">x = 1</span>: <span class="math-inline">g_2'(1) = \frac{1}{3 \sqrt[3]{9}} \approx \frac{1}{3(2.08)} \approx 0.160 < 1</span></li>
+                        <li>عند <span class="math-inline">x = 2</span>: <span class="math-inline">g_2'(2) = \frac{1}{3 \sqrt[3]{16}} \approx \frac{1}{3(2.5198)} \approx 0.132 < 1</span></li>
+                    </ul>
+                    بما أن <span class="math-inline">|g_2'(x)| \le 0.160 < 1</span> في كامل الفترة، فإن شرط التقارب محقق والتقارب مضمون وسريع.
+
+                    <br><br><strong>3. جدول التكرارات بدءاً من x0 = 1.5:</strong>
+                    <table class="academic-table">
+                        <thead>
+                            <tr><th>n</th><th>x_n</th><th>g(x_n) = (x_n + 2)^(1/3)</th><th>الخطأ المطلق |x_{n+1} - x_n|</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>0</td><td>1.500000</td><td>(3.5)^(1/3) = <strong>1.518294</strong></td><td>0.018294</td></tr>
+                            <tr><td>1</td><td>1.518294</td><td>(3.518294)^(1/3) = <strong>1.520941</strong></td><td>0.002647</td></tr>
+                            <tr><td>2</td><td>1.520941</td><td>(3.520941)^(1/3) = <strong>1.521323</strong></td><td>0.000382</td></tr>
+                            <tr><td>3</td><td>1.521323</td><td>(3.521323)^(1/3) = <strong>1.521378</strong></td><td>0.000055</td></tr>
+                        </tbody>
+                    </table>
+                    <p>الجذر التقريبي المحسوب هو <span class="math-inline">x \approx 1.52138</span> بخطأ أقل من <span class="math-inline">10^{-4}</span> في 3 تكرارات فقط.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- مسألة 6: التفاضل العددي بصيغ تايلور الثلاث -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">مسألة 6: التفاضل العددي بصيغ تايلور الثلاث ومقارنة الأخطاء بدقة <span class="q-tag tag-calc">تفاضل عددي</span></span>
+            </div>
+            <div class="q-body">
+                لتكن الدالة <span class="math-inline">f(x) = \sin(x)</span>، والمطلوب تقريب المشتقة الأولى <span class="math-inline">f'(x)</span> عند النقطة <span class="math-inline">x_0 = 1.0 \text{ rad}</span> باستخدام خطوة <span class="math-inline">h = 0.1</span>:
+                <ol>
+                    <li>احسب التقريب بصيغة <strong>الفرق المتقدم (Forward Difference)</strong>.</li>
+                    <li>احسب التقريب بصيغة <strong>الفرق التراجعي (Backward Difference)</strong>.</li>
+                    <li>احسب التقريب بصيغة <strong>الفرق المركزي (Central Difference)</strong>.</li>
+                    <li>قارن النتائج الثلاث بالقيمة الدقيقة تحليلياً <span class="math-inline">f'(1.0) = \cos(1.0) \approx 0.540302</span>، واحسب الخطأ المطلق لكل صيغة وفسر سبب تفوق الفرق المركزي.</li>
+                </ol>
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcalc-6')">🔍 عرض جدول مقارنة التفاضل العددي</button></div>
+                <div id="sol-bcalc-6" class="solution-box">
+                    <div class="solution-header"><span>حل وتطبيق صيغ التفاضل العددي:</span></div>
+                    <strong>1. حساب قيم الدالة عند العقد:</strong>
+                    <ul>
+                        <li><span class="math-inline">f(x_0 - h) = f(0.9) = \sin(0.9) \approx 0.783327</span></li>
+                        <li><span class="math-inline">f(x_0) = f(1.0) = \sin(1.0) \approx 0.841471</span></li>
+                        <li><span class="math-inline">f(x_0 + h) = f(1.1) = \sin(1.1) \approx 0.891207</span></li>
+                    </ul>
+
+                    <strong>2. تطبيق الصيغ الثلاث:</strong>
+                    <ul>
+                        <li><strong>صيغة الفرق المتقدم (Forward):</strong>
+                            <div class="math-block">f'_{\text{fwd}} \approx \frac{f(1.1) - f(1.0)}{0.1} = \frac{0.891207 - 0.841471}{0.1} = \frac{0.049736}{0.1} = 0.497360</div>
+                            الخطأ المطلق: <span class="math-inline">|0.540302 - 0.497360| = 0.042942</span>.
+                        </li>
+                        <li><strong>صيغة الفرق التراجعي (Backward):</strong>
+                            <div class="math-block">f'_{\text{bwd}} \approx \frac{f(1.0) - f(0.9)}{0.1} = \frac{0.841471 - 0.783327}{0.1} = \frac{0.058144}{0.1} = 0.581440</div>
+                            الخطأ المطلق: <span class="math-inline">|0.540302 - 0.581440| = 0.041138</span>.
+                        </li>
+                        <li><strong>صيغة الفرق المركزي (Central):</strong>
+                            <div class="math-block">f'_{\text{cnt}} \approx \frac{f(1.1) - f(0.9)}{2(0.1)} = \frac{0.891207 - 0.783327}{0.2} = \frac{0.107880}{0.2} = 0.539400</div>
+                            الخطأ المطلق: <span class="math-inline">|0.540302 - 0.539400| = 0.000902</span>.
+                        </li>
+                    </ul>
+                    <table class="academic-table">
+                        <thead>
+                            <tr><th>الصيغة العددية</th><th>القيمة المقربة</th><th>القيمة الدقيقة</th><th>الخطأ المطلق</th><th>رتبة الخطأ</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>الفرق المتقدم (Forward)</td><td>0.497360</td><td>0.540302</td><td>0.042942</td><td>O(h)</td></tr>
+                            <tr><td>الفرق التراجعي (Backward)</td><td>0.581440</td><td>0.540302</td><td>0.041138</td><td>O(h)</td></tr>
+                            <tr style="background:#f0fdf4; font-weight:bold;"><td>الفرق المركزي (Central)</td><td>0.539400</td><td>0.540302</td><td>0.000902</td><td>O(h²)</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="box box-tip">
+                        <strong>التفسير الرياضي:</strong> الخطأ في الفرق المركزي (<span class="math-inline">0.0009</span>) أصغر بقرابة <strong>47 ضعفاً</strong> من خطأ الصيغتين المتقدمة والتراجعية؛ لأن الفرق المركزي من الرتبة الثانية <span class="math-inline">O(h^2)</span> حيث تلغي متسلسلة تايلور الحدود الفردية للخطأ تلقائياً.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. بنك الأكواد البرمجية وتتبع الأخطاء -->
+    <div id="bank-code" class="sub-bank-section" style="margin-top:40px;">
+        <h3 style="color:var(--primary); border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:18px;">
+            💻 سادساً: بنك أسئلة البرمجة في MATLAB وبايثون وتتبع الأخطاء البرمجية
+        </h3>
+
+        <!-- سؤال برمجي 1: جاكوبي في ماتلاب -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">سؤال برمجي 1: كود طريقة جاكوبي المعتمد في المقرر (MATLAB Code) <span class="q-tag tag-code">MATLAB</span></span>
+            </div>
+            <div class="q-body">
+                اكتب دالة MATLAB كاملة وموثقة باسم <code>function x = my_jacobi(A, b, x0, tol, max_iter)</code> تعكس الكود المرجعي المعتمد في المقرر، مع شرح كل سطر.
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcode-1')">🔍 عرض كود ماتلاب المعتمد مع الشرح</button></div>
+                <div id="sol-bcode-1" class="solution-box">
+                    <div class="solution-header"><span>كود جاكوبي المرجعي في MATLAB:</span></div>
+                    <pre class="code-block">
+<span class="code-keyword">function</span> x = my_jacobi(A, b, x0, tol, max_iter)
+    <span class="code-comment">% A: مصفوفة المعاملات [n x n]</span>
+    <span class="code-comment">% b: متجه الحدود المطلقة [n x 1]</span>
+    <span class="code-comment">% x0: متجه البداية الأولي</span>
+    <span class="code-comment">% tol: التسامح المسموح للخطأ (شرط التوقف)</span>
+    <span class="code-comment">% max_iter: الحد الأقصى لعدد التكرارات</span>
+    
+    n = length(b);
+    x = x0;
+    x_new = zeros(n, 1);
+    
+    <span class="code-keyword">for</span> k = 1:max_iter
+        <span class="code-keyword">for</span> i = 1:n
+            <span class="code-comment">% حساب مجموع حاصل ضرب المعاملات في المتغيرات باستثناء القطر</span>
+            sum_val = 0;
+            <span class="code-keyword">for</span> j = 1:n
+                <span class="code-keyword">if</span> j ~= i
+                    sum_val = sum_val + A(i, j) * x(j);
+                <span class="code-keyword">end</span>
+            <span class="code-keyword">end</span>
+            <span class="code-comment">% تحديث المتغير x_i وفق صيغة جاكوبي</span>
+            x_new(i) = (b(i) - sum_val) / A(i, i);
+        <span class="code-keyword">end</span>
+        
+        <span class="code-comment">% فحص شرط التوقف بحساب المعيار الإقليدي للخطأ</span>
+        <span class="code-keyword">if</span> norm(x_new - x, inf) < tol
+            fprintf(<span class="code-string">'تقاربت طريقة جاكوبي بنجاح في %d تكرار\n'</span>, k);
+            x = x_new;
+            <span class="code-keyword">return</span>;
+        <span class="code-keyword">end</span>
+        
+        x = x_new; <span class="code-comment">% تجهيز التكرار التالي</span>
+    <span class="code-keyword">end</span>
+    warning(<span class="code-string">'وصلت الطريقة إلى الحد الأقصى للتكرارات دون تقارب تام'</span>);
+<span class="code-keyword">end</span>
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- سؤال برمجي 2: تتبع كود استيفاء لاجرانج -->
+        <div class="question-item">
+            <div class="q-header">
+                <span class="q-number">سؤال برمجي 2: تتبع مخرجات كود استيفاء لاجرانج (Trace Output) <span class="q-tag tag-code">Code Trace</span></span>
+            </div>
+            <div class="q-body">
+                تتبع كود MATLAB التالي واكتب القيمة العددية النهائية للمتغير <code>y_eval</code>:
+                <pre class="code-block">
+x_pts = [1, 2, 4];
+y_pts = [3, 7, 21];
+x = 2;
+n = length(x_pts);
+y_eval = 0;
+
+<span class="code-keyword">for</span> i = 1:n
+    L = 1;
+    <span class="code-keyword">for</span> j = 1:n
+        <span class="code-keyword">if</span> j ~= i
+            L = L * (x - x_pts(j)) / (x_pts(i) - x_pts(j));
+        <span class="code-keyword">end</span>
+    <span class="code-keyword">end</span>
+    y_eval = y_eval + y_pts(i) * L;
+<span class="code-keyword">end</span>
+                </pre>
+                <div class="solution-toggle"><button class="btn btn-outline" onclick="toggleSingleSolution('sol-bcode-2')">🔍 عرض التتبع والنتيجة</button></div>
+                <div id="sol-bcode-2" class="solution-box">
+                    <div class="solution-header"><span>نتيجة التتبع والتفسير الأكاديمي:</span><span class="rubric-pill">y_eval = 7.0000</span></div>
+                    <p><strong>التفسير السريع والدقيق:</strong></p>
+                    <ul>
+                        <li>النقطة المطلوب تقييم الاستيفاء عندها هي <span class="math-inline">x = 2</span>.</li>
+                        <li>نلاحظ أن <span class="math-inline">x = 2</span> هي إحدى العقد الأصلية المعطاة في الجدول <span class="math-inline">(x_2 = 2)</span> حيث <span class="math-inline">y_2 = 7</span>.</li>
+                        <li>من خاصية استيفاء لاجرانج، فإن كثيرة الحدود تمر حتماً بنقاط الجدول بالضبط: <span class="math-inline">P(x_i) = y_i</span>.</li>
+                        <li>بالتالي عند <span class="math-inline">i = 1</span>: <span class="math-inline">L_1 = 0</span> لأن البسط يحتوي <span class="math-inline">(2 - 2) = 0</span>.</li>
+                        <li>عند <span class="math-inline">i = 2</span>: <span class="math-inline">L_2 = 1</span>.</li>
+                        <li>عند <span class="math-inline">i = 3</span>: <span class="math-inline">L_3 = 0</span>.</li>
+                        <li>إذن: <span class="math-inline">y_{\text{eval}} = 3(0) + 7(1) + 21(0) = 7</span>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div> <!-- End Container -->
+
+<!-- الفوتر التوثيقي -->
+<footer style="background:#0f172a; color:#94a3b8; text-align:center; padding:30px 20px; font-size:13.5px; border-top:1px solid #334155;" class="no-print">
+    <div style="max-width:1200px; margin:0 auto;">
+        <h4 style="color:#ffffff; margin:0 0 10px 0; font-size:16px;">منصة التحليل العددي الأكاديمية الشاملة - بنك الاختبارات والتقييم</h4>
+        <p style="margin:0 0 15px 0;">تم إعداد هذه الاختبارات والأسئلة وفق أعلى المعايير الأكاديمية الجامعية لتشمل كافة الطرق الـ 12 المعتمدة في المقرر مع الإثباتات والحلول النموذجية وسلالم الدرجات.</p>
+        <div style="color:#64748b; font-size:12px;">جامعة الملك سعود / كليات الهندسة وعلوم الحاسوب - الإصدار 2026</div>
+    </div>
+</footer>
+
+<!-- دوال JavaScript التفاعلية -->
+<script>
+// تبديل الأقسام والفلترة
+function filterSections(category) {
+    const sections = document.querySelectorAll('.exam-section');
+    const subBanks = document.querySelectorAll('.sub-bank-section');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    if (category === 'all') {
+        sections.forEach(s => s.style.display = 'block');
+        subBanks.forEach(sb => sb.style.display = 'block');
+    } else if (category === 'midterm') {
+        sections.forEach(s => s.style.display = (s.id === 'midterm') ? 'block' : 'none');
+    } else if (category === 'final') {
+        sections.forEach(s => s.style.display = (s.id === 'final') ? 'block' : 'none');
+    } else {
+        // فلترة بنك الأسئلة المتخصص
+        sections.forEach(s => s.style.display = (s.id === 'question-bank') ? 'block' : 'none');
+        subBanks.forEach(sb => {
+            if (category === 'mcq' && sb.id === 'bank-mcq') sb.style.display = 'block';
+            else if (category === 'tf' && sb.id === 'bank-tf') sb.style.display = 'block';
+            else if (category === 'fill' && sb.id === 'bank-fill') sb.style.display = 'block';
+            else if (category === 'proof' && sb.id === 'bank-proof') sb.style.display = 'block';
+            else if (category === 'calc' && sb.id === 'bank-calc') sb.style.display = 'block';
+            else if (category === 'code' && sb.id === 'bank-code') sb.style.display = 'block';
+            else sb.style.display = 'none';
+        });
+    }
+}
+
+// إظهار وإخفاء حل فردي
+function toggleSingleSolution(id) {
+    const box = document.getElementById(id);
+    if (box) {
+        box.classList.toggle('open');
+    }
+}
+
+// إظهار وإخفاء مجموعة حلول
+function toggleSolutionGroup(ids) {
+    let anyClosed = false;
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.classList.contains('open')) anyClosed = true;
+    });
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (anyClosed) el.classList.add('open');
+            else el.classList.remove('open');
+        }
+    });
+}
+
+// إظهار / إخفاء جميع الحلول في الصفحة
+let allSolutionsVisible = false;
+function toggleAllSolutions() {
+    allSolutionsVisible = !allSolutionsVisible;
+    const allBoxes = document.querySelectorAll('.solution-box');
+    allBoxes.forEach(box => {
+        if (allSolutionsVisible) box.classList.add('open');
+        else box.classList.remove('open');
+    });
+}
+
+// اختيار خيار MCQ تفاعلياً
+function selectOption(element, isCorrect, solutionId) {
+    const parent = element.parentElement;
+    const options = parent.querySelectorAll('.mcq-option');
+    options.forEach(opt => {
+        opt.classList.remove('selected', 'correct', 'incorrect');
+    });
+
+    element.classList.add('selected');
+    if (isCorrect) {
+        element.classList.add('correct');
+    } else {
+        element.classList.add('incorrect');
+    }
+
+    // إظهار الحل تلقائياً
+    const solBox = document.getElementById(solutionId);
+    if (solBox) solBox.classList.add('open');
+}
+
+// تصحيح جميع الاختيارات دفعة واحدة
+function gradeAllMCQs() {
+    let total = 0;
+    let correct = 0;
+    const options = document.querySelectorAll('.mcq-option.selected');
+    options.forEach(opt => {
+        total++;
+        if (opt.classList.contains('correct')) correct++;
+    });
+
+    if (total === 0) {
+        alert("لم تقم بتحديد أي إجابات بعد! انقر على الخيارات في أسئلة الـ MCQ ثم اضغط تصحيح.");
+    } else {
+        alert(`نتيجتك في الأسئلة التي أجبت عليها: ${correct} من ${total} (بنسبة ${Math.round((correct/total)*100)}%)`);
+    }
+}
+
+// مؤقت الاختبار التفاعلي
+let timeLeft = 60 * 60; // 60 دقيقة
+let timerRunning = false;
+let timerInterval = null;
+
+function toggleTimer() {
+    if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+    } else {
+        timerRunning = true;
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                alert("انتهى زمن الاختبار المحدد!");
+                return;
+            }
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }, 1000);
+    }
+}
+</script>
+
+</body>
+</html>

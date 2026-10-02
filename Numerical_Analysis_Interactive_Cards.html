@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المذكرة الأكاديمية الشاملة في التحليل العددي | المرجع المعتمد للدراسة والاختبارات</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap');
+
+:root {
+    --primary: #1e3a8a;
+    --primary-light: #2563eb;
+    --primary-dark: #0f172a;
+    --accent: #0284c7;
+    --accent-light: #38bdf8;
+    --success: #15803d;
+    --success-bg: #dcfce7;
+    --warning: #b45309;
+    --warning-bg: #fef3c7;
+    --danger: #b91c1c;
+    --danger-bg: #fee2e2;
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #cbd5e1;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --code-bg: #0f172a;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    direction: rtl;
+    text-align: right;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+    font-size: 14.5px;
+}
+
+/* Print Rules - Clean, readable, no blank pages */
+@page {
+    size: A4;
+    margin: 14mm 12mm 16mm 12mm;
+    @bottom-center {
+        content: counter(page);
+        font-family: 'Cairo', sans-serif;
+        font-size: 9pt;
+        color: #64748b;
+    }
+    @top-right {
+        content: "المذكرة الشاملة في التحليل العددي - النظري والعملي";
+        font-family: 'Cairo', sans-serif;
+        font-size: 8pt;
+        color: #94a3b8;
+    }
+}
+
+@media print {
+    .no-print, .toolbar, .filter-nav, .reveal-btn, .btn, .interactive-controls, #study-mode-banner {
+        display: none !important;
+    }
+    body {
+        background-color: #ffffff;
+        font-size: 10pt;
+    }
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    .study-card {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+        margin-bottom: 22px !important;
+        page-break-inside: auto !important; /* Never push whole card to new page */
+    }
+    .card-body {
+        display: block !important; /* Always fully visible in print */
+    }
+    .avoid-break {
+        page-break-inside: avoid;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+}
+
+/* Header & Cover Banner */
+.cover-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%);
+    color: #ffffff;
+    padding: 40px 25px;
+    border-bottom: 4px solid var(--accent-light);
+}
+
+.cover-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cover-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.cover-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin-bottom: 12px;
+}
+
+.cover-main-title {
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.3;
+    margin: 10px 0;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.cover-subtitle {
+    font-size: 15px;
+    color: #cbd5e1;
+    max-width: 850px;
+    margin: 0 0 20px 0;
+    font-weight: 400;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.feature-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 14px 18px;
+    border-radius: 10px;
+}
+
+.feature-box h4 {
+    margin: 0 0 6px 0;
+    color: #38bdf8;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.feature-box p {
+    margin: 0;
+    font-size: 13px;
+    color: #e2e8f0;
+    line-height: 1.55;
+}
+
+/* Sticky Toolbar */
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    padding: 10px 20px;
+}
+
+.toolbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.filter-nav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background: #e2e8f0;
+    color: var(--primary);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.action-tools {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #172554; }
+.btn-outline { background: #fff; color: #334155; border: 1.5px solid #cbd5e1; }
+.btn-outline:hover { background: #f8fafc; border-color: var(--primary); color: var(--primary); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #0369a1; }
+.btn-warning { background: var(--warning); color: #fff; }
+.btn-warning:hover { background: #92400e; }
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 20px 60px 20px;
+}
+
+/* Headings */
+h1.section-title {
+    color: #0f172a;
+    font-size: 21px;
+    font-weight: 900;
+    border-right: 5px solid var(--primary-light);
+    padding-right: 14px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    background: #f1f5f9;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 0 8px 8px 0;
+}
+
+h2.topic-title {
+    color: var(--primary);
+    font-size: 17px;
+    font-weight: 800;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* Badges */
+.tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+.tag-confirmed { background-color: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.tag-frequent { background-color: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+.tag-deduced { background-color: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+.tag-study { background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+/* ========================================================================= */
+/* بطاقات المذاكرة التفاعلية (Interactive Study Cards)                       */
+/* ========================================================================= */
+.study-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-right: 5px solid var(--primary);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.study-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: #94a3b8;
+}
+
+.card-header {
+    background: #ffffff;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.card-header:hover {
+    background-color: #f8fafc;
+}
+
+.card-title-group {
+    flex: 1;
+    min-width: 280px;
+}
+
+.card-title-group h3 {
+    margin: 0 0 6px 0;
+    font-size: 17.5px;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-prompt {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.card-prompt strong {
+    color: #b45309;
+}
+
+.reveal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1.5px solid #bae6fd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.reveal-btn:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+}
+
+/* Card Body - OPEN by default so file is NEVER empty, but toggleable for active recall! */
+.card-body {
+    display: block;
+    padding: 24px;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+}
+
+.study-card.collapsed .card-body {
+    display: none;
+}
+
+.study-card.collapsed .reveal-btn {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.study-card:not(.collapsed) .reveal-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+/* 6 Pillars inside Card Body */
+.pillar-section {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.pillar-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.pillar-title {
+    font-size: 15px;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pillar-intuition { color: #0284c7; }
+.pillar-formula { color: #b45309; }
+.pillar-algorithm { color: #1e3a8a; }
+.pillar-example { color: #15803d; }
+.pillar-trap { color: #b91c1c; }
+.pillar-code { color: #334155; }
+.pillar-quiz { color: #7c3aed; }
+
+/* Callouts & Boxes */
+.box {
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 8px;
+    font-size: 13.5px;
+    line-height: 1.65;
+}
+.box-tip { background-color: #f0fdf4; border-right: 4px solid #16a34a; color: #14532d; }
+.box-warning { background-color: #fef2f2; border-right: 4px solid #dc2626; color: #7f1d1d; }
+.box-rule { background-color: #fefce8; border-right: 4px solid #ca8a04; color: #713f12; }
+.box-note { background-color: #eff6ff; border-right: 4px solid #2563eb; color: #1e3a8a; }
+.box-title { font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+
+/* Mathematical Equations */
+.math-block {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    text-align: center;
+    direction: ltr;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 16px;
+    color: #0f172a;
+    overflow-x: auto;
+}
+.math-inline {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Amiri', 'Times New Roman', serif;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #1e3a8a;
+    padding: 0 3px;
+}
+
+.frac {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 4px;
+    font-size: 0.95em;
+}
+.frac .num {
+    border-bottom: 1.5px solid #1e293b;
+    padding-bottom: 1px;
+}
+.frac .denom {
+    padding-top: 1px;
+}
+
+.matrix-bracket {
+    display: inline-table;
+    border-left: 2px solid #1e3a8a;
+    border-right: 2px solid #1e3a8a;
+    border-collapse: collapse;
+    margin: 6px auto;
+    font-family: 'Amiri', serif;
+    font-size: 15px;
+}
+.matrix-bracket td {
+    padding: 3px 10px;
+    text-align: center;
+    border: none;
+}
+.matrix-bracket td.sep {
+    border-right: 2px dashed #94a3b8;
+}
+
+/* Tables */
+table.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13px;
+}
+table.academic-table th {
+    background-color: #1e3a8a;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 8px 10px;
+    border: 1px solid #1e3a8a;
+    text-align: center;
+}
+table.academic-table td {
+    padding: 7px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+}
+table.academic-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+/* Code Blocks */
+pre.matlab-code {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.55;
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    border: 1px solid #334155;
+    margin: 10px 0;
+}
+.code-keyword { color: #38bdf8; font-weight: bold; }
+.code-comment { color: #94a3b8; font-style: italic; }
+.code-string { color: #4ade80; }
+.code-num { color: #f43f5e; }
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.quiz-reveal-box {
+    margin-top: 10px;
+    background: #fdf4ff;
+    border: 1px solid #f0abfc;
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+.quiz-answer {
+    display: none;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #d8b4fe;
+    color: #581c87;
+    font-size: 13.5px;
+}
+.quiz-answer.show {
+    display: block;
+}
+</style>
+</head>
+<body>
+
+<!-- 1. غلاف المذكرة الشاملة -->
+<header class="cover-container">
+    <div class="cover-inner">
+        <div class="cover-header">
+            <div>
+                <div style="font-size: 14px; font-weight: 800; letter-spacing: 0.5px;">جامعة الملك سعود / كليات الهندسة وعلوم الحاسوب</div>
+                <div style="font-size: 12px; color: #93c5fd;">قسم علوم الحاسب وتقنية المعلومات - المستوى الجامعي</div>
+            </div>
+            <div style="text-align: left; font-size: 12px; color: #cbd5e1;">
+                <div>المقرر: التحليل العددي (Numerical Analysis)</div>
+                <div>النسخة المعتمدة: الدليل الأكاديمي الشامل + بطاقات الاستذكار</div>
+            </div>
+        </div>
+
+        <div style="margin: 30px 0 20px 0; text-align: center;">
+            <div class="cover-badge">المذكرة الأكاديمية الشاملة للاستعداد للاختبار النهائي والنصفي</div>
+            <h1 class="cover-main-title">المذكرة الشاملة في التحليل العددي<br><span style="font-size: 20px; font-weight: 700; color: #38bdf8;">(Theory, Proofs, Board Examples & MATLAB Implementation)</span></h1>
+            <p class="cover-subtitle" style="margin: 0 auto;">دليل مذاكرة متكامل يجمع بين الشرح الرياضي النظري، الإثباتات الهندسية، تفكيك خطوات الحل اليدوي بالأرقام، أمثلة السبورة والدفتر، الفخاخ الشائعة، والأكواد المعتمدة في بيئة MATLAB، بنظام البطاقات التعليمية التفاعلية.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-box">
+                <h4>🎯 بصمة الدكتور وتحليل الاختبار</h4>
+                <p>تحليل عميق لأسلوب الدكتور في التدريس ووضع الأسئلة وتجنب فخاخ الاختبارات.</p>
+            </div>
+            <div class="feature-box">
+                <h4>📝 أمثلة السبورة المحلولة بالأرقام</h4>
+                <p>حلول تفصيلية خطوة بخطوة لجميع مسائل المحاضرات والدفتر وجداول التكرارات.</p>
+            </div>
+            <div class="feature-box">
+                <h4>🧠 بطاقات الاستذكار وتثبيت الفكرة</h4>
+                <p>تحديات ذهنية تفاعلية مع إمكانية طي وكشف الشروحات للمراجعة الذاتية.</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- 2. شريط الأدوات الثابت والتنقل السريع -->
+<nav class="toolbar no-print">
+    <div class="toolbar-inner">
+        <div class="filter-nav">
+            <button class="filter-btn active" onclick="filterCards('all')">🌐 عرض الكل</button>
+            <button class="filter-btn" onclick="filterCards('intro')">📌 أسلوب الدكتور والخريطة</button>
+            <button class="filter-btn" onclick="filterCards('ch1')">💻 بيئة MATLAB</button>
+            <button class="filter-btn" onclick="filterCards('ch2')">🎯 معادلات غير خطية</button>
+            <button class="filter-btn" onclick="filterCards('ch3')">📐 أنظمة خطية مباشرة</button>
+            <button class="filter-btn" onclick="filterCards('ch4')">🔄 تكرار جاكوبي</button>
+            <button class="filter-btn" onclick="filterCards('ch5')">📈 استيفاء لاجرانج</button>
+            <button class="filter-btn" onclick="filterCards('ch6')">∫ تفاضل وتكامل عددي</button>
+            <button class="filter-btn" onclick="filterCards('summary')">📊 ملخصات وقوانين</button>
+        </div>
+        <div class="action-tools">
+            <button class="btn btn-warning" onclick="toggleAllCards(true)">🔒 وضع الاستذكار النشط (طي الكل)</button>
+            <button class="btn btn-primary" onclick="toggleAllCards(false)">📖 كشف الشروحات كاملة (فتح الكل)</button>
+            <button class="btn btn-accent" onclick="window.print()">🖨️ طباعة المذكرة A4</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+<!-- بانر وضع الدراسة النشط -->
+<div id="study-mode-banner" class="box box-tip no-print" style="margin-top: 15px;">
+    <div class="box-title">💡 دليل المذاكرة وتثبيت الفكرة:</div>
+    المذكرة معروضة حالياً بوضع <strong>القراءة الشاملة</strong> لترى كافة الشروحات والأمثلة والجداول دون أي نقص. يمكنك في أي وقت الضغط على زر <strong>[🔒 وضع الاستذكار النشط (طي الكل)]</strong> بالأعلى ليتم طي الشروحات وتتحول المذكرة إلى بطاقات تفاعلية تختبر بها معلوماتك قبل كشف الشرح!
+</div>
+
+<!-- ========================================================================= -->
+<!-- [مقدمة] تحليل أسلوب الدكتور وبصمته في الاختبار                             -->
+<!-- ========================================================================= -->
+<section id="sec-intro" class="section-block" data-category="intro">
+    <h1 class="section-title">أولاً: تحليل أسلوب الدكتور في التدريس وبصمته في الاختبارات <span class="tag tag-deduced">🟠 تحليل منهجي</span></h1>
+    
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>📌 ركائز أسلوب الدكتور الست في التدريس وشرح المحاضرات</h3>
+                <div class="card-prompt"><strong>تحليل أسلوب المحاضرة:</strong> كيف يشرح الدكتور؟ وعلى ماذا يركز في درجات الطلاب؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <ol style="line-height: 1.8;">
+                <li><strong>الانطلاق من المعنى الهندسي والإثبات البصري:</strong> لا يقدم القانون كمعادلة جاهزة، بل يحرص دائماً على رسم المنحنى البياني ومماس نيوتن ومعادلة المستقيم القاطع.</li>
+                <li><strong>التبسيط التدريجي:</strong> يبدأ بمثال بديهي لتثبيت الفكرة، ثم ينتقل لمسائل مركبة وأنظمة معادلات 3×3 كاملة.</li>
+                <li><strong>الصرامة في تنظيم خطوات الحل وجدولة النتائج:</strong> يعتمد جداول محددة الأعمدة للتكرارات: <span class="math-inline">(i, x_i, f(x_i), f'(x_i), |x_i - x_{i-1}|)</span>، ويعتبر الحل غير المجدول حلاً ناقصاً.</li>
+                <li><strong>الربط الإلزامي بين الخوارزمية الرياضية وكود MATLAB:</strong> كتابة دوال مستقلة (bisc, secant, gauss, jacobi, lagrang) وتتبع مخرجاتها.</li>
+                <li><strong>التركيز الشديد على فحص الشروط المسبقة:</strong> كفحص شرط بولزانو للتنصيف، وشرط الهيمنة القطرية الصارمة لجاكوبي وإعادة الترتيب.</li>
+                <li><strong>الاهتمام بحساب حد الخطأ وعدد التكرارات مسبقاً:</strong> اشتقاق صيغة عدد التكرارات الأدنى <span class="math-inline">n + 1 \ge \frac{\ln(b-a) - \ln(\epsilon)}{\ln(2)}</span> قبل البدء بالتكرار.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>⚠️ جدول بصمة الدكتور في الاختبار (Doctor's Exam Signature) وتجنب الفخاخ</h3>
+                <div class="card-prompt"><strong>فخاخ الاختبار:</strong> ما هي النقاط الحساسة التي تخصم الدرجات في ورقة الامتحان؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <table class="academic-table">
+                <thead>
+                    <tr><th>السمة / البصمة في الاختبار</th><th>الدليل من ملفات وسليدات المقرر</th><th>ماذا يجب أن تفعل لتنال العلامة الكاملة؟</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>طلب الإثبات الهندسي</strong></td><td>اشتقاق نيوتن من مماس المنحنى، واشتقاق القاطع من نقطتين.</td><td>احفظ الرسم والمعادلة الجبرية لمماس نيوتن بصيغة <span class="math-inline">y - y_0 = m(x - x_0)</span>.</td></tr>
+                    <tr><td><strong>فخاخ شرط الهيمنة في جاكوبي</strong></td><td>إيقاف حل جاكوبي وإعادة ترتيب المعادلات بسبب فشل القطر الرئيسي.</td><td>لا تحل جاكوبي مباشرة! اكتب سطر فحص القطر ورتب الصفوف إن لزم الأمر.</td></tr>
+                    <tr><td><strong>التحقق من شرط الخطأ للتوقف</strong></td><td>التشديد على عمود <span class="math-inline">|x_k - x_{k-1}| \le \epsilon</span> في الجداول.</td><td>احسب قيمة الخطأ المطلق في كل تكرار ولا تتوقف عشوائياً.</td></tr>
+                    <tr><td><strong>عمليات الصف البسيط لجاوس</strong></td><td>كتابة التحويل بجانب السهم: <span class="math-inline">-m_{ik} R_k + R_i \to R_i</span>.</td><td>اكتب معامل التحويل بجوار كل صف لتضمن درجات خطوات الحل.</td></tr>
+                    <tr><td><strong>ضبط الآلة الحاسبة على Radian</strong></td><td>مسائل الدوال المثلثية مثل <span class="math-inline">\cos(x) - x = 0</span>.</td><td>تأكد قبل بدء الامتحان من ظهور حرف <strong>R</strong> على شاشة الآلة الحاسبة.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 1] بيئة MATLAB والبرمجة الحسابية                                   -->
+<!-- ========================================================================= -->
+<section id="sec-ch1" class="section-block" data-category="ch1">
+    <h1 class="section-title">الفصل الأول: أساسيات بيئة MATLAB والبرمجة الحسابية <span class="tag tag-confirmed">🟢 المحاضرة 1 & 2</span></h1>
+
+    <!-- بطاقة 1.1: العمليات النقطية -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>💻 بطاقة 1.1: بنية المصفوفات والعمليات النقطية (Element-wise Operations)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما الفرق بين <code>A * B</code> و <code>A .* B</code> في الماتلاب؟ ومتى يكون استخدام النقطة إلزامياً؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-intuition">💡 1. الفلسفة البرمجية لتصميم MATLAB:</div>
+                <p>ماتلاب هو مختبر مصفوفات (Matrix Laboratory). كل متغير افتراضياً هو مصفوفة ذات بعدين. عندما تطبق عملية ضرب عادية <code>*</code>، يفترض الماتلاب أنك تريد <strong>ضرب المصفوفات الجبري</strong> (الصف بالعمود)، والذي يشترط أن عدد أعمدة الأولى يساوي عدد صفوف الثانية. أما إذا أردت تطبيق العملية على <strong>كل عنصر بمفرده</strong>، فيجب وضع النقطة <code>.</code> قبل العملية.</p>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 2. القواعد الصارمة للعمليات النقطية:</div>
+                <table class="academic-table">
+                    <thead>
+                        <tr><th>العملية</th><th>الكود</th><th>المعنى الجبري</th><th>مثال مع A = [1, 2; 3, 4]</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>ضرب مصفوفات</td><td><code>A * B</code></td><td>جداء مصفوفي هندسي</td><td>A * A = [7, 10; 15, 22]</td></tr>
+                        <tr><td>ضرب عنصري</td><td><code>A .* B</code></td><td>ضرب كل عنصر بنظيره</td><td>A .* A = [1, 4; 9, 16]</td></tr>
+                        <tr><td>تربيع عنصري</td><td><code>A .^ 2</code></td><td>تربيع كل رقم مكانه</td><td>[1^2, 2^2; 3^2, 4^2] = [1, 4; 9, 16]</td></tr>
+                        <tr><td>قسمة عنصرية</td><td><code>A ./ B</code></td><td>قسمة كل عنصر بنظيره</td><td>كل مدخل يقسم على المدخل المقابل</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-trap">⚠️ 3. الفخ الشائع في الاختبارات:</div>
+                <div class="box box-warning">
+                    <strong>فخ رسم الدوال والتقسيم:</strong> عند إعطاء دالة مثل <span class="math-inline">f(x) = \frac{x^2 + 1}{x - 1}</span> حيث <span class="math-inline">x</span> متجه نقاط، فإن كتابة <code>y = (x^2 + 1)/(x - 1)</code> تسبب خطأً فورياً (Error). الكود الصحيح حتماً هو:
+                    <br><code>y = (x .^ 2 + 1) ./ (x - 1);</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة 1.2: الجمل الشرطية والحلقات -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>💻 بطاقة 1.2: الدوال وهياكل التحكم (Functions, For & While Loops)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> هل يدعم ماتلاب حلقة <code>do-while</code>؟ وكيف تبنى دالة المضروب Factorial؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-algorithm">🎯 1. الهيكل المعتمد للدوال في MATLAB:</div>
+                <pre class="matlab-code">
+<span class="code-keyword">function</span> [out1, out2] = FunctionName(in1, in2, in3)
+    <span class="code-comment">% جسم الدالة والعمليات الحسابية</span>
+    out1 = ... ;
+    out2 = ... ;
+<span class="code-keyword">end</span>
+                </pre>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-example">📝 2. مثال مضروب العدد (Factorial من الدفتر صفحة 12):</div>
+                <pre class="matlab-code">
+<span class="code-keyword">function</span> f = Factorial(d)
+    f = 1;
+    <span class="code-keyword">for</span> i = 1:d
+        f = f * i;
+    <span class="code-keyword">end</span>
+<span class="code-keyword">end</span>
+                </pre>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-trap">⚠️ 3. تنبيه الدكتور في المحاضرة (صفحة 11 من الدفتر):</div>
+                <div class="box box-warning">
+                    لغة ماتلاب <strong>لا تحتوي إطلاقاً</strong> على أمر <code>do-while</code> الموجود في لغة C++. عند الرغبة في عمل تكرار ينفذ مرة واحدة على الأقل، نستخدم حلقة <code>while</code> العادية مع تهيئة المتغيرات قبلها، أو حلقة <code>while (1)</code> مع شرط خروج وأمر <code>break</code>.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 2] حل المعادلات غير الخطية (Root Finding)                           -->
+<!-- ========================================================================= -->
+<section id="sec-ch2" class="section-block" data-category="ch2">
+    <h1 class="section-title">الفصل الثاني: حل المعادلات غير الخطية (Root Finding f(x) = 0) <span class="tag tag-frequent">🟡 المحاضرة 3 & 4</span></h1>
+
+    <!-- بطاقة 2.1: طريقة التنصيف -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🎯 بطاقة 2.1: طريقة تنصيف الفترات (The Bisection Method)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما هو شرط نظرية بولزانو؟ وكيف تحسب عدد التكرارات مسبقاً؟ وما ميزتها وعيبها؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-intuition">💡 1. الفكرة الهندسية ومبرهنة بولزانو:</div>
+                <p>إذا كانت الدالة <span class="math-inline">f(x)</span> مستمرة على فترة مغلقة <span class="math-inline">[a, b]</span>، ولها إشارتان مختلفتان عند الطرفين (<span class="math-inline">f(a) \cdot f(b) < 0</span>)، فهذا يعني هندسياً أن المنحنى لا بد وأن يقطع محور السينات مرة واحدة على الأقل داخل الفترة. تقوم الطريقة بتقسيم الفترة إلى نصفين متساويين في كل خطوة واختيار النصف الذي يحتوي على تغير الإشارة.</p>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 2. القوانين الذهبية وصيغة عدد التكرارات مسبقاً:</div>
+                <div class="math-block">
+                    c = \frac{a + b}{2}, \qquad \text{طول الفترة في التكرار } n: \quad L_n = \frac{b - a}{2^n}
+                </div>
+                <div class="math-block">
+                    n \ge \frac{\ln(b - a) - \ln(\epsilon)}{\ln(2)} \quad \text{أو} \quad n + 1 \ge \frac{\log_{10}(b - a) + k}{\log_{10}(2)} \quad (\text{لدقة } 10^{-k})
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-algorithm">🎯 3. خطوات الحل القياسية في ورقة الاختبار:</div>
+                <ol>
+                    <li>افحص شرط الحصر: احسب <span class="math-inline">f(a)</span> و <span class="math-inline">f(b)</span> وتأكد أن حاصل ضربهما سالب.</li>
+                    <li>احسب المنتصف: <span class="math-inline">c = (a + b)/2</span>.</li>
+                    <li>احسب <span class="math-inline">f(c)</span>:
+                        <ul>
+                            <li>إذا كان <span class="math-inline">f(a) \cdot f(c) < 0</span> ➔ الجذر في النصف الأيسر: حدّث <span class="math-inline">b = c</span>.</li>
+                            <li>إذا كان <span class="math-inline">f(a) \cdot f(c) > 0</span> ➔ الجذر في النصف الأيمن: حدّث <span class="math-inline">a = c</span>.</li>
+                        </ul>
+                    </li>
+                    <li>اختبر شرط التوقف: <span class="math-inline">|b - a| \le \epsilon</span> أو <span class="math-inline">|c_k - c_{k-1}| \le \epsilon</span>.</li>
+                </ol>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-example">📝 4. مثال السبورة المحلول بالأرقام (المحاضرة 3 - صفحة 1 من الصور):</div>
+                <div class="box box-note">
+                    <strong>المسألة:</strong> أوجد جذر المعادلة <span class="math-inline">f(x) = x^3 - 4x - 9 = 0</span> في الفترة <span class="math-inline">[2, 3]</span> بنسبة خطأ <span class="math-inline">\epsilon = 0.05</span>.
+                </div>
+                <table class="academic-table">
+                    <thead>
+                        <tr><th>n</th><th>a</th><th>b</th><th>c = (a+b)/2</th><th>f(c)</th><th>الخطأ</th><th>القرار</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>2.000</td><td>3.000</td><td>2.500</td><td>-3.375</td><td>0.500</td><td>f(c) سالب ➔ استبدال a = 2.5</td></tr>
+                        <tr><td>2</td><td>2.500</td><td>3.000</td><td>2.750</td><td>+0.797</td><td>0.250</td><td>f(c) موجب ➔ استبدال b = 2.75</td></tr>
+                        <tr><td>3</td><td>2.500</td><td>2.750</td><td>2.625</td><td>-1.412</td><td>0.125</td><td>f(c) سالب ➔ استبدال a = 2.625</td></tr>
+                        <tr><td>4</td><td>2.625</td><td>2.750</td><td>2.6875</td><td>-0.339</td><td>0.0625</td><td>f(c) سالب ➔ استبدال a = 2.6875</td></tr>
+                        <tr><td>5</td><td>2.6875</td><td>2.750</td><td>2.7188</td><td>+0.221</td><td>0.03125</td><td>الخطأ 0.03125 &le; 0.05 ➔ توقف!</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>الجذر التقريبي:</strong> <span class="math-inline">c \approx 2.7188</span> بعد 5 تكرارات.</p>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-code">💻 5. كود MATLAB المعتمد لطريقة التنصيف:</div>
+                <pre class="matlab-code">
+<span class="code-keyword">function</span> bisc(f, a, b, n, e)
+    i = 1;
+    <span class="code-keyword">while</span> (abs(a - b) > e && i <= n)
+        p = (a + b) / 2;
+        <span class="code-keyword">if</span> f(p) == 0, <span class="code-keyword">break</span>; <span class="code-keyword">end</span>
+        <span class="code-keyword">if</span> f(a) * f(p) < 0
+            b = p;
+        <span class="code-keyword">else</span>
+            a = p;
+        <span class="code-keyword">end</span>
+        i = i + 1;
+    <span class="code-keyword">end</span>
+    disp([<span class="code-string">'الجذر التقريبي هو: '</span>, num2str(p)]);
+<span class="code-keyword">end</span>
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة 2.2: طريقة نيوتن - رافسون -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>⚡ بطاقة 2.2: طريقة نيوتن - رافسون (Newton-Raphson Method)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> كيف تشتق قانون نيوتن هندسياً من مماس المنحنى؟ ومتى تنهار الطريقة تماماً؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-intuition">💡 1. المعنى الهندسي والاشتقاق البصري (المحاضرة 4 - صفحة 9 من الصور):</div>
+                <p>بدلاً من حصر الجذر في فترة، نرسم مماس المنحنى عند نقطة تخمين أولية <span class="math-inline">(x_0, f(x_0))</span>. ميل هذا المماس هو المشتقة الأولى <span class="math-inline">f'(x_0)</span>. نقطة تقاطع هذا المماس مع محور السينات تمثل التخمين الجديد الأقرب للجذر <span class="math-inline">x_1</span>.</p>
+                <div class="box box-rule">
+                    <strong>الاشتقاق الجبري خطوة بخطوة:</strong>
+                    <br>1. معادلة المماس: <span class="math-inline">y - f(x_0) = f'(x_0)(x - x_0)</span>
+                    <br>2. عند التقاطع مع محور السينات نضع <span class="math-inline">y = 0</span> و <span class="math-inline">x = x_1</span>:
+                    <div class="math-block">0 - f(x_0) = f'(x_0)(x_1 - x_0) \implies x_1 - x_0 = -\frac{f(x_0)}{f'(x_0)}</div>
+                    <br>3. القانون العام للتكرار:
+                    <div class="math-block">x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}</div>
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-example">📝 2. مثال السبورة المحلول بالأرقام (صفحة 10 من الصور):</div>
+                <div class="box box-note">
+                    <strong>المسألة:</strong> أوجد جذر المعادلة <span class="math-inline">f(x) = x^3 - 2x^2 + x - 3 = 0</span> بنقطة بداية <span class="math-inline">x_0 = 2.2</span> ودقة <span class="math-inline">\epsilon = 0.0006</span>.
+                </div>
+                <p>المشتقة: <span class="math-inline">f'(x) = 3x^2 - 4x + 1</span>.</p>
+                <table class="academic-table">
+                    <thead>
+                        <tr><th>i</th><th>x_i</th><th>f(x_i)</th><th>f'(x_i)</th><th>x_{i+1}</th><th>الخطأ المطلق</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0</td><td>2.2000</td><td>+0.1680</td><td>6.7200</td><td>2.2 - (0.168/6.72) = <strong>2.1750</strong></td><td>0.0250</td></tr>
+                        <tr><td>1</td><td>2.1750</td><td>+0.0029</td><td>6.0519</td><td>2.175 - (0.0029/6.0519) = <strong>2.1745</strong></td><td>0.0005</td></tr>
+                    </tbody>
+                </table>
+                <p>تحقق شرط التوقف بعد تكرارين فقط لأن الخطأ <span class="math-inline">0.0005 \le 0.0006</span>! الجذر هو <span class="math-inline">x \approx 2.1745</span>.</p>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-trap">⚠️ 3. متى تفشل طريقة نيوتن؟ (حالات الانهيار):</div>
+                <div class="box box-warning">
+                    <ul style="margin:0; padding-right:20px;">
+                        <li><strong>انعدام المشتقة <span class="math-inline">f'(x_k) \approx 0</span>:</strong> يكون المماس أفقياً ويحدث خطأ القسمة على الصفر.</li>
+                        <li><strong>نقطة بداية سيئة أو بعيدة:</strong> قد يتباعد التكرار إلى ما لا نهاية.</li>
+                        <li><strong>الانحباس في دورة دورية (Cycle):</strong> يتردد التكرار بين نقطتين دون الاقتراب من الجذر.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة 2.3: طريقة القاطع والموضع الخاطئ -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>📈 بطاقة 2.3: طريقتا القاطع (Secant) والموضع الخاطئ (False Position)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما الفرق الجوهري بين القاطع ونيوتن؟ ولماذا تختلف طريقة القاطع عن الموضع الخاطئ؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 1. قانون طريقة القاطع:</div>
+                <div class="math-block">
+                    x_{k+1} = x_k - f(x_k) \cdot \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 2. الفرق الحاسم بين القاطع والموضع الخاطئ:</div>
+                <table class="academic-table">
+                    <thead>
+                        <tr><th>وجه المقارنة</th><th>طريقة القاطع (Secant Method)</th><th>طريقة الموضع الخاطئ (False Position)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>نوع الطريقة</td><td>مفتوحة (Open Method)</td><td>حاصرة (Bracketing Method)</td></tr>
+                        <tr><td>شرط البداية</td><td>أي نقطتين x0, x1 بدون شرط إشارة</td><td>يشترط حتماً f(a) * f(b) < 0</td></tr>
+                        <tr><td>تحديث النقاط</td><td>تأخذ آخر نقطتين دائماً (x_k, x_{k-1})</td><td>تستبدل النقطة التي تملك نفس الإشارة كالتنصيف</td></tr>
+                        <tr><td>ضمان التقارب</td><td>غير مضمون؛ قد تتباعد إذا كانت البداية سيئة</td><td>مضمونة التقارب دائماً لأن الجذر محصور</td></tr>
+                        <tr><td>سرعة التقارب</td><td>فوق خطية برتبة 1.618</td><td>خطية أسرع من التنصيف</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة 2.4: طريقة النقطة الثابتة -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🔄 بطاقة 2.4: طريقة النقطة الثابتة (Fixed Point Iteration)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> كيف نحول f(x)=0 إلى x=g(x)؟ وما هو شرط باناخ الحاسم للتقارب؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-intuition">💡 1. الفكرة وشرط التقارب لنظرية باناخ (Contraction Mapping):</div>
+                <p>نعيد كتابة المعادلة <span class="math-inline">f(x) = 0</span> لتصبح في الصورة <span class="math-inline">x = g(x)</span>. ثم نولد التكرار بواسطة <span class="math-inline">x_{k+1} = g(x_k)</span>. لكي تتقارب المتتالية نحو النقطة الثابتة <span class="math-inline">r</span>، يشترط أن تكون المشتقة محصورة بحيث:</p>
+                <div class="math-block">
+                    |g'(x)| < 1 \quad \text{لكل } x \text{ في فترة تحتوي الجذر}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 3] أنظمة المعادلات الخطية المباشرة (AX = B)                          -->
+<!-- ========================================================================= -->
+<section id="sec-ch3" class="section-block" data-category="ch3">
+    <h1 class="section-title">الفصل الثالث: حل أنظمة المعادلات الخطية المباشرة (Direct Linear Systems) <span class="tag tag-confirmed">🟢 المحاضرة 4 & 5</span></h1>
+
+    <!-- بطاقة 3.1: حذف جاوس -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🔢 بطاقة 3.1: طريقة حذف جاوس والتعويض العكسي (Gaussian Elimination)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما هو معامل تحويل الصفوف mik؟ وكيف تتم مرحلة التعويض العكسي خطوة بخطوة؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-algorithm">🎯 1. المنهجية المعيارية لحذف جاوس:</div>
+                <ol>
+                    <li>تكوين المصفوفة الموسعة للنظام <span class="math-inline">[A | B]</span>.</li>
+                    <li><strong>مرحلة الحذف الأمامي (Forward Elimination):</strong> تصفير العناصر الواقعة تحت القطر الرئيسي لتحويل المصفوفة إلى مصفوفة مثلثية عليا باستخدام عمليات الصف البسيط:
+                        <div class="math-block">m_{ik} = \frac{a_{ik}}{a_{kk}}, \qquad R_i \leftarrow R_i - m_{ik} R_k</div>
+                    </li>
+                    <li><strong>مرحلة التعويض العكسي (Back Substitution):</strong> إيجاد المجاهيل من الأسفل إلى الأعلى:
+                        <div class="math-block">x_n = \frac{b_n}{a_{nn}}, \qquad x_i = \frac{b_i - \sum_{j=i+1}^n a_{ij} x_j}{a_{ii}}</div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-example">📝 2. مسألة المحاضرة المحلولة (المحاضرة 5 - صفحة 19 من الصور وصفحة 23 من الدفتر):</div>
+                <div class="box box-note">
+                    <strong>النظام الخطي:</strong>
+                    <br><span class="math-inline">2x_1 + x_2 - x_3 = -1</span>
+                    <br><span class="math-inline">3x_1 + 5x_2 + 2x_3 = 2</span>
+                    <br><span class="math-inline">4x_1 - x_2 - 2x_3 = 1</span>
+                </div>
+                <p>1. المصفوفة الموسعة: <span class="math-inline">\begin{bmatrix} 2 & 1 & -1 & | & -1 \\ 3 & 5 & 2 & | & 2 \\ 4 & -1 & -2 & | & 1 \end{bmatrix}</span></p>
+                <p>2. تصفير العمود الأول: <span class="math-inline">R_2 \leftarrow R_2 - (3/2)R_1</span> و <span class="math-inline">R_3 \leftarrow R_3 - 2R_1</span>:
+                <br>➔ <span class="math-inline">\begin{bmatrix} 2 & 1 & -1 & | & -1 \\ 0 & 3.5 & 3.5 & | & 3.5 \\ 0 & -3 & 0 & | & 3 \end{bmatrix}</span></p>
+                <p>3. تصفير العمود الثاني: <span class="math-inline">R_3 \leftarrow R_3 - (-3/3.5)R_2 = R_3 + (6/7)R_2</span>:
+                <br>➔ <span class="math-inline">\begin{bmatrix} 2 & 1 & -1 & | & -1 \\ 0 & 3.5 & 3.5 & | & 3.5 \\ 0 & 0 & 3 & | & 6 \end{bmatrix}</span> (مثلثية عليا).</p>
+                <p>4. التعويض العكسي:
+                <br><span class="math-inline">3 x_3 = 6 \implies x_3 = 2</span>
+                <br><span class="math-inline">3.5 x_2 + 3.5(2) = 3.5 \implies x_2 = -1</span>
+                <br><span class="math-inline">2 x_1 + 1(-1) - (-1)(2) = -1 \implies x_1 = 1</span>
+                <br><strong>الحل:</strong> <span class="math-inline">x_1 = 1, \, x_2 = -1, \, x_3 = 2</span>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة 3.2: قاعدة كرامر ومعكوس المصفوفة -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🧮 بطاقة 3.2: قاعدة كرامر (Cramer) وطريقة المعكوس (Matrix Inversion)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> متى تفشل قاعدة كرامر؟ وكيف نجد A⁻¹ بحذف جاوس-جوردان؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 1. قاعدة كرامر (Cramer's Rule):</div>
+                <div class="math-block">
+                    x_i = \frac{\det(A_i)}{\det(A)}, \qquad \det(A) \neq 0
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-algorithm">🎯 2. طريقة معكوس المصفوفة بجاوس-جوردان:</div>
+                <div class="math-block">[A | I] \xrightarrow{\text{عمليات الصف البسيط}} [I | A^{-1}] \implies X = A^{-1} B</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 4] الطرق التكرارية للأنظمة الخطية (طريقة جاكوبي)                     -->
+<!-- ========================================================================= -->
+<section id="sec-ch4" class="section-block" data-category="ch4">
+    <h1 class="section-title">الفصل الرابع: الطرائق التكرارية للأنظمة الخطية (طريقة جاكوبي) <span class="tag tag-frequent">🟡 المحاضرة 5 (بصمة الدكتور)</span></h1>
+
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🔄 بطاقة 4.1: طريقة جاكوبي التكرارية والشرط الحاسم للهيمنة القطرية</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما هو الفخ الأكبر في مسألة جاكوبي في الاختبار؟ وماذا تفعل قبل بدء أول تكرار؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-trap">⚠️ 1. الفخ الأكبر في الاختبار (بصمة الدكتور المؤكدة):</div>
+                <div class="box box-warning">
+                    <strong>لا تبدأ بحساب التكرار إطلاقاً قبل فحص شرط الهيمنة القطرية الصارمة!</strong>
+                    في محاضرة الدكتور (صفحات 31-32 من الدفتر)، كان أول ما كتبه على اللوح:
+                    <div class="math-block">|a_{ii}| > \sum_{j \neq i} |a_{ij}| \quad \forall i</div>
+                    إذا لم يتحقق الشرط لأي صف، يجب فوراً <strong>إعادة ترتيب المعادلات (تبديل الصفوف)</strong> لوضع المعاملات الكبرى على القطر الرئيسي، وإلا ستتباعد الطريقة وتفقد درجات المسألة!
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 2. صيغة جاكوبي التكرارية:</div>
+                <div class="math-block">
+                    x_i^{(k+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \neq i} a_{ij} x_j^{(k)} \right)
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-example">📝 3. مسألة السبورة المحلولة بالتفصيل (صفحة 31 من الصور):</div>
+                <div class="box box-note">
+                    <strong>النظام الأصلي المعطى:</strong>
+                    <br>(1) <span class="math-inline">3x_1 + 5x_2 - x_3 = 7</span> (فاشل: |3| < 5 + 1)
+                    <br>(2) <span class="math-inline">8x_1 + x_2 + x_3 = 26</span> (ناجح للصف 1: |8| > 1 + 1)
+                    <br>(3) <span class="math-inline">x_1 - x_2 + 5x_3 = 7</span> (ناجح للصف 3: |5| > 1 + 1)
+                </div>
+                <p><strong>إعادة الترتيب الإلزامية:</strong> نجعل المعادلة (2) أولاً، و (1) ثانياً، و (3) ثالثاً:</p>
+                <div class="math-block">
+                    8x_1 + x_2 + x_3 = 26 \implies x_1^{(k+1)} = (26 - x_2^{(k)} - x_3^{(k)}) / 8 \\
+                    3x_1 + 5x_2 - x_3 = 7 \implies x_2^{(k+1)} = (7 - 3x_1^{(k)} + x_3^{(k)}) / 5 \\
+                    x_1 - x_2 + 5x_3 = 7 \implies x_3^{(k+1)} = (7 - x_1^{(k)} + x_2^{(k)}) / 5
+                </div>
+                <p>بافتراض <span class="math-inline">X^{(0)} = [0, 0, 0]^T</span>:
+                <br><span class="math-inline">X^{(1)} = [3.2500, \, 1.4000, \, 1.4000]^T</span>
+                <br><span class="math-inline">X^{(2)} = [2.9000, \, -0.2700, \, 1.0300]^T</span>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 5] استيفاء كثيرات حدود لاجرانج (Interpolation)                      -->
+<!-- ========================================================================= -->
+<section id="sec-ch5" class="section-block" data-category="ch5">
+    <h1 class="section-title">الفصل الخامس: استيفاء كثيرات حدود لاجرانج (Lagrange Interpolation) <span class="tag tag-confirmed">🟢 المحاضرة 6</span></h1>
+
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>📈 بطاقة 5.1: استيفاء لاجرانج ودوال الأساس (Lagrange Basis Functions)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> كيف تصيغ دالة الأساس L_j(x)؟ وما هي خاصية دلتا كرونيكر التي تضمن صحة الحل؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-intuition">💡 1. الفكرة الأساسية وتوفيق المنحنيات:</div>
+                <p>إيجاد كثيرة حدود وحيدة من الدرجة <span class="math-inline">\le n</span> تمر تماماً بـ <span class="math-inline">n + 1</span> من النقاط المعطاة <span class="math-inline">(x_0, y_0), (x_1, y_1), \dots, (x_n, y_n)</span>. تعتمد طريقة لاجرانج على تركيب كثيرة الحدود كمجموع موزون لصور النقاط مضروبة في دوال أساس:</p>
+                <div class="math-block">
+                    P_n(x) = \sum_{j=0}^n y_j L_j(x), \qquad L_j(x) = \prod_{k=0, k \neq j}^n \frac{x - x_k}{x_j - x_k}
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-example">📝 2. مسألة المحاضرة المحلولة (المحاضرة 6 - صفحة 38 من الدفتر):</div>
+                <div class="box box-note">
+                    <strong>النقاط المعطاة:</strong> <span class="math-inline">(1, 1), \, (2, 4), \, (3, 9)</span>. المطلوب إيجاد <span class="math-inline">P_2(x)</span> وتقدير <span class="math-inline">P_2(1.5)</span>.
+                </div>
+                <ul>
+                    <li><span class="math-inline">L_0(x) = \frac{(x - 2)(x - 3)}{(1 - 2)(1 - 3)} = \frac{x^2 - 5x + 6}{2}</span></li>
+                    <li><span class="math-inline">L_1(x) = \frac{(x - 1)(x - 3)}{(2 - 1)(2 - 3)} = -(x^2 - 4x + 3)</span></li>
+                    <li><span class="math-inline">L_2(x) = \frac{(x - 1)(x - 2)}{(3 - 1)(3 - 2)} = \frac{x^2 - 3x + 2}{2}</span></li>
+                </ul>
+                <p>التركيب: <span class="math-inline">P_2(x) = 1 \cdot L_0(x) + 4 \cdot L_1(x) + 9 \cdot L_2(x) = x^2</span>.</p>
+                <p>التقدير: <span class="math-inline">P_2(1.5) = (1.5)^2 = 2.25</span>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 6] التفاضل والتكامل العددي (Numerical Calculus)                      -->
+<!-- ========================================================================= -->
+<section id="sec-ch6" class="section-block" data-category="ch6">
+    <h1 class="section-title">الفصل السادس: التفاضل والتكامل العددي (Numerical Calculus) <span class="tag tag-confirmed">🟢 محاضرات السبورة المتقدمة</span></h1>
+
+    <!-- بطاقة 6.1: شبه المنحرف المركبة -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>∫ بطاقة 6.1: قاعدة شبه المنحرف المركبة (Composite Trapezoidal Rule)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما هي أوزان النقاط في شبه المنحرف؟ وكيف نحسب الحد الأعلى للخطأ بدقة؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 1. القانون الذهبي وحد الخطأ النظري:</div>
+                <div class="math-block">
+                    I_{\text{trap}} = \frac{h}{2} \left[ f(x_0) + 2 \sum_{i=1}^{n-1} f(x_i) + f(x_n) \right]
+                </div>
+                <div class="math-block">
+                    |E_T| \le \frac{b - a}{12} h^2 \max_{x \in [a, b]} |f''(x)|
+                </div>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-trap">⚠️ 2. الفخاخ القاتلة في الاختبار:</div>
+                <div class="box box-warning">
+                    <ul style="margin:0; padding-right:20px;">
+                        <li><strong>نسيان ضرب النقاط الداخلية في 2:</strong> تذكر أن المعاملات تبدأ بـ 1 ثم 2 لكل النقاط الداخلية وتنتهي بـ 1.</li>
+                        <li><strong>نسيان القسمة على 2 في الخارج:</strong> القانون يحتوي على <span class="math-inline">h/2</span> وليس <span class="math-inline">h</span> فقط!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة 6.2: التفاضل العددي بصيغ تايلور -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>📐 بطاقة 6.2: التفاضل العددي وصيغ الفروق المنتهية لتايلور (Finite Differences)</h3>
+                <div class="card-prompt"><strong>تحدي الاستذكار:</strong> ما الفرق في رتبة الخطأ بين الفرق المتقدم والتراجعي والمركزي؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 1. مقارنة صيغ الفروق للمشتقة الأولى:</div>
+                <table class="academic-table">
+                    <thead>
+                        <tr><th>الصيغة</th><th>القانون الرياضي</th><th>رتبة الخطأ</th><th>مستوى الدقة</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>الفرق المتقدم (Forward)</td><td><span class="math-inline">\frac{f(x_0 + h) - f(x_0)}{h}</span></td><td>O(h)</td><td>دقة عادية</td></tr>
+                        <tr><td>الفرق التراجعي (Backward)</td><td><span class="math-inline">\frac{f(x_0) - f(x_0 - h)}{h}</span></td><td>O(h)</td><td>دقة عادية</td></tr>
+                        <tr style="background:#f0fdf4; font-weight:bold;"><td>الفرق المركزي (Central)</td><td><span class="math-inline">\frac{f(x_0 + h) - f(x_0 - h)}{2h}</span></td><td>O(h²)</td><td>فائقة الدقة (الأفضل)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pillar-section">
+                <div class="pillar-title pillar-formula">📐 2. صيغة الفرق المركزي للمشتقة الثانية:</div>
+                <div class="math-block">
+                    f''(x_0) \approx \frac{f(x_0 + h) - 2f(x_0) + f(x_0 - h)}{h^2} + O(h^2)
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- [الفصل 7] مصفوفة المقارنة، شجرة القرار، وقائمة ليلة الاختبار                -->
+<!-- ========================================================================= -->
+<section id="sec-summary" class="section-block" data-category="summary">
+    <h1 class="section-title">الفصل السابع: مصفوفة المقارنة الشاملة وشجرة القرار <span class="tag tag-study">🔵 مراجع سريعة</span></h1>
+
+    <!-- مصفوفة المقارنة الشاملة -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>📊 مصفوفة المقارنة المعيارية الشاملة بين الطرق الـ 12</h3>
+                <div class="card-prompt"><strong>المقارنة الشاملة:</strong> قارن بين سرعة التقارب، المزايا، والعيوب لكافة الطرق في جدول واحد.</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <table class="academic-table">
+                <thead>
+                    <tr><th>الطريقة</th><th>نوع المدخلات</th><th>سرعة التقارب</th><th>أهم ميزة</th><th>أكبر قيد / سبب الفشل</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>التنصيف</strong></td><td>فترة [a,b] مع اختلاف الإشارة</td><td>خطي بطيء (1/2)</td><td>مضمونة التقارب دائماً</td><td>بطيئة جداً في العمليات اليدوية</td></tr>
+                    <tr><td><strong>نيوتن-رافسون</strong></td><td>نقطة x0 والدالة والمشتقة</td><td>تربيعي فائق O(h^2)</td><td>أسرع الطرق وتقارب هائل</td><td>تنهار عند f'(x) ≈ 0</td></tr>
+                    <tr><td><strong>القاطع</strong></td><td>نقطتان x0, x1</td><td>فوق خطي (1.62)</td><td>لا تحتاج لحساب مشتقة</td><td>قد تتباعد إذا كانت البداية سيئة</td></tr>
+                    <tr><td><strong>الموضع الخاطئ</strong></td><td>فترة [a,b] مع اختلاف الإشارة</td><td>خطي أسرع من التنصيف</td><td>مضمونة التقارب كالتنصيف</td><td>ركود أحد الطرفين وبطء أحياناً</td></tr>
+                    <tr><td><strong>النقطة الثابتة</strong></td><td>دالة x = g(x) ونقطة x0</td><td>خطي</td><td>سهولة الصيغة التكرارية</td><td>تشترط انكماش المشتقة |g'(x)| < 1</td></tr>
+                    <tr><td><strong>حذف جاوس</strong></td><td>المصفوفة الموسعة [A|B]</td><td>مباشرة في n خطوات</td><td>تعطي الحل الدقيق</td><td>أخطاء التقريب إذا كان Pivot صغيراً</td></tr>
+                    <tr><td><strong>جاكوبي</strong></td><td>نظام خطي و X^(0)</td><td>تكراري تقريبي</td><td>ممتازة للأنظمة الكبيرة</td><td>تشترط الهيمنة القطرية الحتمية</td></tr>
+                    <tr><td><strong>قاعدة كرامر</strong></td><td>مصفوفة المعاملات والثوابت</td><td>مباشرة بالمحددات</td><td>صيغة تحليلية صريحة</td><td>تنهار إذا det(A)=0 وغير عملية للأنظمة الكبيرة</td></tr>
+                    <tr><td><strong>معكوس المصفوفة</strong></td><td>المصفوفة الموسعة [A|I]</td><td>مباشرة بجاوس-جوردان</td><td>إيجاد A⁻¹ لحل عدة أنظمة</td><td>تكلفة حسابية عالية للمصفوفات الكبيرة</td></tr>
+                    <tr><td><strong>لاجرانج</strong></td><td>نقاط جدولية (x_i, y_i)</td><td>مباشرة</td><td>صيغة كثيرة حدود صريحة</td><td>صعوبة التعديل عند إضافة نقاط وظاهرة رونج</td></tr>
+                    <tr><td><strong>شبه المنحرف</strong></td><td>دالة وحدود تكامل و n</td><td>من الرتبة الثانية O(h^2)</td><td>بسيطة وقابلة للتطبيق لأي دالة</td><td>تتطلب تقسيمات كثيرة للدقة العالية</td></tr>
+                    <tr><td><strong>التفاضل العددي</strong></td><td>دالة ونقطة وخطوة h</td><td>O(h) أو O(h^2)</td><td>حساب المشتقة دون اشتقاق تحليلي</td><td>حساسية عالية لأخطاء التقريب عند صغر h</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- شجرة القرار -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🌳 شجرة القرار لاختيار الطريقة في الاختبار (Decision Tree)</h3>
+                <div class="card-prompt"><strong>دليل الاختبار:</strong> كيف تعرف الطريقة الصحيحة فور قراءة رأس السؤال؟</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="box box-rule">
+                <strong>1. إيجاد جذر لمعادلة <span class="math-inline">f(x) = 0</span>:</strong>
+                <br>&bull; أعطاك فترة <span class="math-inline">[a, b]</span> وتنصيف ➔ <strong>التنصيف (Bisection)</strong>.
+                <br>&bull; أعطاك نقطة واحدة <span class="math-inline">x_0</span> ومشتقة ➔ <strong>نيوتن - رافسون (Newton-Raphson)</strong>.
+                <br>&bull; أعطاك نقطتين <span class="math-inline">x_0, x_1</span> بدون مشتقة ➔ <strong>القاطع (Secant)</strong>.
+                <br>&bull; صيغة <span class="math-inline">x = g(x)</span> ➔ <strong>النقطة الثابتة (Fixed Point)</strong>.
+                <br><br><strong>2. حل نظام معادلات خطية <span class="math-inline">AX = B</span>:</strong>
+                <br>&bull; طلب حلاً مباشراً بمصفوفة موسعة ➔ <strong>حذف جاوس (Gaussian Elimination)</strong>.
+                <br>&bull; طلب الحل بالمحددات ➔ <strong>قاعدة كرامر (Cramer)</strong>.
+                <br>&bull; طلب الحل التكراري بدءاً من <span class="math-inline">X^{(0)}</span> ➔ <strong>طريقة جاكوبي (Jacobi)</strong> بعد فحص الهيمنة القطرية!
+                <br><br><strong>3. نقاط جدولية ومطلوب دالة أو تقدير نقطة ➔ استيفاء لاجرانج (Lagrange).</strong>
+                <br><strong>4. حساب مساحة أو تكامل محدد ➔ قاعدة شبه المنحرف المركبة (Composite Trapezoidal).</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- قائمة ليلة الاختبار -->
+    <div class="study-card">
+        <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-title-group">
+                <h3>🌙 قائمة الفحص قبل دخول القاعة (Final Exam Checklist)</h3>
+                <div class="card-prompt"><strong>ليلة الاختبار:</strong> تأكد من جاهزيتك التامة بمراجعة هذه النقاط السبع!</div>
+            </div>
+            <button class="reveal-btn">طي / كشف الشرح</button>
+        </div>
+        <div class="card-body">
+            <div class="box box-tip">
+                <ol style="margin:0; padding-right:20px; line-height:2;">
+                    <li><strong>الآلة الحاسبة:</strong> تم ضبطها على نظام الراديان <strong>RAD</strong>.</li>
+                    <li><strong>تثبيت المنازل:</strong> تثبيت <strong>4 منازل عشرية</strong> دقيقة في كافة الجداول.</li>
+                    <li><strong>جاكوبي:</strong> فحص الهيمنة القطرية <span class="math-inline">|a_{ii}| > \sum |a_{ij}|</span> قبل أي تكرار وتبديل الصفوف إن لزم.</li>
+                    <li><strong>نيوتن:</strong> حفظ إثبات المماس <span class="math-inline">x_{k+1} = x_k - f/f'</span> بالرسم الهندسي.</li>
+                    <li><strong>جاوس:</strong> كتابة معامل التحويل بجانب كل سهم صف <span class="math-inline">R_i \leftarrow R_i - m_{ik}R_k</span>.</li>
+                    <li><strong>لاجرانج:</strong> تجنب نسيان إشارات السالب عند فك أقواس دوال الأساس.</li>
+                    <li><strong>شبه المنحرف:</strong> ضرب الحدود الداخلية فقط في 2، والقسمة على 2 خارج القوس <span class="math-inline">h/2</span>.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div> <!-- End Container -->
+
+<!-- الفوتر التوثيقي -->
+<footer style="background:#0f172a; color:#94a3b8; text-align:center; padding:30px 20px; font-size:13px; border-top:1px solid #334155;" class="no-print">
+    <div style="max-width:1200px; margin:0 auto;">
+        <h4 style="color:#ffffff; margin:0 0 10px 0; font-size:16px;">المذكرة الأكاديمية الشاملة في التحليل العددي - الدليل المعتمد</h4>
+        <p style="margin:0 0 15px 0;">تم إعداد هذه المذكرة وفق أعلى المعايير التربوية للجامعات لتجمع بين استرجاع الذاكرة النشط، الإثباتات الهندسية، تفكيك خطوات الحل بالأرقام، وأكواد MATLAB المعتمدة.</p>
+        <div style="color:#64748b; font-size:12px;">جامعة الملك سعود / كليات الهندسة وعلوم الحاسوب - 2026</div>
+    </div>
+</footer>
+
+<!-- دوال JavaScript التفاعلية للتحكم بالبطاقات -->
+<script>
+// تبديل طي / كشف بطاقة فردية
+function toggleCard(headerElement) {
+    const card = headerElement.closest('.study-card');
+    card.classList.toggle('collapsed');
+    const btn = card.querySelector('.reveal-btn');
+    if (btn) {
+        if (card.classList.contains('collapsed')) {
+            btn.textContent = '👁️ كشف الشرح';
+        } else {
+            btn.textContent = '🔒 طي الشرح';
+        }
+    }
+}
+
+// كشف أو طي جميع البطاقات
+function toggleAllCards(collapseAll) {
+    const cards = document.querySelectorAll('.study-card');
+    cards.forEach(card => {
+        const btn = card.querySelector('.reveal-btn');
+        if (collapseAll) {
+            card.classList.add('collapsed');
+            if (btn) btn.textContent = '👁️ كشف الشرح';
+        } else {
+            card.classList.remove('collapsed');
+            if (btn) btn.textContent = '🔒 طي الشرح';
+        }
+    });
+}
+
+// فلترة البطاقات حسب الفصول
+function filterCards(category) {
+    const sections = document.querySelectorAll('.section-block');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    sections.forEach(sec => {
+        if (category === 'all' || sec.getAttribute('data-category') === category) {
+            sec.style.display = 'block';
+        } else {
+            sec.style.display = 'none';
+        }
+    });
+}
+</script>
+
+</body>
+</html>
